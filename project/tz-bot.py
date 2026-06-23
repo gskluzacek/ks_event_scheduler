@@ -545,8 +545,17 @@ REGION_CHOICES = [
 
 user_timezones: dict[int, str] = {}
 
-registered_users: dict[int, dict] = {}
+registered_players: dict[int, dict] = {}
 
+
+def format_power(value: float) -> str:
+    if value >= 1_000_000_000:
+        return f"{value / 1_000_000_000:.1f}B"
+    if value >= 1_000_000:
+        return f"{value / 1_000_000:.1f}M"
+    if value >= 1_000:
+        return f"{value / 1_000:.1f}K"
+    return str(value)
 
 
 # --------------------------------------------------
@@ -571,31 +580,33 @@ async def timezone_autocomplete(interaction: discord.Interaction, current: str):
 
 PAGE_SIZE = 10
 
-USER_PAGE_SIZE = 20
+PLAYER_PAGE_SIZE = 20
 
 
-class UserPagerView(discord.ui.View):
-    def __init__(self, users: list[tuple[int, dict]], page: int = 0):
+class PlayerPagerView(discord.ui.View):
+    def __init__(self, players: list[tuple[int, dict]], page: int = 0):
         super().__init__(timeout=120)
-        self.users = users
+        self.players = players
         self.page = page
 
     def build_content(self):
-        if not self.users:
-            return "No registered users."
+        if not self.players:
+            return "No registered players."
 
-        total_pages = max(1, (len(self.users) - 1) // USER_PAGE_SIZE + 1)
-        start = self.page * USER_PAGE_SIZE
-        end = start + USER_PAGE_SIZE
+        total_pages = max(1, (len(self.players) - 1) // PLAYER_PAGE_SIZE + 1)
+        start = self.page * PLAYER_PAGE_SIZE
+        end = start + PLAYER_PAGE_SIZE
 
-        lines = [f"**Registered Users (page {self.page + 1}/{total_pages})**", ""]
+        lines = [f"**Registered Players (page {self.page + 1}/{total_pages})**", ""]
 
-        for idx, (uid, user) in enumerate(self.users[start:end], start=start + 1):
+        for idx, (uid, player) in enumerate(self.players[start:end], start=start + 1):
             lines.append(
-                f"{idx}. {user.get('kingshot_name')} | ID: {user.get('kingshot_id')} | "
-                f"Power: {user.get('power')} | TC: {user.get('town_center_level')} | "
-                f"Kingdom: {user.get('kingdom')} | Alliance: {user.get('alliance')}"
+                f"{idx}. {player.get('kingshot_name')} | ID: {player.get('kingshot_id')} | "
+                f"Power: {format_power(player.get('power'))} | TC: {player.get('town_center_level')} | "
+                f"Kingdom: {player.get('kingdom')} | Alliance: {player.get('alliance')}"
             )
+            # format_power(player.get('power'))
+            # format_power(user.get('power'))
 
         return "\n".join(lines)
 
@@ -611,7 +622,7 @@ class UserPagerView(discord.ui.View):
 
     @discord.ui.button(label="Next ▶", style=discord.ButtonStyle.secondary)
     async def next(self, interaction: discord.Interaction, button: discord.ui.Button):
-        max_page = max(0, (len(self.users) - 1) // USER_PAGE_SIZE)
+        max_page = max(0, (len(self.players) - 1) // PLAYER_PAGE_SIZE)
 
         if self.page < max_page:
             self.page += 1
@@ -628,9 +639,9 @@ class UserPagerView(discord.ui.View):
 # Command Group
 # --------------------------------------------------
 
-class User(app_commands.Group):
+class Player(app_commands.Group):
     def __init__(self):
-        super().__init__(name="user", description="User management")
+        super().__init__(name="player", description="Player management")
 
     @app_commands.command(name="register", description="Register a Kingshot player")
     async def register(
@@ -638,19 +649,19 @@ class User(app_commands.Group):
         interaction: discord.Interaction,
         kingshot_name: str,
         kingshot_id: str,
-        power: int,
-        town_center_level: int,
+        power: float,
+        town_center_level: str,
         kingdom: int = 1467,
         alliance: str = "UFC",
         user: discord.Member | None = None,
     ):
         target = user or interaction.user
 
-        registered_users[target.id] = {
+        registered_players[target.id] = {
             "discord_name": target.display_name,
             "kingshot_name": kingshot_name,
             "kingshot_id": kingshot_id,
-            "power": power,
+            "power": float(power) * 1_000_000,
             "town_center_level": town_center_level,
             "kingdom": kingdom,
             "alliance": alliance,
@@ -661,32 +672,32 @@ class User(app_commands.Group):
             ephemeral=True,
         )
 
-    @app_commands.command(name="show", description="Show a user registration")
+    @app_commands.command(name="show", description="Show a player registration")
     async def show(
         self,
         interaction: discord.Interaction,
         user: discord.Member | None = None,
     ):
         target = user or interaction.user
-        data = registered_users.get(target.id)
+        data = registered_players.get(target.id)
 
         if not data:
             return await interaction.response.send_message(
-                "User not registered.",
+                "Player not registered.",
                 ephemeral=True,
             )
 
         await interaction.response.send_message(
             f"**{data['kingshot_name']}**\n"
             f"ID: {data['kingshot_id']}\n"
-            f"Power: {data['power']}\n"
+            f"Power: {format_power(data['power'])}\n"
             f"TC: {data['town_center_level']}\n"
             f"Kingdom: {data['kingdom']}\n"
             f"Alliance: {data['alliance']}",
             ephemeral=True,
         )
 
-    @app_commands.command(name="remove", description="Remove a user registration")
+    @app_commands.command(name="remove", description="Remove a player registration")
     async def remove(
         self,
         interaction: discord.Interaction,
@@ -694,16 +705,16 @@ class User(app_commands.Group):
     ):
         target = user or interaction.user
 
-        if target.id in registered_users:
-            del registered_users[target.id]
-            await interaction.response.send_message("User removed.", ephemeral=True)
+        if target.id in registered_players:
+            del registered_players[target.id]
+            await interaction.response.send_message("Player removed.", ephemeral=True)
         else:
-            await interaction.response.send_message("User not found.", ephemeral=True)
+            await interaction.response.send_message("Player not found.", ephemeral=True)
 
-    @app_commands.command(name="browse", description="Browse registered users")
+    @app_commands.command(name="browse", description="Browse registered players")
     async def browse(self, interaction: discord.Interaction):
-        users_list = list(registered_users.items())
-        view = UserPagerView(users_list)
+        players_list = list(registered_players.items())
+        view = PlayerPagerView(players_list)
 
         await interaction.response.send_message(
             content=view.build_content(),
@@ -884,7 +895,7 @@ async def sync_commands():
 # --------------------------------------------------
 
 bot.tree.add_command(Timezone())
-bot.tree.add_command(User())
+bot.tree.add_command(Player())
 
 
 # --------------------------------------------------
