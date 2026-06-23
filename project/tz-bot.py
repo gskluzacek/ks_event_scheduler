@@ -545,6 +545,8 @@ REGION_CHOICES = [
 
 user_timezones: dict[int, str] = {}
 
+registered_users: dict[int, dict] = {}
+
 
 
 # --------------------------------------------------
@@ -566,7 +568,148 @@ async def timezone_autocomplete(interaction: discord.Interaction, current: str):
     ][:25]
 
 
+
 PAGE_SIZE = 10
+
+USER_PAGE_SIZE = 20
+
+
+class UserPagerView(discord.ui.View):
+    def __init__(self, users: list[tuple[int, dict]], page: int = 0):
+        super().__init__(timeout=120)
+        self.users = users
+        self.page = page
+
+    def build_content(self):
+        if not self.users:
+            return "No registered users."
+
+        total_pages = max(1, (len(self.users) - 1) // USER_PAGE_SIZE + 1)
+        start = self.page * USER_PAGE_SIZE
+        end = start + USER_PAGE_SIZE
+
+        lines = [f"**Registered Users (page {self.page + 1}/{total_pages})**", ""]
+
+        for idx, (uid, user) in enumerate(self.users[start:end], start=start + 1):
+            lines.append(
+                f"{idx}. {user.get('kingshot_name')} | ID: {user.get('kingshot_id')} | "
+                f"Power: {user.get('power')} | TC: {user.get('town_center_level')} | "
+                f"Kingdom: {user.get('kingdom')} | Alliance: {user.get('alliance')}"
+            )
+
+        return "\n".join(lines)
+
+    @discord.ui.button(label="◀ Prev", style=discord.ButtonStyle.secondary)
+    async def prev(self, interaction: discord.Interaction, button: discord.ui.Button):
+        if self.page > 0:
+            self.page -= 1
+
+        await interaction.response.edit_message(
+            content=self.build_content(),
+            view=self,
+        )
+
+    @discord.ui.button(label="Next ▶", style=discord.ButtonStyle.secondary)
+    async def next(self, interaction: discord.Interaction, button: discord.ui.Button):
+        max_page = max(0, (len(self.users) - 1) // USER_PAGE_SIZE)
+
+        if self.page < max_page:
+            self.page += 1
+
+        await interaction.response.edit_message(
+            content=self.build_content(),
+            view=self,
+        )
+
+    @discord.ui.button(label="Close", style=discord.ButtonStyle.danger)
+    async def close(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await interaction.response.edit_message(content="Closed.", view=None)
+# --------------------------------------------------
+# Command Group
+# --------------------------------------------------
+
+class User(app_commands.Group):
+    def __init__(self):
+        super().__init__(name="user", description="User management")
+
+    @app_commands.command(name="register", description="Register a Kingshot player")
+    async def register(
+        self,
+        interaction: discord.Interaction,
+        kingshot_name: str,
+        kingshot_id: str,
+        power: int,
+        town_center_level: int,
+        kingdom: int = 1467,
+        alliance: str = "UFC",
+        user: discord.Member | None = None,
+    ):
+        target = user or interaction.user
+
+        registered_users[target.id] = {
+            "discord_name": target.display_name,
+            "kingshot_name": kingshot_name,
+            "kingshot_id": kingshot_id,
+            "power": power,
+            "town_center_level": town_center_level,
+            "kingdom": kingdom,
+            "alliance": alliance,
+        }
+
+        await interaction.response.send_message(
+            f"Registered {kingshot_name} for {target.display_name}.",
+            ephemeral=True,
+        )
+
+    @app_commands.command(name="show", description="Show a user registration")
+    async def show(
+        self,
+        interaction: discord.Interaction,
+        user: discord.Member | None = None,
+    ):
+        target = user or interaction.user
+        data = registered_users.get(target.id)
+
+        if not data:
+            return await interaction.response.send_message(
+                "User not registered.",
+                ephemeral=True,
+            )
+
+        await interaction.response.send_message(
+            f"**{data['kingshot_name']}**\n"
+            f"ID: {data['kingshot_id']}\n"
+            f"Power: {data['power']}\n"
+            f"TC: {data['town_center_level']}\n"
+            f"Kingdom: {data['kingdom']}\n"
+            f"Alliance: {data['alliance']}",
+            ephemeral=True,
+        )
+
+    @app_commands.command(name="remove", description="Remove a user registration")
+    async def remove(
+        self,
+        interaction: discord.Interaction,
+        user: discord.Member | None = None,
+    ):
+        target = user or interaction.user
+
+        if target.id in registered_users:
+            del registered_users[target.id]
+            await interaction.response.send_message("User removed.", ephemeral=True)
+        else:
+            await interaction.response.send_message("User not found.", ephemeral=True)
+
+    @app_commands.command(name="browse", description="Browse registered users")
+    async def browse(self, interaction: discord.Interaction):
+        users_list = list(registered_users.items())
+        view = UserPagerView(users_list)
+
+        await interaction.response.send_message(
+            content=view.build_content(),
+            view=view,
+            ephemeral=True,
+        )
 
 
 class TimezonePagerView(discord.ui.View):
@@ -741,6 +884,7 @@ async def sync_commands():
 # --------------------------------------------------
 
 bot.tree.add_command(Timezone())
+bot.tree.add_command(User())
 
 
 # --------------------------------------------------
