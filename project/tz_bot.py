@@ -1,8 +1,11 @@
 import os
 import discord
+from dotenv import load_dotenv
 from discord import app_commands
 from discord.ext import commands
-from dotenv import load_dotenv
+
+from database import initialize_database
+from ks_player import KsPlayer
 
 load_dotenv()
 
@@ -15,7 +18,6 @@ if not TOKEN:
 
 if BOT_MODE == "debug" and not TEST_GUILD_ID:
     raise RuntimeError("Missing TEST_GUILD_ID for debug mode")
-
 
 # --------------------------------------------------
 # Timezone data (static list as requested)
@@ -538,7 +540,6 @@ REGION_CHOICES = [
     for r in TZ_BY_REGION.keys()
 ]
 
-
 # --------------------------------------------------
 # In-memory storage (swap with DB later)
 # --------------------------------------------------
@@ -546,6 +547,8 @@ REGION_CHOICES = [
 user_timezones: dict[int, str] = {}
 
 registered_players: dict[int, dict] = {}
+
+player_store: dict[int, KsPlayer] = {}
 
 
 def format_power(value: float) -> str:
@@ -577,7 +580,6 @@ async def timezone_autocomplete(interaction: discord.Interaction, current: str):
     ][:25]
 
 
-
 PAGE_SIZE = 10
 
 PLAYER_PAGE_SIZE = 20
@@ -603,7 +605,8 @@ class PlayerPagerView(discord.ui.View):
             lines.append(
                 f"{idx}. {player.get('kingshot_name')} | ID: {player.get('kingshot_id')} | "
                 f"Power: {format_power(player.get('power'))} | TC: {player.get('town_center_level')} | "
-                f"Kingdom: {player.get('kingdom')} | Alliance: {player.get('alliance')}"
+                f"Kingdom: {player.get('kingdom')} | Alliance: {player.get('alliance')} | "
+                f"Discord ID: {player.get('discord_id')} | Discord Name: {player.get('discord_name')} | Discord Nickname: {player.get('discord_nick')} | "
             )
             # format_power(player.get('power'))
             # format_power(user.get('power'))
@@ -635,6 +638,8 @@ class PlayerPagerView(discord.ui.View):
     @discord.ui.button(label="Close", style=discord.ButtonStyle.danger)
     async def close(self, interaction: discord.Interaction, button: discord.ui.Button):
         await interaction.response.edit_message(content="Closed.", view=None)
+
+
 # --------------------------------------------------
 # Command Group
 # --------------------------------------------------
@@ -643,22 +648,60 @@ class Player(app_commands.Group):
     def __init__(self):
         super().__init__(name="player", description="Player management")
 
+    # TODO: ability to add a non-discord user for KS players who don't have a discord account
+
     @app_commands.command(name="register", description="Register a Kingshot player")
     async def register(
-        self,
-        interaction: discord.Interaction,
-        kingshot_name: str,
-        kingshot_id: str,
-        power: float,
-        town_center_level: str,
-        kingdom: int = 1467,
-        alliance: str = "UFC",
-        user: discord.Member | None = None,
+            self,
+            interaction: discord.Interaction,
+            kingshot_name: str,
+            kingshot_id: str,
+            power: float,
+            town_center_level: str,
+            kingdom: int = 1467,
+            alliance: str = "UFC",
+            user: discord.Member | None = None,
+            user_id: str | None = None,
     ):
-        target = user or interaction.user
+        if user is not None and user_id is not None:
+            return await interaction.response.send_message(
+                "❌ You can only specify either `user` or `user_id`, not both.",
+                ephemeral=True,
+            )
 
-        registered_players[target.id] = {
-            "discord_name": target.display_name,
+        if user is not None:
+            discord_nick = user.display_name
+            discord_name = user.name
+            discord_id = user.id
+
+        elif user_id is not None:
+            try:
+                discord_id = int(user_id)
+            except ValueError:
+                return await interaction.response.send_message(
+                    "❌ Invalid user_id. Must be a numeric Discord user ID.",
+                    ephemeral=True,
+                )
+
+            try:
+                target_user = await bot.fetch_user(discord_id)
+            except discord.NotFound:
+                return await interaction.response.send_message(
+                    "❌ User not found on Discord.",
+                    ephemeral=True,
+                )
+            discord_nick = "-na-"
+            discord_name = target_user.name
+
+        else:
+            discord_nick = interaction.user.display_name
+            discord_name = interaction.user.name
+            discord_id = interaction.user.id
+
+        registered_players[discord_id] = {
+            "discord_id": discord_id,
+            "discord_name": discord_name,
+            "discord_nick": discord_nick,
             "kingshot_name": kingshot_name,
             "kingshot_id": kingshot_id,
             "power": float(power) * 1_000_000,
@@ -668,18 +711,37 @@ class Player(app_commands.Group):
         }
 
         await interaction.response.send_message(
-            f"Registered {kingshot_name} for {target.display_name}.",
+            f"Registered {kingshot_name} for {discord_name}.",
             ephemeral=True,
         )
 
     @app_commands.command(name="show", description="Show a player registration")
     async def show(
-        self,
-        interaction: discord.Interaction,
-        user: discord.Member | None = None,
+            self,
+            interaction: discord.Interaction,
+            user: discord.Member | None = None,
+            user_id: str | None = None,
     ):
-        target = user or interaction.user
-        data = registered_players.get(target.id)
+        if user is not None and user_id is not None:
+            return await interaction.response.send_message(
+                "❌ You can only specify either `user` or `user_id`, not both.",
+                ephemeral=True,
+            )
+
+        if user is not None:
+            discord_id = user.id
+        elif user_id is not None:
+            try:
+                discord_id = int(user_id)
+            except ValueError:
+                return await interaction.response.send_message(
+                    "❌ Invalid user_id. Must be a numeric Discord user ID.",
+                    ephemeral=True,
+                )
+        else:
+            discord_id = interaction.user.id
+
+        data = registered_players.get(discord_id)
 
         if not data:
             return await interaction.response.send_message(
@@ -693,15 +755,18 @@ class Player(app_commands.Group):
             f"Power: {format_power(data['power'])}\n"
             f"TC: {data['town_center_level']}\n"
             f"Kingdom: {data['kingdom']}\n"
-            f"Alliance: {data['alliance']}",
+            f"Alliance: {data['alliance']}\n"
+            f"Discord ID: {data['discord_id']}\n"
+            f"Discord Name: {data['discord_name']}\n"
+            f"Discord Nick Name: {data['discord_nick']}\n",
             ephemeral=True,
         )
 
     @app_commands.command(name="remove", description="Remove a player registration")
     async def remove(
-        self,
-        interaction: discord.Interaction,
-        user: discord.Member | None = None,
+            self,
+            interaction: discord.Interaction,
+            user: discord.Member | None = None,
     ):
         target = user or interaction.user
 
@@ -788,6 +853,7 @@ class RegionButton(discord.ui.Button):
             view=view,
         )
 
+
 class RegionSelectView(discord.ui.View):
     def __init__(self):
         super().__init__(timeout=60)
@@ -863,6 +929,7 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 @bot.event
 async def on_ready():
+    initialize_database()
     print(f"Logged in as {bot.user}")
     await sync_commands()
 
@@ -896,7 +963,6 @@ async def sync_commands():
 
 bot.tree.add_command(Timezone())
 bot.tree.add_command(Player())
-
 
 # --------------------------------------------------
 # Run
