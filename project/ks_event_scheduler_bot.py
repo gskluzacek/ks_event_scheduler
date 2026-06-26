@@ -7,10 +7,10 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-from database import get_timezones
+from database import get_timezones, create_account, DupAcctAccountNameError, DupAcctDiscordIdError, AcctCreateError, \
+    get_acct_id
 
-
-# 🔥REMOVing the existing handlers completely
+# 🔥REMOVING the existing handlers completely
 for handler in logging.root.handlers[:]:
     logging.root.removeHandler(handler)
 
@@ -33,7 +33,7 @@ for name in [
     lg.handlers.clear()
     lg.propagate = False
 
-logger = logging.getLogger("ks-evnt-sch-bot")
+logger = logging.getLogger("ks_evnt_sch")
 logger.setLevel(logging.DEBUG)
 
 
@@ -59,8 +59,6 @@ if BOT_MODE == "debug":
 
 # Sentinel meaning "the Discord user created their own account."
 SELF_REGISTERED_ACCOUNT_ID: int = 0
-# Temporary testing value until database lookup exists.
-DUMMY_ACCOUNT_ID: int = -1
 
 
 # --------------------------------------------------
@@ -97,15 +95,6 @@ async def timezone_autocomplete(
     ][:25]
 
 
-# TODO: replace with logic that queries the accounts table for the given
-#       discord_id and returns the account_id, or returns None if the
-#       discord_id doesn't exist on the accounts table.
-def lookup_acct_id_from_discord_id(_discord_id: int) -> int | None:
-    # the real function will return a value of None if the discord_id is not found in the accounts table, or the account_id if it is found
-    # as this is just a stub function, we are currently returning -1 to represent a dummy account_id.
-    return DUMMY_ACCOUNT_ID
-
-
 # --------------------------------------------------
 # Command Group
 # --------------------------------------------------
@@ -140,11 +129,11 @@ class Account(app_commands.Group):
             return
 
         # if the user is registering another account (and not themselves) get the user's account id
-        create_account_id = update_account_id = None
+        create_account_id = update_account_id = SELF_REGISTERED_ACCOUNT_ID
         if discord_user or discord_id or account_name:
-            create_account_id = lookup_acct_id_from_discord_id(_discord_id=interaction.user.id)
+            create_account_id = await get_acct_id(discord_id=interaction.user.id)
             update_account_id = create_account_id
-            if create_account_id is None:
+            if create_account_id is None or update_account_id is None:
                 await interaction.response.send_message(
                     "❌ You must have a registered account to register an account that is not your own.", ephemeral=True
                 )
@@ -165,7 +154,7 @@ class Account(app_commands.Group):
         # --------------------------------------------------
 
         # 1. if discord_user is provided, then someone other than the provided discord_user is
-        #    regeistering an account for the specified discord_user.
+        #    registering an account for the specified discord_user.
         if discord_user is not None:
             discord_id_final = discord_user.id
             discord_name = discord_user.name
@@ -178,7 +167,7 @@ class Account(app_commands.Group):
         #    user that corresponds to the specified discord_id.
         elif discord_id_final is not None:
             try:
-                # lookup the corresponding discord_user for the specificed discord_id
+                # lookup the corresponding Discord user for the specified discord_id
                 target_user = await bot.fetch_user(discord_id_final)
             except discord.NotFound:
                 await interaction.response.send_message("❌ User not found on Discord.", ephemeral=True)
@@ -224,17 +213,49 @@ class Account(app_commands.Group):
             return
         account_tz = f"{tz_region}/{tz_location}"
 
+        try:
+            account_id = await create_account(
+                account_type=account_type,
+                account_name=account_name_final,
+                account_tz=account_tz,
+                discord_id=discord_id_final,
+                discord_name=discord_name,
+                discord_nick=discord_nick,
+                create_account_id=create_account_id,
+                update_account_id=update_account_id,
+            )
+        except DupAcctAccountNameError:
+            await interaction.response.send_message(
+                f"❌ Account creation failed: account_name '{account_name_final}' "
+                f"already exists, please check the Account Name and try again", ephemeral=True
+            )
+            return
+        except DupAcctDiscordIdError:
+            await interaction.response.send_message(
+                f"❌ Account creation failed: discord_id '{discord_id_final}' "
+                f"already exists, please check the Discord ID and try again", ephemeral=True
+            )
+            return
+        except AcctCreateError:
+            logger.exception("Unexpected account creation error")
+            await interaction.response.send_message(
+                f"❌ Account creation failed: an unexpected error occurred while creating the account, "
+                f"contact the admin and have him look at the logs", ephemeral=True
+            )
+            return
+
         await interaction.response.send_message(
                 f"""✅ created account as:
 ```text
-    account type:      {account_type}
-    account name:      {account_name_final}
-    account_tz:        {account_tz}
-    discord_id:        {discord_id_final}
-    discord_name:      {discord_name}
-    discord_nick:      {discord_nick}
-    create_account_id: {create_account_id}
-    update_account_id: {update_account_id}
+  account id:        {account_id}
+  account type:      {account_type}
+  account name:      {account_name_final}
+  account_tz:        {account_tz}
+  discord_id:        {discord_id_final}
+  discord_name:      {discord_name}
+  discord_nick:      {discord_nick}
+  create_account_id: {create_account_id}
+  update_account_id: {update_account_id}
 ```""",
             ephemeral=True,
         )
