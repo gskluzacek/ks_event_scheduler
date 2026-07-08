@@ -25,10 +25,21 @@ CREATE TABLE IF NOT EXISTS players (
     power             REAL NOT NULL,
     town_center_level TEXT NOT NULL,
     kingdom           INTEGER NOT NULL,
-    alliance TEXT     NOT NULL,
+    alliance          TEXT NOT NULL,
 
     create_account_id INTEGER NOT NULL,
     create_date_time  TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, -- format YYYY-MM-DD HH:MM:SS
     update_account_id INTEGER NOT NULL,
     update_date_time  TEXT NOT NULL -- use datetime('now') to populate
+);
+
+CREATE TABLE IF NOT EXISTS admins (
+    admin_id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    account_id       INTEGER NOT NULL,
+    admin_level      TEXT NOT NULL CHECK (admin_level IN ('super', 'regular')),
+
+    create_account_id INTEGER NOT NULL,
+    create_date_time  TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, -- format YYYY-MM-DD HH:MM:SS
+
+    UNIQUE (account_id, admin_level)
 );

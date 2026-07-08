@@ -1,0 +1,44 @@
+# docker-compose.yml  (production)
+# ----------------------------------
+# Runs the pre-built bot image alongside Redis.
+# End users: copy this file + redis.conf, then `docker compose up -d`
+#
+# docker-compose.override.yml (local dev) overrides the bot service
+# so developers can run the bot natively without rebuilding.
+
+services:
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    volumes:
+      - ./redis.conf:/usr/local/etc/redis/redis.conf:ro   # config from host
+      - redis_data:/data                                   # AOF + RDB on host
+    command: redis-server /usr/local/etc/redis/redis.conf
+    ports:
+      - "6379:6379"       # expose so redis-cli works from the host
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  bot:
+    image: yourhub/botname:latest   # ← replace with your actual image name
+    restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy
+    environment:
+      DISCORD_TOKEN: ${DISCORD_TOKEN}   # set in a .env file or host environment
+      REDIS_HOST: redis                 # service name resolves inside docker network
+      REDIS_PORT: 6379
+    # No volume mount here — source is baked into the image for production
+
+volumes:
+  redis_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./redis_data   # data lives at ./redis_data on the host

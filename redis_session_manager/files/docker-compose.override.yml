@@ -1,0 +1,25 @@
+# docker-compose.override.yml  (local development)
+# --------------------------------------------------
+# Docker Compose automatically merges this with docker-compose.yml
+# when you run `docker compose up` locally.
+#
+# Effect: Redis runs in a container; bot runs natively on your machine.
+#
+# Workflow:
+#   1. docker compose up redis        ← start Redis only
+#   2. python bot.py                  ← run bot locally; edit freely, no rebuilds
+#
+# This file should be in .gitignore if it contains any local-only paths.
+
+services:
+
+  # Override the bot service so it is NOT started by `docker compose up`
+  # when this override file is present.  Developers run the bot directly.
+  bot:
+    profiles:
+      - donotstart     # no standard profile → never started automatically
+
+  redis:
+    # Expose Redis on localhost for the natively-running bot
+    ports:
+      - "6379:6379"
