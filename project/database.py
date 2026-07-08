@@ -1,6 +1,7 @@
 from collections import defaultdict
+from contextlib import asynccontextmanager
 from pathlib import Path
-from typing import Any
+from typing import Any, AsyncIterator, cast
 
 import aiosqlite
 
@@ -39,10 +40,53 @@ class DupAdminAccountIdAdminLevelError(AdminCreateError):
 DB_FILE = "ks_bot.db"
 
 
-async def get_timezones():
-    async with aiosqlite.connect(DB_FILE) as db:
-        db.row_factory = aiosqlite.Row
-        async with db.execute(
+@asynccontextmanager
+async def transaction() -> AsyncIterator[aiosqlite.Connection]:
+    """
+    Open one connection, commit once at the end -- or roll back everything
+    if any call inside the block raises. Only needed when multiple write
+    calls must succeed/fail together; pass the yielded `db` into each call.
+
+        async with transaction() as db:
+            account_id = await create_account(..., db=db)
+            await create_player(account_id=account_id, ..., db=db)
+    """
+    db = await aiosqlite.connect(DB_FILE)
+    db.row_factory = aiosqlite.Row
+    try:
+        yield db
+        await db.commit()
+    except Exception:
+        await db.rollback()
+        raise
+    finally:
+        await db.close()
+
+
+@asynccontextmanager
+async def _connection(db: aiosqlite.Connection | None) -> AsyncIterator[tuple[aiosqlite.Connection, bool]]:
+    """
+    Internal helper: if `db` was passed in (part of an outer transaction),
+    reuse it and let the caller own commit/rollback/close. Otherwise open,
+    use, and clean up a connection here.
+
+    Yields (db, owns_conn).
+    """
+    if db is not None:
+        yield db, False
+        return
+
+    conn = await aiosqlite.connect(DB_FILE)
+    conn.row_factory = aiosqlite.Row
+    try:
+        yield conn, True
+    finally:
+        await conn.close()
+
+
+async def get_timezones(db: aiosqlite.Connection | None = None):
+    async with _connection(db) as (conn, _owns_conn):
+        async with conn.execute(
             """
             SELECT region, location
             FROM timezone
@@ -72,7 +116,10 @@ async def get_timezones():
 
 
 async def get_acct_id(
-        *, discord_id: int | None = None, account_name: str | None = None
+        *,
+        discord_id: int | None = None,
+        account_name: str | None = None,
+        db: aiosqlite.Connection | None = None,
 ) -> int | None:
     account_name = account_name.strip() if account_name else ""
 
@@ -87,9 +134,8 @@ async def get_acct_id(
     column_name = "discord_id" if discord_id is not None else "account_name"
     column_value = discord_id if discord_id is not None else account_name
 
-    async with aiosqlite.connect(DB_FILE) as db:
-        db.row_factory = aiosqlite.Row
-        async with db.execute(
+    async with _connection(db) as (conn, _owns_conn):
+        async with conn.execute(
             f"""
             SELECT account_id
             FROM accounts
@@ -101,10 +147,12 @@ async def get_acct_id(
     return row["account_id"] if row else None
 
 
-async def get_accounts(partial_account_name: str) -> list[tuple[str, int]]:
-    async with aiosqlite.connect(DB_FILE) as db:
-        db.row_factory = aiosqlite.Row
-        async with db.execute(
+async def get_accounts(
+        partial_account_name: str,
+        db: aiosqlite.Connection | None = None,
+) -> list[tuple[str, int]]:
+    async with _connection(db) as (conn, _owns_conn):
+        async with conn.execute(
             """
             SELECT account_name, account_id
             FROM accounts
@@ -128,10 +176,11 @@ async def create_account(
     discord_nick: str | None,
     create_account_id: int,
     update_account_id: int,
+    db: aiosqlite.Connection | None = None,
 ) -> int | None:
-    try:
-        async with aiosqlite.connect(DB_FILE) as db:
-            cursor = await db.execute(
+    async with _connection(db) as (conn, owns_conn):
+        try:
+            cursor = await conn.execute(
                 """
                 INSERT INTO accounts (
                     account_type,
@@ -159,22 +208,27 @@ async def create_account(
                 ),
             )
             row = await cursor.fetchone()
-            await db.commit()
+            if owns_conn:
+                await conn.commit()
             return row[0] if row else None
 
-    except aiosqlite.IntegrityError as e:
-        # This catches UNIQUE(account_name) OR UNIQUE(discord_id)
-        msg = str(e).lower()
-        if "account_name" in msg:
-            raise DupAcctAccountNameError("The account name already exists")
-        if "discord_id" in msg:
-            raise DupAcctDiscordIdError("The Discord ID already exists")
-        raise AcctCreateError("Unexpected database integrity error during account creation") from e
+        except aiosqlite.IntegrityError as e:
+            if owns_conn:
+                await conn.rollback()
+            # This catches UNIQUE(account_name) OR UNIQUE(discord_id)
+            msg = str(e).lower()
+            if "account_name" in msg:
+                raise DupAcctAccountNameError("The account name already exists")
+            if "discord_id" in msg:
+                raise DupAcctDiscordIdError("The Discord ID already exists")
+            raise AcctCreateError("Unexpected database integrity error during account creation") from e
 
 
-async def is_initialized() -> bool:
-    async with aiosqlite.connect(DB_FILE) as db:
-        async with db.execute(
+async def is_initialized(
+        db: aiosqlite.Connection | None = None,
+) -> bool:
+    async with _connection(db) as (conn, _owns_conn):
+        async with conn.execute(
             """
             SELECT 1
             FROM admins
@@ -189,10 +243,11 @@ async def create_admin(
         account_id: int,
         admin_level: str,
         create_account_id: int,
+        db: aiosqlite.Connection | None = None,
 ) -> int | None:
-    try:
-        async with aiosqlite.connect(DB_FILE) as db:
-            cursor = await db.execute(
+    async with _connection(db) as (conn, owns_conn):
+        try:
+            cursor = await conn.execute(
                 """
                 INSERT INTO admins (
                     account_id,
@@ -209,20 +264,25 @@ async def create_admin(
                 ),
             )
             row = await cursor.fetchone()
-            await db.commit()
+            if owns_conn:
+                await conn.commit()
             return row[0] if row else None
 
-    except aiosqlite.IntegrityError as e:
-        msg = str(e).lower()
-        if "account_id" in msg and "admin_level" in msg:
-            raise DupAdminAccountIdAdminLevelError("The account already has that admin level")
-        raise AdminCreateError("Unexpected database integrity error during admin creation") from e
+        except aiosqlite.IntegrityError as e:
+            if owns_conn:
+                await conn.rollback()
+            msg = str(e).lower()
+            if "account_id" in msg and "admin_level" in msg:
+                raise DupAdminAccountIdAdminLevelError("The account already has that admin level")
+            raise AdminCreateError("Unexpected database integrity error during admin creation") from e
 
 
-async def get_player(player_id: int) -> dict[str, Any] | None:
-    async with aiosqlite.connect(DB_FILE) as db:
-        db.row_factory = aiosqlite.Row
-        async with db.execute(
+async def get_player(
+        player_id: int,
+        db: aiosqlite.Connection | None = None,
+) -> dict[str, Any] | None:
+    async with _connection(db) as (conn, _owns_conn):
+        async with conn.execute(
             """
             SELECT
                 player_id,
@@ -243,18 +303,20 @@ async def get_player(player_id: int) -> dict[str, Any] | None:
             (player_id,),
         ) as cursor:
             row = await cursor.fetchone()
-    return dict(row) if row else None
+    return cast(dict[str, Any], dict(row)) if row else None
 
 
-async def get_players(player_ids: list[int]) -> list[tuple[str, int]]:
+async def get_players(
+        player_ids: list[int],
+        db: aiosqlite.Connection | None = None,
+) -> list[tuple[str, int]]:
     if not player_ids:
         return []
 
     placeholders = ", ".join("?" for _ in player_ids)
 
-    async with aiosqlite.connect(DB_FILE) as db:
-        db.row_factory = aiosqlite.Row
-        async with db.execute(
+    async with _connection(db) as (conn, _owns_conn):
+        async with conn.execute(
             f"""
             SELECT
                 kingshot_name,
@@ -283,10 +345,11 @@ async def create_player(
         alliance: str,
         create_account_id: int,
         update_account_id: int,
+        db: aiosqlite.Connection | None = None,
 ) -> int | None:
-    try:
-        async with aiosqlite.connect(DB_FILE) as db:
-            cursor = await db.execute(
+    async with _connection(db) as (conn, owns_conn):
+        try:
+            cursor = await conn.execute(
                 """
                 INSERT INTO players ( 
                     account_id,
@@ -316,19 +379,50 @@ async def create_player(
                 ),
             )
             row = await cursor.fetchone()
-            await db.commit()
+            if owns_conn:
+                await conn.commit()
             return row[0] if row else None
 
-    except aiosqlite.IntegrityError as e:
-        # This catches UNIQUE(kingshot_id) OR UNIQUE(kingshot_name)
-        msg = str(e).lower()
-        if "kingshot_id" in msg:
-            raise DupPlayerKingshotIdError("The kingshot_id already exists")
-        if "kingshot_name" in msg:
-            raise DupPlayerKingshotNameError("The kingshot_name already exists")
-        raise PlayerCreateError("Unexpected database integrity error during player creation") from e
+        except aiosqlite.IntegrityError as e:
+            if owns_conn:
+                await conn.rollback()
+            # This catches UNIQUE(kingshot_id) OR UNIQUE(kingshot_name)
+            msg = str(e).lower()
+            if "kingshot_id" in msg:
+                raise DupPlayerKingshotIdError("The kingshot_id already exists")
+            if "kingshot_name" in msg:
+                raise DupPlayerKingshotNameError("The kingshot_name already exists")
+            raise PlayerCreateError("Unexpected database integrity error during player creation") from e
 
 
+async def get_database_tables(
+        db: aiosqlite.Connection | None = None,
+):
+    async with _connection(db) as (conn, _owns_conn):
+        async with conn.execute(
+            """
+            SELECT name
+            FROM sqlite_master
+            WHERE type = 'table'
+            AND name NOT LIKE 'sqlite_%'
+            ORDER BY name
+            """
+        ) as cursor:
+            rows = await cursor.fetchall()
+    return [row[0] for row in rows]
+
+
+async def create_db_tables(
+        db: aiosqlite.Connection | None = None,
+) -> None:
+    sql_files = ["operations_tables_create.sql", "timezones_inserts.sql"]
+    async with _connection(db) as (conn, owns_conn):
+        for sql_file in sql_files:
+            print(f"executing file: {sql_file}")
+            sql = (Path("sql") / Path(sql_file)).read_text(encoding="utf-8")
+            await conn.executescript(sql)
+        if owns_conn:
+            await conn.commit()
 
 
 # async def save_player(player: dict):
@@ -423,28 +517,4 @@ async def create_player(
 #         ) as cursor:
 #             rows = await cursor.fetchall()
 #         return [dict(r) for r in rows]
-
-
-async def get_database_tables():
-    async with aiosqlite.connect(DB_FILE) as db:
-        async with db.execute(
-            """
-            SELECT name
-            FROM sqlite_master
-            WHERE type = 'table'
-            AND name NOT LIKE 'sqlite_%'
-            ORDER BY name
-            """
-        ) as cursor:
-            rows = await cursor.fetchall()
-    return [row[0] for row in rows]
-
-async def create_db_tables() -> None:
-    sql_files = ["operations_tables_create.sql", "timezones_inserts.sql"]
-    async with aiosqlite.connect(DB_FILE) as db:
-        for sql_file in sql_files:
-            print(f"executing file: {sql_file}")
-            sql = (Path("sql") / Path(sql_file)).read_text(encoding="utf-8")
-            await db.executescript(sql)
-        await db.commit()
 
