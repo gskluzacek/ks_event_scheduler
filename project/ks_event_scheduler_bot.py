@@ -1,4 +1,6 @@
 import os
+from datetime import datetime, UTC
+from zoneinfo import ZoneInfo
 import logging
 from typing import cast
 from dotenv import load_dotenv
@@ -7,6 +9,9 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
+from discord_paginator import PagedTextBuilder
+from paged_text_view import PagedTextView
+
 from redis_session import SessionManager, AppStateManager
 from database import (
     get_timezones,
@@ -14,7 +19,7 @@ from database import (
     DupAcctAccountNameError,
     DupAcctDiscordIdError,
     AcctCreateError,
-    get_accounts,
+    get_accounts_ac,
     create_player,
     DupPlayerKingshotIdError,
     DupPlayerKingshotNameError,
@@ -22,7 +27,7 @@ from database import (
     get_player,
     get_players,
     create_admin,
-    is_initialized,
+    get_accounts,
 )
 
 # 🔥REMOVING the existing handlers completely
@@ -136,7 +141,7 @@ async def account_id_autocomplete(
         _interaction: discord.Interaction,
         current: str,
 ) -> list[app_commands.Choice[int]]:
-    accounts = await get_accounts(current)
+    accounts = await get_accounts_ac(current)
     return [
         app_commands.Choice[int](
             name=account_name,
@@ -148,7 +153,7 @@ async def account_id_autocomplete(
 
 async def player_id_with_recent_autocomplete(
         interaction: discord.Interaction,
-        current: str,
+        _current: str,
 ) -> list[app_commands.Choice[int]]:
     recent_player_ids = session.get(interaction.user.id, "recent_players")
     recent_players = await get_players(recent_player_ids)
@@ -160,6 +165,19 @@ async def player_id_with_recent_autocomplete(
         )
         for kingshot_name, player_id in recent_players
     ]
+
+
+# --------------------------------------------------
+# command check helpers
+# --------------------------------------------------
+
+class CommandCheck:
+    def __init__(self, req_roles: list[str] | None = None, req_bot_mode: str | None = None):
+        self.req_roles = req_roles
+        self.req_bot_mode = req_bot_mode
+
+    def command_check(self):
+        ...
 
 
 # --------------------------------------------------
@@ -416,6 +434,12 @@ update_account_id: {update_account_id}
         )
 
 
+def utc_to_local(utc_str: str, tz_name: str) -> str:
+    utc_dt = datetime.strptime(utc_str, "%Y-%m-%d %H:%M:%S").replace(tzinfo=UTC)
+    local_dt = utc_dt.astimezone(ZoneInfo(tz_name))
+    return local_dt.strftime("%Y-%m-%d %H:%M:%S")
+
+
 class Account(app_commands.Group):
     def __init__(self):
         super().__init__(name="account", description="User Account Tools")
@@ -573,6 +597,7 @@ class Account(app_commands.Group):
                 raise ValueError("Discord ID not specified - cannot set user state!")
             session.set(discord_id_final, "account_id", account_id)
             session.set(discord_id_final, "account_name", account_name_final)
+            session.set(discord_id_final, "account_tz", account_tz)
             session.set(discord_id_final, "roles", [])
 
         await interaction.response.send_message(
@@ -591,6 +616,64 @@ update_account_id: {update_account_id}
             ephemeral=True,
         )
 
+    # @app_commands.command(name="list", description="List Registered Accounts")
+    # async def list(self, interaction: discord.Interaction):
+    #     accounts = await get_accounts()
+    #     if not accounts:
+    #         await interaction.response.send_message("❌ No accounts found.", ephemeral=True)
+    #         return
+    #
+    #     user_tz_name = session.get(interaction.user.id, "account_tz", "UTC")
+    #     max_label_len = max([len(label) for label in accounts[0].keys()]) + 2
+    #
+    #     account_list = []
+    #     for account in accounts:
+    #         account_list.append("-" * 40)
+    #         for key, value in account.items():
+    #             if key in ("create_date_time", "update_date_time"):
+    #                 value = utc_to_local(account[key], user_tz_name)
+    #             account_list.append(f"  {key:>{max_label_len}}: {value}")
+    #     account_list_str = "\n".join(account_list)
+    #
+    #     await interaction.response.send_message(f"✅ Account List:\n```text{account_list_str}```", ephemeral=True)
+
+    @app_commands.command(name="list", description="List Registered Accounts")
+    async def list(self, interaction: discord.Interaction):
+        accounts = await get_accounts()
+        if not accounts:
+            await interaction.response.send_message("❌ No accounts found.", ephemeral=True)
+            return
+
+        user_tz_name = session.get(interaction.user.id, "account_tz", "UTC")
+        max_label_len = max(len(label) for label in accounts[0].keys()) + 2
+
+        # Build the account entries.
+        #
+        # Each account is treated as an atomic block.
+        # The paginator will never split an account across pages.
+
+        account_entries: list[str] = []
+        for account in accounts:
+            account_lines = ["-" * 40]
+            for key, value in account.items():
+                if key in ("create_date_time", "update_date_time",):
+                    value = utc_to_local(account[key], user_tz_name)
+                account_lines.append(f"{key:>{max_label_len}}: {value}")
+            account_entries.append("\n".join(account_lines))
+
+        # Build Discord-safe pages.
+        builder = PagedTextBuilder(title="Account List", codeblock_language="text")
+        builder.add_items(account_entries)
+        pages = builder.build()
+
+        if not pages:
+            await interaction.response.send_message("❌ No accounts found.", ephemeral=True)
+            return
+
+        view = PagedTextView(owner_id=interaction.user.id, pages=pages)
+        view.setup()
+        await interaction.response.send_message(content=pages[0].content, view=view, ephemeral=True)
+        view.set_message(await interaction.original_response())
 
 # --------------------------------------------------
 # Bot setup
