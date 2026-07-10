@@ -164,6 +164,23 @@ class SessionManager:
         self._redis.delete(self._key(user_id))
         log.debug("Deleted session for user %s", user_id)
 
+    def clear_all(self) -> int:
+        """
+        Remove all per-user session hashes from Redis.
+
+        Returns
+        -------
+        int
+            Number of session keys deleted.
+        """
+        keys = self.all_session_keys()
+        if not keys:
+            return 0
+
+        deleted = self._redis.delete(*keys)
+        log.debug("Deleted all user sessions; count=%s", deleted)
+        return deleted
+
     def exists(self, user_id: int | str) -> bool:
         """Return True if the user has a session in Redis."""
         return self._redis.exists(self._key(user_id)) == 1

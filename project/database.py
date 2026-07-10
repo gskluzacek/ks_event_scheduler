@@ -119,7 +119,6 @@ async def get_acct_id(
         *,
         discord_id: int | None = None,
         account_name: str | None = None,
-        db: aiosqlite.Connection | None = None,
 ) -> int | None:
     account_name = account_name.strip() if account_name else ""
 
@@ -134,7 +133,7 @@ async def get_acct_id(
     column_name = "discord_id" if discord_id is not None else "account_name"
     column_value = discord_id if discord_id is not None else account_name
 
-    async with _connection(db) as (conn, _owns_conn):
+    async with _connection(db=None) as (conn, _owns_conn):
         async with conn.execute(
             f"""
             SELECT account_id
@@ -149,9 +148,8 @@ async def get_acct_id(
 
 async def get_accounts(
         partial_account_name: str,
-        db: aiosqlite.Connection | None = None,
 ) -> list[tuple[str, int]]:
-    async with _connection(db) as (conn, _owns_conn):
+    async with _connection(db=None) as (conn, _owns_conn):
         async with conn.execute(
             """
             SELECT account_name, account_id
@@ -224,10 +222,8 @@ async def create_account(
             raise AcctCreateError("Unexpected database integrity error during account creation") from e
 
 
-async def is_initialized(
-        db: aiosqlite.Connection | None = None,
-) -> bool:
-    async with _connection(db) as (conn, _owns_conn):
+async def is_initialized() -> bool:
+    async with _connection(db=None) as (conn, _owns_conn):
         async with conn.execute(
             """
             SELECT 1
@@ -279,9 +275,8 @@ async def create_admin(
 
 async def get_player(
         player_id: int,
-        db: aiosqlite.Connection | None = None,
 ) -> dict[str, Any] | None:
-    async with _connection(db) as (conn, _owns_conn):
+    async with _connection(db=None) as (conn, _owns_conn):
         async with conn.execute(
             """
             SELECT
@@ -308,14 +303,11 @@ async def get_player(
 
 async def get_players(
         player_ids: list[int],
-        db: aiosqlite.Connection | None = None,
 ) -> list[tuple[str, int]]:
     if not player_ids:
         return []
-
     placeholders = ", ".join("?" for _ in player_ids)
-
-    async with _connection(db) as (conn, _owns_conn):
+    async with _connection(db=None) as (conn, _owns_conn):
         async with conn.execute(
             f"""
             SELECT
@@ -345,9 +337,8 @@ async def create_player(
         alliance: str,
         create_account_id: int,
         update_account_id: int,
-        db: aiosqlite.Connection | None = None,
 ) -> int | None:
-    async with _connection(db) as (conn, owns_conn):
+    async with _connection(db=None) as (conn, _owns_conn):
         try:
             cursor = await conn.execute(
                 """
@@ -379,13 +370,11 @@ async def create_player(
                 ),
             )
             row = await cursor.fetchone()
-            if owns_conn:
-                await conn.commit()
+            await conn.commit()
             return row[0] if row else None
 
         except aiosqlite.IntegrityError as e:
-            if owns_conn:
-                await conn.rollback()
+            await conn.rollback()
             # This catches UNIQUE(kingshot_id) OR UNIQUE(kingshot_name)
             msg = str(e).lower()
             if "kingshot_id" in msg:
@@ -395,10 +384,8 @@ async def create_player(
             raise PlayerCreateError("Unexpected database integrity error during player creation") from e
 
 
-async def get_database_tables(
-        db: aiosqlite.Connection | None = None,
-):
-    async with _connection(db) as (conn, _owns_conn):
+async def get_database_tables() -> list[str]:
+    async with _connection(db=None) as (conn, _owns_conn):
         async with conn.execute(
             """
             SELECT name
@@ -412,17 +399,24 @@ async def get_database_tables(
     return [row[0] for row in rows]
 
 
-async def create_db_tables(
-        db: aiosqlite.Connection | None = None,
-) -> None:
+async def create_db_tables() -> None:
     sql_files = ["operations_tables_create.sql", "timezones_inserts.sql"]
-    async with _connection(db) as (conn, owns_conn):
+    async with _connection(db=None) as (conn, _owns_conn):
         for sql_file in sql_files:
-            print(f"executing file: {sql_file}")
+            print(f"    executing file: {sql_file}")
             sql = (Path("sql") / Path(sql_file)).read_text(encoding="utf-8")
             await conn.executescript(sql)
-        if owns_conn:
-            await conn.commit()
+        await conn.commit()
+
+
+async  def drop_db_tables() -> None:
+    sql_files = ["drop_tables.sql"]
+    async with _connection(db=None) as (conn, _owns_conn):
+        for sql_file in sql_files:
+            print(f"    executing file: {sql_file}")
+            sql = (Path("sql") / Path(sql_file)).read_text(encoding="utf-8")
+            await conn.executescript(sql)
+        await conn.commit()
 
 
 # async def save_player(player: dict):
