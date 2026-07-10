@@ -321,6 +321,7 @@ async def main():
     print("setting user sesssion state for admin zero user")
     session.set(member.id, "account_id", account_id)
     session.set(member.id, "account_name", member.name)
+    session.set(member.id, "account_tz", account_tz)
     session.set(member.id, "roles", ["super"])
 
     # --------------------------------------------------

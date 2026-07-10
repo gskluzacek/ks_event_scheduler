@@ -146,7 +146,7 @@ async def get_acct_id(
     return row["account_id"] if row else None
 
 
-async def get_accounts(
+async def get_accounts_ac(
         partial_account_name: str,
 ) -> list[tuple[str, int]]:
     async with _connection(db=None) as (conn, _owns_conn):
@@ -164,6 +164,31 @@ async def get_accounts(
         accounts = [(row["account_name"], row["account_id"]) for row in rows]
         return accounts
 
+async def get_accounts():
+    async with _connection(db=None) as (conn, _owns_conn):
+        async with conn.execute(
+            """
+            SELECT
+                t1.account_id,
+                t1.account_type,
+                t1.account_name,
+                t1.account_tz,
+                t1.discord_id,
+                t1.discord_name,
+                t1.discord_nick,
+                t1.create_account_id,
+                coalesce(t2.account_name, t1.account_name) as create_account_name,
+                t1.create_date_time,
+                t1.update_account_id,
+                t1.update_date_time,
+                coalesce(t3.account_name, t1.account_name) as update_account_name
+            FROM accounts t1
+            left join accounts t2 on t1.create_account_id = t2.account_id
+            left join accounts t3 on t1.update_account_id = t3.account_id
+            """
+        ) as cursor:
+            rows = await cursor.fetchall()
+    return [cast(dict[str, Any], dict(row)) for row in rows] if rows else []
 
 async def create_account(
     account_type: str,
