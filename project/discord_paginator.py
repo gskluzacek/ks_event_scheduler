@@ -158,10 +158,7 @@ class PagedTextBuilder:
             # This should never fail because the builder reserves space,
             # but keeping the check here protects against future changes.
             if len(page.content) > 2000:
-                raise ValueError(
-                    f"Generated Discord page exceeds 2000 characters: "
-                    f"{len(page.content)}"
-                )
+                raise ValueError(f"Generated Discord page exceeds 2000 characters: {len(page.content)}")
             result.append(page)
 
         return result

@@ -326,9 +326,33 @@ async def get_player(
     return cast(dict[str, Any], dict(row)) if row else None
 
 
-async def get_players(
-        player_ids: list[int],
-) -> list[tuple[str, int]]:
+async def get_players_for_account(account_id: int) -> list[tuple[str, int]]:
+    async with _connection(db=None) as (conn, _owns_conn):
+        async with conn.execute(
+            """
+            SELECT
+                player_id,
+                account_id,
+                kingshot_id,
+                kingshot_name,
+                power,
+                town_center_level,
+                kingdom,
+                alliance,
+                create_account_id,
+                create_date_time,
+                update_account_id,
+                update_date_time
+            FROM players
+            WHERE account_id = ?
+            ORDER BY kingshot_name
+            """,
+            (account_id,),
+        ) as cursor:
+            rows = await cursor.fetchall()
+    return [(row["kingshot_name"], row["player_id"]) for row in rows]
+
+async def get_players(player_ids: list[int]) -> list[tuple[str, int]]:
     if not player_ids:
         return []
     placeholders = ", ".join("?" for _ in player_ids)
