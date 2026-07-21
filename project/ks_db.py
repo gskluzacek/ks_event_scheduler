@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import AsyncIterator
+from typing import AsyncIterator, cast, Any
 
 import aiosqlite
 
@@ -102,3 +102,95 @@ async def create_account(
             if "discord_id" in msg:
                 raise DupAcctDiscordIdError("The Discord ID already exists")
             raise AcctCreateError("Unexpected database integrity error during account creation") from e
+
+async def get_accounts():
+    async with _connection(db=None) as (conn, _owns_conn):
+        async with conn.execute(
+            """
+            with player_counts as (
+                select 
+                    account_id, 
+                    count(*) as player_count
+                from players
+                group by account_id
+            )
+            SELECT
+                t1.account_id,
+                t1.account_type,
+                t1.account_name,
+                t1.account_tz,
+                t1.discord_id,
+                t1.discord_name,
+                t1.discord_nick,
+                t1.create_account_id,
+                coalesce(t2.account_name, t1.account_name) as create_account_name,
+                t1.create_date_time,
+                t1.update_account_id,
+                t1.update_date_time,
+                coalesce(t3.account_name, t1.account_name) as update_account_name,
+                coalesce(t4.player_count, 0) as player_count
+            FROM accounts t1
+            left join accounts t2 on t1.create_account_id = t2.account_id
+            left join accounts t3 on t1.update_account_id = t3.account_id
+            left join player_counts as t4 on t1.account_id = t4.account_id
+            """
+        ) as cursor:
+            rows = await cursor.fetchall()
+    return [cast(dict[str, Any], dict(row)) for row in rows] if rows else []
+
+
+async def get_accounts_ac(
+        partial_account_name: str,
+) -> list[tuple[str, int]]:
+    async with _connection(db=None) as (conn, _owns_conn):
+        async with conn.execute(
+            """
+            SELECT account_name, account_id
+            FROM accounts
+            WHERE account_name LIKE ?
+            ORDER BY account_name
+            LIMIT 25
+            """,
+            (f"{partial_account_name.strip()}%", ),
+        ) as cursor:
+            rows = await cursor.fetchall()
+        accounts = [(row["account_name"], row["account_id"]) for row in rows]
+        return accounts
+
+
+async def get_account_by_id(account_id: int) -> dict[str, Any] | None:
+    async with _connection(db=None) as (conn, _owns_conn):
+        async with conn.execute(
+            """
+            with player_counts as (
+                select 
+                    account_id, 
+                    count(*) as player_count
+                from players
+                group by account_id
+            )
+            SELECT
+                t1.account_id,
+                t1.account_type,
+                t1.account_name,
+                t1.account_tz,
+                t1.discord_id,
+                t1.discord_name,
+                t1.discord_nick,
+                t1.create_account_id,
+                coalesce(t2.account_name, t1.account_name) as create_account_name,
+                t1.create_date_time,
+                t1.update_account_id,
+                t1.update_date_time,
+                coalesce(t3.account_name, t1.account_name) as update_account_name,
+                coalesce(t4.player_count, 0) as player_count
+            FROM accounts t1
+            left join accounts t2 on t1.create_account_id = t2.account_id
+            left join accounts t3 on t1.update_account_id = t3.account_id
+            left join player_counts as t4 on t1.account_id = t4.account_id
+            where t1.account_id = ?
+            """,
+            (account_id,),
+        ) as cursor:
+            row = await cursor.fetchone()
+    return dict(row) if row else None
