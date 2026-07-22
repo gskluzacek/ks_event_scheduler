@@ -7,6 +7,7 @@ from contextlib import asynccontextmanager
 
 import read_env
 from ks_db_errors import AcctCreateError, DupAcctAccountNameError, DupAcctDiscordIdError
+from ks_db_errors import PlayerCreateError, DupPlayerKingshotIdError, DupPlayerKingshotNameError
 
 
 @asynccontextmanager
@@ -18,7 +19,7 @@ async def _connection(db: aiosqlite.Connection | None) -> AsyncIterator[tuple[ai
 
     Yields (db, owns_conn).
     """
-    config = read_env.load_config()
+    config = read_env.get_config()
     if db is not None:
         yield db, False
         return
@@ -193,4 +194,61 @@ async def get_account_by_id(account_id: int) -> dict[str, Any] | None:
             (account_id,),
         ) as cursor:
             row = await cursor.fetchone()
-    return dict(row) if row else None
+    return cast(dict[str, Any], dict(row)) if row else None
+
+
+async def create_player(
+        account_id: int,
+        kingshot_id: int,
+        kingshot_name: str,
+        power: float,
+        town_center_level: str,
+        kingdom: int,
+        alliance: str,
+        create_account_id: int,
+        update_account_id: int,
+) -> int | None:
+    async with _connection(db=None) as (conn, _owns_conn):
+        try:
+            cursor = await conn.execute(
+                """
+                INSERT INTO players ( 
+                    account_id,
+                    kingshot_id,
+                    kingshot_name,
+                    power,
+                    town_center_level,
+                    kingdom,
+                    alliance,
+                    create_account_id,
+                    update_account_id,
+                    update_date_time
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+                RETURNING player_id
+                """,
+                (
+                    account_id,
+                    kingshot_id,
+                    kingshot_name,
+                    power,
+                    town_center_level,
+                    kingdom,
+                    alliance,
+                    create_account_id,
+                    update_account_id
+                ),
+            )
+            row = await cursor.fetchone()
+            await conn.commit()
+            return row[0] if row else None
+
+        except aiosqlite.IntegrityError as e:
+            await conn.rollback()
+            # This catches UNIQUE(kingshot_id) OR UNIQUE(kingshot_name)
+            msg = str(e).lower()
+            if "kingshot_id" in msg:
+                raise DupPlayerKingshotIdError("The kingshot_id already exists")
+            if "kingshot_name" in msg:
+                raise DupPlayerKingshotNameError("The kingshot_name already exists")
+            raise PlayerCreateError("Unexpected database integrity error during player creation") from e

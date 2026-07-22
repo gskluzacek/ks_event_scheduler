@@ -8,3 +8,15 @@ class DupAcctAccountNameError(AcctCreateError):
 
 class DupAcctDiscordIdError(AcctCreateError):
     pass
+
+
+class PlayerCreateError(Exception):
+    pass
+
+
+class DupPlayerKingshotIdError(PlayerCreateError):
+    pass
+
+
+class DupPlayerKingshotNameError(PlayerCreateError):
+    pass

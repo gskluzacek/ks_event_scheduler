@@ -2,10 +2,12 @@ import logging
 
 import read_env
 import shared_state
-from cg_account import Account
 from ks_event_scheduler_bot import KsEventSchedulerBot
-from cg_bot_check import BotCheck
+
 from cg_admin import Admin
+from cg_bot_check import BotCheck
+from cg_account import Account
+from cg_player import Player
 
 
 logging.basicConfig(
@@ -27,6 +29,7 @@ def main():
     ks_event_scheduler_bot.tree.add_command(BotCheck())
     ks_event_scheduler_bot.tree.add_command(Admin())
     ks_event_scheduler_bot.tree.add_command(Account())
+    ks_event_scheduler_bot.tree.add_command(Player())
     ks_event_scheduler_bot.run(config.TOKEN)
 
 

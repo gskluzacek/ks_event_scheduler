@@ -8,6 +8,7 @@ from discord import app_commands
 import read_env
 import shared_state
 from cmd_check import BotMode, cc_admin_bot_mode_at_least_admin, cvl_at_least_admin, Role
+from bot_cmd_access import _reject_account_list_request
 from ks_db import create_account, get_accounts, get_accounts_ac, get_account_by_id
 from ks_db_errors import AcctCreateError, DupAcctAccountNameError, DupAcctDiscordIdError
 from ks_event_scheduler_bot import KsEventSchedulerBot
@@ -139,32 +140,6 @@ class Account(app_commands.Group):
         return False
 
     @staticmethod
-    async def _reject_account_list_request(
-            interaction: discord.Interaction,
-    ) -> bool:
-        curr_bot_mode = BotMode.curr_bot_mode()
-
-        # do not allow command execution if the bot is down
-        if curr_bot_mode == BotMode.DOWN:
-            await interaction.response.send_message(
-                "❌Sorry the bot is currently down. You cannot Register an account at this time.",
-                ephemeral=True,
-            )
-            return True
-
-        # if the bot is under maintenance, only allow Admins to register accounts
-        if curr_bot_mode == BotMode.MAINTENANCE:
-            is_authorized, authorization_error = cc_admin_bot_mode_at_least_admin.command_check(
-                interaction.user.id
-            )
-            if not is_authorized:
-                authorization_error = authorization_error[:-1] + f" when the bot is {curr_bot_mode.msg_desc}."
-                await interaction.response.send_message(authorization_error, ephemeral=True)
-                return True
-
-        return False
-
-    @staticmethod
     async def _validate_register_account_inputs(
             interaction: discord.Interaction,
             ctx: RegistrationContext,
@@ -172,7 +147,7 @@ class Account(app_commands.Group):
             discord_id: str | None,
             account_name: str | None,
     ) -> bool:
-        config = read_env.load_config()
+        config = read_env.get_config()
         session = shared_state.get_session()
 
         # discord_user, discord_id, account_name are optional and MUTUALLY EXCLUSIVE
@@ -215,7 +190,7 @@ class Account(app_commands.Group):
             discord_user: discord.User | None,
             account_name: str | None,
     ) -> bool:
-        config = read_env.load_config()
+        config = read_env.get_config()
         bot = cast(KsEventSchedulerBot, interaction.client)
 
         # --------------------------------------------------
@@ -440,8 +415,11 @@ update_account_id: {ctx.update_account_id}
 
     # /account list
     @app_commands.command(name="list", description="List all registered accounts")
-    async def list(self, interaction: discord.Interaction):
-        if await self._reject_account_list_request(interaction):
+    async def list(
+            self,
+            interaction: discord.Interaction
+    ):
+        if await _reject_account_list_request(interaction):
             return
 
         accounts = await get_accounts()
@@ -460,8 +438,12 @@ update_account_id: {ctx.update_account_id}
     # /account show
     @app_commands.command(name="show", description="Show details of a registered account")
     @app_commands.autocomplete(account_id=account_id_autocomplete)
-    async def show(self, interaction: discord.Interaction, account_id: int):
-        if await self._reject_account_list_request(interaction):
+    async def show(
+            self,
+            interaction: discord.Interaction,
+            account_id: int
+    ):
+        if await _reject_account_list_request(interaction):
             return
 
         account = await get_account_by_id(account_id)

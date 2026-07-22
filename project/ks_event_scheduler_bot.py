@@ -14,7 +14,7 @@ logger = logging.getLogger("ksbot.bot")
 class KsEventSchedulerBot(commands.Bot):
     def __init__(self):
         super().__init__(command_prefix="!", intents=discord.Intents.default())
-        self.config = read_env.load_config()
+        self.config = read_env.get_config()
 
         self.tz_names: dict[str, list[str]] = {}
         self.tz_region_choices: list[app_commands.Choice[str]] = []
