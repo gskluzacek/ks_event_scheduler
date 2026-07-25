@@ -32,7 +32,7 @@ async def _connection(db: aiosqlite.Connection | None) -> AsyncIterator[tuple[ai
         await conn.close()
 
 
-async def get_timezones(db: aiosqlite.Connection | None = None):
+async def get_timezones(db: aiosqlite.Connection | None = None) -> dict[str, list[str]]:
     async with _connection(db) as (conn, _owns_conn):
         async with conn.execute(
             """
@@ -104,7 +104,7 @@ async def create_account(
                 raise DupAcctDiscordIdError("The Discord ID already exists")
             raise AcctCreateError("Unexpected database integrity error during account creation") from e
 
-async def get_accounts():
+async def get_accounts() -> list[dict[str, Any]]:
     async with _connection(db=None) as (conn, _owns_conn):
         async with conn.execute(
             """
@@ -148,11 +148,11 @@ async def get_accounts_ac(
             """
             SELECT account_name, account_id
             FROM accounts
-            WHERE account_name LIKE ?
-            ORDER BY account_name
+            WHERE LOWER(account_name) LIKE ?
+            ORDER BY LOWER(account_name)
             LIMIT 25
             """,
-            (f"{partial_account_name.strip()}%", ),
+            (f"%{partial_account_name.strip().lower()}%", ),
         ) as cursor:
             rows = await cursor.fetchall()
         accounts = [(row["account_name"], row["account_id"]) for row in rows]
@@ -252,3 +252,138 @@ async def create_player(
             if "kingshot_name" in msg:
                 raise DupPlayerKingshotNameError("The kingshot_name already exists")
             raise PlayerCreateError("Unexpected database integrity error during player creation") from e
+
+
+async def get_players_for_account(account_id: int) -> list[dict[str, Any]]:
+    # TODO: join with accounts table to get account_name
+    if account_id == 0:
+        where = "WHERE T1.account_id <> ?"
+    else:
+        where = "WHERE T1.account_id = ?"
+    async with _connection(db=None) as (conn, _owns_conn):
+        async with conn.execute(
+            f"""
+            SELECT
+                T1.player_id,
+                T2.account_id,
+                T2.account_name,
+                T1.kingshot_id,
+                T1.kingshot_name,
+                T1.power,
+                T1.town_center_level,
+                T1.kingdom,
+                T1.alliance,
+                T1.create_account_id,
+                T1.create_date_time,
+                T1.update_account_id,
+                T1.update_date_time
+            FROM players T1
+            JOIN accounts T2 ON T1.account_id = T2.account_id
+            {where}
+            ORDER BY T2.account_name, T1.kingshot_name
+            """,
+            (account_id,),
+        ) as cursor:
+            rows = await cursor.fetchall()
+    return [cast(dict[str, Any], dict(row)) for row in rows] if rows else []
+
+
+async def get_acct_from_id(
+        account_id: int
+) -> dict[str, Any] | None:
+    async with _connection(db=None) as (conn, _owns_conn):
+        async with conn.execute(
+            f"""
+            SELECT 
+                account_id,
+                account_type,
+                account_name,
+                account_tz,
+                discord_id,
+                discord_name,
+                discord_nick,
+                create_account_id,
+                create_date_time,
+                update_account_id,
+                update_date_time
+            FROM accounts
+            WHERE account_id = ?
+            """,
+            (account_id,),
+        ) as cursor:
+            row = await cursor.fetchone()
+    return cast(dict[str, Any], dict(row)) if row else None
+
+
+
+async def get_player(
+        player_id: int,
+) -> dict[str, Any] | None:
+    async with _connection(db=None) as (conn, _owns_conn):
+        async with conn.execute(
+            """
+            SELECT
+                T1.player_id,
+                T2.account_id,
+                T2.account_name,
+                T1.kingshot_id,
+                T1.kingshot_name,
+                T1.power,
+                T1.town_center_level,
+                T1.kingdom,
+                T1.alliance,
+                T1.create_account_id,
+                T3.account_name as create_account_name,
+                T1.create_date_time,
+                T1.update_account_id,
+                T4.account_name as update_account_name,
+                T1.update_date_time
+            FROM players T1
+            JOIN accounts T2 ON T1.account_id = T2.account_id
+            left join accounts T3 on t1.create_account_id = T3.account_id
+            left join accounts T4 on t1.update_account_id = T4.account_id
+            WHERE T1.player_id = ?
+            """,
+            (player_id,),
+        ) as cursor:
+            row = await cursor.fetchone()
+    return cast(dict[str, Any], dict(row)) if row else None
+
+# TODO look at other autocomplete functions and see if we need to apply lower() to the search term and the column being searched, to make it case-insensitive. For now, we will apply lower() to both the search term and the column being searched for player names.
+async def get_players_ac(
+        partial_player_name: str,
+) -> list[tuple[str, int]]:
+    async with _connection(db=None) as (conn, _owns_conn):
+        async with conn.execute(
+            """
+            SELECT kingshot_name, player_id
+            FROM players
+            WHERE LOWER(kingshot_name) LIKE ?
+            ORDER BY LOWER(kingshot_name)
+            LIMIT 25
+            """,
+            (f"%{partial_player_name.strip().lower()}%", ),
+        ) as cursor:
+            rows = await cursor.fetchall()
+        players = [(row["kingshot_name"], row["player_id"]) for row in rows]
+        return players
+
+async def get_players_for_account_ac(
+        account_id: int,
+        partial_player_name: str,
+) -> list[tuple[str, int]]:
+    async with _connection(db=None) as (conn, _owns_conn):
+        async with conn.execute(
+            """
+            SELECT kingshot_name, player_id
+            FROM players
+            WHERE account_id = ?
+              AND LOWER(kingshot_name) LIKE ?
+            ORDER BY LOWER(kingshot_name)
+            LIMIT 25
+            """,
+            (account_id, f"%{partial_player_name.strip().lower()}%", ),
+        ) as cursor:
+            rows = await cursor.fetchall()
+        players = [(row["kingshot_name"], row["player_id"]) for row in rows]
+        return players

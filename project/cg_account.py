@@ -7,9 +7,10 @@ from discord import app_commands
 
 import read_env
 import shared_state
+from bot_autocomplete import account_id_autocomplete
 from cmd_check import BotMode, cc_admin_bot_mode_at_least_admin, cvl_at_least_admin, Role
-from bot_cmd_access import _reject_account_list_request
-from ks_db import create_account, get_accounts, get_accounts_ac, get_account_by_id
+from bot_cmd_access import _down_or_maint_check
+from ks_db import create_account, get_accounts, get_account_by_id, get_acct_from_id
 from ks_db_errors import AcctCreateError, DupAcctAccountNameError, DupAcctDiscordIdError
 from ks_event_scheduler_bot import KsEventSchedulerBot
 from bot_utils import utc_to_local
@@ -50,20 +51,6 @@ async def timezone_autocomplete(
         for tz in locations
         if current.lower() in tz.lower()
     ][:25]
-
-
-async def account_id_autocomplete(
-        _interaction: discord.Interaction,
-        current: str,
-) -> list[app_commands.Choice[int]]:
-    accounts = await get_accounts_ac(current)
-    return [
-        app_commands.Choice[int](
-            name=account_name,
-            value=account_id,
-        )
-        for account_name, account_id in accounts
-    ]
 
 
 # --------------------------------------------------
@@ -107,25 +94,8 @@ class Account(app_commands.Group):
             discord_id: str | None,
             account_name: str | None,
     ) -> bool:
-        curr_bot_mode = BotMode.curr_bot_mode()
-
-        # do not allow command execution if the bot is down
-        if curr_bot_mode == BotMode.DOWN:
-            await interaction.response.send_message(
-                "❌Sorry the bot is currently down. You cannot Register an account at this time.",
-                ephemeral=True,
-            )
+        if await _down_or_maint_check(interaction):
             return True
-
-        # if the bot is under maintenance, only allow Admins to register accounts
-        if curr_bot_mode == BotMode.MAINTENANCE:
-            is_authorized, authorization_error = cc_admin_bot_mode_at_least_admin.command_check(
-                interaction.user.id
-            )
-            if not is_authorized:
-                authorization_error = authorization_error[:-1] + f" when the bot is {curr_bot_mode.msg_desc}."
-                await interaction.response.send_message(authorization_error, ephemeral=True)
-                return True
 
         # to register an account for another user, the user must be an Admin
         users_roles = set(Role.get_user_roles(interaction.user.id))
@@ -336,6 +306,7 @@ class Account(app_commands.Group):
             session.set(ctx.discord_id_final, "account_id", ctx.account_id)
             session.set(ctx.discord_id_final, "account_name", ctx.account_name_final)
             session.set(ctx.discord_id_final, "account_tz", ctx.account_tz)
+            session.set(ctx.discord_id_final, "active_account_id", ctx.account_id)
 
     # --------------------------------------------------
     # slash commands
@@ -419,7 +390,7 @@ update_account_id: {ctx.update_account_id}
             self,
             interaction: discord.Interaction
     ):
-        if await _reject_account_list_request(interaction):
+        if await _down_or_maint_check(interaction):
             return
 
         accounts = await get_accounts()
@@ -435,23 +406,34 @@ update_account_id: {ctx.update_account_id}
         )
         await interaction.response.send_message(f"Registered Accounts:\n```text\n{account_list_str}```", ephemeral=True)
 
+    # TODO: add an optional parameter for discord_id. Mutally exclusive with account_id.
+    #  If discord_id is provided, then show the account for that discord_id.
+    #  If account_id is provided, then show the account for that account_id.
+    #  If neither is provided, then show the account for the user executing the command.
+
     # /account show
     @app_commands.command(name="show", description="Show details of a registered account")
     @app_commands.autocomplete(account_id=account_id_autocomplete)
     async def show(
             self,
             interaction: discord.Interaction,
-            account_id: int
+            account_id: int | None = None
     ):
-        if await _reject_account_list_request(interaction):
+        if await _down_or_maint_check(interaction):
             return
+
+        session = shared_state.get_session()
+        if account_id is None:
+            account_id = session.get(interaction.user.id, "active_account_id")
+            if account_id is None:
+                await interaction.response.send_message("❌ You did not select an account and there is no active account set.", ephemeral=True)
+                return
 
         account = await get_account_by_id(account_id)
         if not account:
             await interaction.response.send_message(f"❌ Account with ID {account_id} not found.", ephemeral=True)
             return
 
-        session = shared_state.get_session()
         user_tz_name = session.get(interaction.user.id, "account_tz", "UTC")
         max_label_len = max(len(label) for label in account.keys())
 
@@ -464,3 +446,51 @@ update_account_id: {ctx.update_account_id}
         account_details_str = "\n".join(account_lines)
 
         await interaction.response.send_message(f"Account Details:\n```text\n{account_details_str}```", ephemeral=True)
+
+    # /account activate
+    @app_commands.command(name="activate", description="Set the Active Account to work with")
+    @app_commands.autocomplete(account_id=account_id_autocomplete)
+    async def activate(
+            self,
+            interaction: discord.Interaction,
+            account_id: int | None = None
+    ):
+        curr_bot_mode = BotMode.curr_bot_mode()
+
+        # do not allow command execution if the bot is down
+        if curr_bot_mode == BotMode.DOWN:
+            await interaction.response.send_message(
+                "❌Sorry the bot is currently down. You cannot execute any command at this time.",
+                ephemeral=True,
+            )
+            return
+
+        # only allow Admins to exec commands
+        is_authorized, authorization_error = cc_admin_bot_mode_at_least_admin.command_check(interaction.user.id)
+        if not is_authorized:
+            authorization_error = authorization_error[:-1] + f" when the bot is {curr_bot_mode.msg_desc}."
+            await interaction.response.send_message(authorization_error, ephemeral=True)
+            return
+
+        session = shared_state.get_session()
+
+        # if account_id is None, then get the active account id an name and display it
+        if account_id is None:
+            active_account_id = session.get(interaction.user.id, "active_account_id")
+            if active_account_id is None:
+                await interaction.response.send_message("❌No active account set.", ephemeral=True)
+                return
+            account = await get_acct_from_id(active_account_id)
+            if account is None:
+                await interaction.response.send_message(f"❌Active Account set to an invalid ID {active_account_id}", ephemeral=True)
+                return
+            await interaction.response.send_message(f"❌Active Account Name: {account['account_name']}, ID: {active_account_id}", ephemeral=True)
+
+        # If account_id is provided, then we want to set that account as the active account for the user.
+        else:
+            account = await get_acct_from_id(account_id)
+            if account is None:
+                await interaction.response.send_message(f"❌Account with ID: {account_id} not found.", ephemeral=True)
+                return
+            session.set(interaction.user.id, "active_account_id", account_id)
+            await interaction.response.send_message(f"✅ Activated Account Name: {account['account_name']}, ID: {account_id}", ephemeral=True)
