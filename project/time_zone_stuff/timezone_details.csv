@@ -1,0 +1,599 @@
+Nbr,Legacy,Name,Observes DST,STD Abbr,DST Abbr,STD UTC Offset,DST UTC Offset,Offset Delta,Division Length,Region,Location / Sub-Location,Location,Sub-Location,DST Start,DST End,Adjusted DST Start,Adjusted DST End
+1,0,Africa/Abidjan,FALSE,"	GMT",,0,,,2,Africa,Abidjan,Abidjan,,,,,
+2,0,Africa/Accra,FALSE,"	GMT",,0,,,2,Africa,Accra,Accra,,,,,
+3,0,Africa/Addis_Ababa,FALSE,"	EAT",,3,,,2,Africa,Addis_Ababa,Addis_Ababa,,,,,
+4,0,Africa/Algiers,FALSE,"	CET",,1,,,2,Africa,Algiers,Algiers,,,,,
+5,0,Africa/Asmara,FALSE,"	EAT",,3,,,2,Africa,Asmara,Asmara,,,,,
+6,0,Africa/Asmera,FALSE,"	EAT",,3,,,2,Africa,Asmera,Asmera,,,,,
+7,0,Africa/Bamako,FALSE,"	GMT",,0,,,2,Africa,Bamako,Bamako,,,,,
+8,0,Africa/Bangui,FALSE,"	WAT",,1,,,2,Africa,Bangui,Bangui,,,,,
+9,0,Africa/Banjul,FALSE,"	GMT",,0,,,2,Africa,Banjul,Banjul,,,,,
+10,0,Africa/Bissau,FALSE,"	GMT",,0,,,2,Africa,Bissau,Bissau,,,,,
+11,0,Africa/Blantyre,FALSE,"	CAT",,2,,,2,Africa,Blantyre,Blantyre,,,,,
+12,0,Africa/Brazzaville,FALSE,"	WAT",,1,,,2,Africa,Brazzaville,Brazzaville,,,,,
+13,0,Africa/Bujumbura,FALSE,"	CAT",,2,,,2,Africa,Bujumbura,Bujumbura,,,,,
+14,0,Africa/Cairo,TRUE,"	EET","	EEST",2,3,1,2,Africa,Cairo,Cairo,,2026-04-24T01:00:00+03:00,2026-10-29T23:00:00+02:00,2026-04-24T00:00:00+02:00,2026-10-30T00:00:00+02:00
+15,0,Africa/Casablanca,TRUE,"	WAT / +00","	WAT / +01",0,1,1,2,Africa,Casablanca,Casablanca,,2026-03-22T03:00:00+01:00,2026-02-15T02:00:00+00:00,2026-03-22T02:00:00+00:00,2026-02-15T03:00:00+00:00
+16,0,Africa/Ceuta,TRUE,"	CET","	CEST",1,2,1,2,Africa,Ceuta,Ceuta,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+17,0,Africa/Conakry,FALSE,"	GMT",,0,,,2,Africa,Conakry,Conakry,,,,,
+18,0,Africa/Dakar,FALSE,"	GMT",,0,,,2,Africa,Dakar,Dakar,,,,,
+19,0,Africa/Dar_es_Salaam,FALSE,"	EAT",,3,,,2,Africa,Dar_es_Salaam,Dar_es_Salaam,,,,,
+20,0,Africa/Djibouti,FALSE,"	EAT",,3,,,2,Africa,Djibouti,Djibouti,,,,,
+21,0,Africa/Douala,FALSE,"	WAT",,1,,,2,Africa,Douala,Douala,,,,,
+22,0,Africa/El_Aaiun,TRUE,"	WAT / +00","	WAT / +01",0,1,1,2,Africa,El_Aaiun,El_Aaiun,,2026-03-22T03:00:00+01:00,2026-02-15T02:00:00+00:00,2026-03-22T02:00:00+00:00,2026-02-15T03:00:00+00:00
+23,0,Africa/Freetown,FALSE,"	GMT",,0,,,2,Africa,Freetown,Freetown,,,,,
+24,0,Africa/Gaborone,FALSE,"	CAT",,2,,,2,Africa,Gaborone,Gaborone,,,,,
+25,0,Africa/Harare,FALSE,"	CAT",,2,,,2,Africa,Harare,Harare,,,,,
+26,0,Africa/Johannesburg,FALSE,"	SAST",,2,,,2,Africa,Johannesburg,Johannesburg,,,,,
+27,0,Africa/Juba,FALSE,"	CAT",,2,,,2,Africa,Juba,Juba,,,,,
+28,0,Africa/Kampala,FALSE,"	EAT",,3,,,2,Africa,Kampala,Kampala,,,,,
+29,0,Africa/Khartoum,FALSE,"	CAT",,2,,,2,Africa,Khartoum,Khartoum,,,,,
+30,0,Africa/Kigali,FALSE,"	CAT",,2,,,2,Africa,Kigali,Kigali,,,,,
+31,0,Africa/Kinshasa,FALSE,"	WAT",,1,,,2,Africa,Kinshasa,Kinshasa,,,,,
+32,0,Africa/Lagos,FALSE,"	WAT",,1,,,2,Africa,Lagos,Lagos,,,,,
+33,0,Africa/Libreville,FALSE,"	WAT",,1,,,2,Africa,Libreville,Libreville,,,,,
+34,0,Africa/Lome,FALSE,"	GMT",,0,,,2,Africa,Lome,Lome,,,,,
+35,0,Africa/Luanda,FALSE,"	WAT",,1,,,2,Africa,Luanda,Luanda,,,,,
+36,0,Africa/Lubumbashi,FALSE,"	CAT",,2,,,2,Africa,Lubumbashi,Lubumbashi,,,,,
+37,0,Africa/Lusaka,FALSE,"	CAT",,2,,,2,Africa,Lusaka,Lusaka,,,,,
+38,0,Africa/Malabo,FALSE,"	WAT",,1,,,2,Africa,Malabo,Malabo,,,,,
+39,0,Africa/Maputo,FALSE,"	CAT",,2,,,2,Africa,Maputo,Maputo,,,,,
+40,0,Africa/Maseru,FALSE,"	SAST",,2,,,2,Africa,Maseru,Maseru,,,,,
+41,0,Africa/Mbabane,FALSE,"	SAST",,2,,,2,Africa,Mbabane,Mbabane,,,,,
+42,0,Africa/Mogadishu,FALSE,"	EAT",,3,,,2,Africa,Mogadishu,Mogadishu,,,,,
+43,0,Africa/Monrovia,FALSE,"	GMT",,0,,,2,Africa,Monrovia,Monrovia,,,,,
+44,0,Africa/Nairobi,FALSE,"	EAT",,3,,,2,Africa,Nairobi,Nairobi,,,,,
+45,0,Africa/Ndjamena,FALSE,"	WAT",,1,,,2,Africa,Ndjamena,Ndjamena,,,,,
+46,0,Africa/Niamey,FALSE,"	WAT",,1,,,2,Africa,Niamey,Niamey,,,,,
+47,0,Africa/Nouakchott,FALSE,"	GMT",,0,,,2,Africa,Nouakchott,Nouakchott,,,,,
+48,0,Africa/Ouagadougou,FALSE,"	GMT",,0,,,2,Africa,Ouagadougou,Ouagadougou,,,,,
+49,0,Africa/Porto-Novo,FALSE,"	WAT",,1,,,2,Africa,Porto-Novo,Porto-Novo,,,,,
+50,0,Africa/Sao_Tome,FALSE,"	GMT",,0,,,2,Africa,Sao_Tome,Sao_Tome,,,,,
+51,0,Africa/Timbuktu,FALSE,"	GMT",,0,,,2,Africa,Timbuktu,Timbuktu,,,,,
+52,0,Africa/Tripoli,FALSE,"	EET",,2,,,2,Africa,Tripoli,Tripoli,,,,,
+53,0,Africa/Tunis,FALSE,"	CET",,1,,,2,Africa,Tunis,Tunis,,,,,
+54,0,Africa/Windhoek,FALSE,"	CAT",,2,,,2,Africa,Windhoek,Windhoek,,,,,
+55,0,America/Adak,TRUE,"	HST","	HDT",-10,-9,1,2,America,Adak,Adak,,2026-03-08T03:00:00-09:00,2026-11-01T01:00:00-10:00,2026-03-08T02:00:00-10:00,2026-11-01T02:00:00-10:00
+56,0,America/Anchorage,TRUE,"	AKST","	AKDT",-9,-8,1,2,America,Anchorage,Anchorage,,2026-03-08T03:00:00-08:00,2026-11-01T01:00:00-09:00,2026-03-08T02:00:00-09:00,2026-11-01T02:00:00-09:00
+57,0,America/Anguilla,FALSE,"	AST",,-4,,,2,America,Anguilla,Anguilla,,,,,
+58,0,America/Antigua,FALSE,"	AST",,-4,,,2,America,Antigua,Antigua,,,,,
+59,0,America/Araguaina,FALSE,"	BRT / -03",,-3,,,2,America,Araguaina,Araguaina,,,,,
+60,0,America/Argentina/Buenos_Aires,FALSE,"	ART / -03",,-3,,,3,America,Argentina/Buenos_Aires,Argentina,Buenos_Aires,,,,
+61,0,America/Argentina/Catamarca,FALSE,"	ART / -03",,-3,,,3,America,Argentina/Catamarca,Argentina,Catamarca,,,,
+62,0,America/Argentina/ComodRivadavia,FALSE,"	-03",,-3,,,3,America,Argentina/ComodRivadavia,Argentina,ComodRivadavia,,,,
+63,0,America/Argentina/Cordoba,FALSE,"	ART / -03",,-3,,,3,America,Argentina/Cordoba,Argentina,Cordoba,,,,
+64,0,America/Argentina/Jujuy,FALSE,"	ART / -03",,-3,,,3,America,Argentina/Jujuy,Argentina,Jujuy,,,,
+65,0,America/Argentina/La_Rioja,FALSE,"	ART / -03",,-3,,,3,America,Argentina/La_Rioja,Argentina,La_Rioja,,,,
+66,0,America/Argentina/Mendoza,FALSE,"	ART / -03",,-3,,,3,America,Argentina/Mendoza,Argentina,Mendoza,,,,
+67,0,America/Argentina/Rio_Gallegos,FALSE,"	ART / -03",,-3,,,3,America,Argentina/Rio_Gallegos,Argentina,Rio_Gallegos,,,,
+68,0,America/Argentina/Salta,FALSE,"	ART / -03",,-3,,,3,America,Argentina/Salta,Argentina,Salta,,,,
+69,0,America/Argentina/San_Juan,FALSE,"	ART / -03",,-3,,,3,America,Argentina/San_Juan,Argentina,San_Juan,,,,
+70,0,America/Argentina/San_Luis,FALSE,"	ART / -03",,-3,,,3,America,Argentina/San_Luis,Argentina,San_Luis,,,,
+71,0,America/Argentina/Tucuman,FALSE,"	ART / -03",,-3,,,3,America,Argentina/Tucuman,Argentina,Tucuman,,,,
+72,0,America/Argentina/Ushuaia,FALSE,"	ART / -03",,-3,,,3,America,Argentina/Ushuaia,Argentina,Ushuaia,,,,
+73,0,America/Aruba,FALSE,"	AST",,-4,,,2,America,Aruba,Aruba,,,,,
+74,0,America/Asuncion,FALSE,"	PYT / -03",,-3,,,2,America,Asuncion,Asuncion,,,,,
+75,0,America/Atikokan,FALSE,"	EST",,-5,,,2,America,Atikokan,Atikokan,,,,,
+76,0,America/Atka,TRUE,"	HST","	HDT",-10,-9,1,2,America,Atka,Atka,,2026-03-08T03:00:00-09:00,2026-11-01T01:00:00-10:00,2026-03-08T02:00:00-10:00,2026-11-01T02:00:00-10:00
+77,0,America/Bahia,FALSE,"	BRT / -03",,-3,,,2,America,Bahia,Bahia,,,,,
+78,0,America/Bahia_Banderas,FALSE,"	CST",,-6,,,2,America,Bahia_Banderas,Bahia_Banderas,,,,,
+79,0,America/Barbados,FALSE,"	AST",,-4,,,2,America,Barbados,Barbados,,,,,
+80,0,America/Belem,FALSE,"	BRT / -03",,-3,,,2,America,Belem,Belem,,,,,
+81,0,America/Belize,FALSE,"	CST",,-6,,,2,America,Belize,Belize,,,,,
+82,0,America/Blanc-Sablon,FALSE,"	AST",,-4,,,2,America,Blanc-Sablon,Blanc-Sablon,,,,,
+83,0,America/Boa_Vista,FALSE,"	AMT / -04",,-4,,,2,America,Boa_Vista,Boa_Vista,,,,,
+84,0,America/Bogota,FALSE,"	COT / -05",,-5,,,2,America,Bogota,Bogota,,,,,
+85,0,America/Boise,TRUE,"	MST","	MDT",-7,-6,1,2,America,Boise,Boise,,2026-03-08T03:00:00-06:00,2026-11-01T01:00:00-07:00,2026-03-08T02:00:00-07:00,2026-11-01T02:00:00-07:00
+86,0,America/Buenos_Aires,FALSE,"	-03",,-3,,,2,America,Buenos_Aires,Buenos_Aires,,,,,
+87,0,America/Cambridge_Bay,TRUE,"	MST","	MDT",-7,-6,1,2,America,Cambridge_Bay,Cambridge_Bay,,2026-03-08T03:00:00-06:00,2026-11-01T01:00:00-07:00,2026-03-08T02:00:00-07:00,2026-11-01T02:00:00-07:00
+88,0,America/Campo_Grande,FALSE,"	AMT / -04",,-4,,,2,America,Campo_Grande,Campo_Grande,,,,,
+89,0,America/Cancun,FALSE,"	EST",,-5,,,2,America,Cancun,Cancun,,,,,
+90,0,America/Caracas,FALSE,"	VET / -04",,-4,,,2,America,Caracas,Caracas,,,,,
+91,0,America/Catamarca,FALSE,"	-03",,-3,,,2,America,Catamarca,Catamarca,,,,,
+92,0,America/Cayenne,FALSE,"	GFT / -03",,-3,,,2,America,Cayenne,Cayenne,,,,,
+93,0,America/Cayman,FALSE,"	EST",,-5,,,2,America,Cayman,Cayman,,,,,
+94,0,America/Chicago,TRUE,"	CST","	CDT",-6,-5,1,2,America,Chicago,Chicago,,2026-03-08T03:00:00-05:00,2026-11-01T01:00:00-06:00,2026-03-08T02:00:00-06:00,2026-11-01T02:00:00-06:00
+95,0,America/Chihuahua,FALSE,"	CST",,-6,,,2,America,Chihuahua,Chihuahua,,,,,
+96,0,America/Ciudad_Juarez,TRUE,"	MST","	MDT",-7,-6,1,2,America,Ciudad_Juarez,Ciudad_Juarez,,2026-03-08T03:00:00-06:00,2026-11-01T01:00:00-07:00,2026-03-08T02:00:00-07:00,2026-11-01T02:00:00-07:00
+97,0,America/Coral_Harbour,FALSE,"	EST",,-5,,,2,America,Coral_Harbour,Coral_Harbour,,,,,
+98,0,America/Cordoba,FALSE,"	-03",,-3,,,2,America,Cordoba,Cordoba,,,,,
+99,0,America/Costa_Rica,FALSE,"	CST",,-6,,,2,America,Costa_Rica,Costa_Rica,,,,,
+100,0,America/Coyhaique,FALSE,"	CLT / -03",,-3,,,2,America,Coyhaique,Coyhaique,,,,,
+101,0,America/Creston,FALSE,"	MST",,-7,,,2,America,Creston,Creston,,,,,
+102,0,America/Cuiaba,FALSE,"	AMT / -04",,-4,,,2,America,Cuiaba,Cuiaba,,,,,
+103,0,America/Curacao,FALSE,"	AST",,-4,,,2,America,Curacao,Curacao,,,,,
+104,0,America/Danmarkshavn,FALSE,"	GMT",,0,,,2,America,Danmarkshavn,Danmarkshavn,,,,,
+105,0,America/Dawson,FALSE,"	MST",,-7,,,2,America,Dawson,Dawson,,,,,
+106,0,America/Dawson_Creek,FALSE,"	MST",,-7,,,2,America,Dawson_Creek,Dawson_Creek,,,,,
+107,0,America/Denver,TRUE,"	MST","	MDT",-7,-6,1,2,America,Denver,Denver,,2026-03-08T03:00:00-06:00,2026-11-01T01:00:00-07:00,2026-03-08T02:00:00-07:00,2026-11-01T02:00:00-07:00
+108,0,America/Detroit,TRUE,"	EST","	EDT",-5,-4,1,2,America,Detroit,Detroit,,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+109,0,America/Dominica,FALSE,"	AST",,-4,,,2,America,Dominica,Dominica,,,,,
+110,0,America/Edmonton,TRUE,"	MST","	MDT",-7,-6,1,2,America,Edmonton,Edmonton,,2026-03-08T03:00:00-06:00,2026-11-01T01:00:00-07:00,2026-03-08T02:00:00-07:00,2026-11-01T02:00:00-07:00
+111,0,America/Eirunepe,FALSE,"	ACT / -05",,-5,,,2,America,Eirunepe,Eirunepe,,,,,
+112,0,America/El_Salvador,FALSE,"	CST",,-6,,,2,America,El_Salvador,El_Salvador,,,,,
+113,0,America/Ensenada,TRUE,"	PST","	PDT",-8,-7,1,2,America,Ensenada,Ensenada,,2026-03-08T03:00:00-07:00,2026-11-01T01:00:00-08:00,2026-03-08T02:00:00-08:00,2026-11-01T02:00:00-08:00
+114,0,America/Fort_Nelson,FALSE,"	MST",,-7,,,2,America,Fort_Nelson,Fort_Nelson,,,,,
+115,0,America/Fort_Wayne,TRUE,"	EST","	EDT",-5,-4,1,2,America,Fort_Wayne,Fort_Wayne,,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+116,0,America/Fortaleza,FALSE,"	BRT / -03",,-3,,,2,America,Fortaleza,Fortaleza,,,,,
+117,0,America/Glace_Bay,TRUE,"	AST","	ADT",-4,-3,1,2,America,Glace_Bay,Glace_Bay,,2026-03-08T03:00:00-03:00,2026-11-01T01:00:00-04:00,2026-03-08T02:00:00-04:00,2026-11-01T02:00:00-04:00
+118,0,America/Godthab,TRUE,"	WGST / -02","	WGST / -01",-2,-1,1,2,America,Godthab,Godthab,,2026-03-29T00:00:00-01:00,2026-10-24T23:00:00-02:00,2026-03-28T23:00:00-02:00,2026-10-25T00:00:00-02:00
+119,0,America/Goose_Bay,TRUE,"	AST","	ADT",-4,-3,1,2,America,Goose_Bay,Goose_Bay,,2026-03-08T03:00:00-03:00,2026-11-01T01:00:00-04:00,2026-03-08T02:00:00-04:00,2026-11-01T02:00:00-04:00
+120,0,America/Grand_Turk,TRUE,"	EST","	EDT",-5,-4,1,2,America,Grand_Turk,Grand_Turk,,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+121,0,America/Grenada,FALSE,"	AST",,-4,,,2,America,Grenada,Grenada,,,,,
+122,0,America/Guadeloupe,FALSE,"	AST",,-4,,,2,America,Guadeloupe,Guadeloupe,,,,,
+123,0,America/Guatemala,FALSE,"	CST",,-6,,,2,America,Guatemala,Guatemala,,,,,
+124,0,America/Guayaquil,FALSE,"	ECT / -05",,-5,,,2,America,Guayaquil,Guayaquil,,,,,
+125,0,America/Guyana,FALSE,"	GYT / -04",,-4,,,2,America,Guyana,Guyana,,,,,
+126,0,America/Halifax,TRUE,"	AST","	ADT",-4,-3,1,2,America,Halifax,Halifax,,2026-03-08T03:00:00-03:00,2026-11-01T01:00:00-04:00,2026-03-08T02:00:00-04:00,2026-11-01T02:00:00-04:00
+127,0,America/Havana,TRUE,"	CST","	CDT",-5,-4,1,2,America,Havana,Havana,,2026-03-08T01:00:00-04:00,2026-11-01T00:00:00-05:00,2026-03-08T00:00:00-05:00,2026-11-01T01:00:00-05:00
+128,0,America/Hermosillo,FALSE,"	MST",,-7,,,2,America,Hermosillo,Hermosillo,,,,,
+129,0,America/Indiana/Indianapolis,TRUE,"	EST","	EDT",-5,-4,1,3,America,Indiana/Indianapolis,Indiana,Indianapolis,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+130,0,America/Indiana/Knox,TRUE,"	CST","	CDT",-6,-5,1,3,America,Indiana/Knox,Indiana,Knox,2026-03-08T03:00:00-05:00,2026-11-01T01:00:00-06:00,2026-03-08T02:00:00-06:00,2026-11-01T02:00:00-06:00
+131,0,America/Indiana/Marengo,TRUE,"	EST","	EDT",-5,-4,1,3,America,Indiana/Marengo,Indiana,Marengo,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+132,0,America/Indiana/Petersburg,TRUE,"	EST","	EDT",-5,-4,1,3,America,Indiana/Petersburg,Indiana,Petersburg,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+133,0,America/Indiana/Tell_City,TRUE,"	CST","	CDT",-6,-5,1,3,America,Indiana/Tell_City,Indiana,Tell_City,2026-03-08T03:00:00-05:00,2026-11-01T01:00:00-06:00,2026-03-08T02:00:00-06:00,2026-11-01T02:00:00-06:00
+134,0,America/Indiana/Vevay,TRUE,"	EST","	EDT",-5,-4,1,3,America,Indiana/Vevay,Indiana,Vevay,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+135,0,America/Indiana/Vincennes,TRUE,"	EST","	EDT",-5,-4,1,3,America,Indiana/Vincennes,Indiana,Vincennes,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+136,0,America/Indiana/Winamac,TRUE,"	EST","	EDT",-5,-4,1,3,America,Indiana/Winamac,Indiana,Winamac,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+137,0,America/Indianapolis,TRUE,"	EST","	EDT",-5,-4,1,2,America,Indianapolis,Indianapolis,,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+138,0,America/Inuvik,TRUE,"	MST","	MDT",-7,-6,1,2,America,Inuvik,Inuvik,,2026-03-08T03:00:00-06:00,2026-11-01T01:00:00-07:00,2026-03-08T02:00:00-07:00,2026-11-01T02:00:00-07:00
+139,0,America/Iqaluit,TRUE,"	EST","	EDT",-5,-4,1,2,America,Iqaluit,Iqaluit,,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+140,0,America/Jamaica,FALSE,"	EST",,-5,,,2,America,Jamaica,Jamaica,,,,,
+141,0,America/Jujuy,FALSE,"	-03",,-3,,,2,America,Jujuy,Jujuy,,,,,
+142,0,America/Juneau,TRUE,"	AKST","	AKDT",-9,-8,1,2,America,Juneau,Juneau,,2026-03-08T03:00:00-08:00,2026-11-01T01:00:00-09:00,2026-03-08T02:00:00-09:00,2026-11-01T02:00:00-09:00
+143,0,America/Kentucky/Louisville,TRUE,"	EST","	EDT",-5,-4,1,3,America,Kentucky/Louisville,Kentucky,Louisville,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+144,0,America/Kentucky/Monticello,TRUE,"	EST","	EDT",-5,-4,1,3,America,Kentucky/Monticello,Kentucky,Monticello,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+145,0,America/Knox_IN,TRUE,"	CST","	CDT",-6,-5,1,2,America,Knox_IN,Knox_IN,,2026-03-08T03:00:00-05:00,2026-11-01T01:00:00-06:00,2026-03-08T02:00:00-06:00,2026-11-01T02:00:00-06:00
+146,0,America/Kralendijk,FALSE,"	AST",,-4,,,2,America,Kralendijk,Kralendijk,,,,,
+147,0,America/La_Paz,FALSE,"	BOT / -04",,-4,,,2,America,La_Paz,La_Paz,,,,,
+148,0,America/Lima,FALSE,"	PET / -05",,-5,,,2,America,Lima,Lima,,,,,
+149,0,America/Los_Angeles,TRUE,"	PST","	PDT",-8,-7,1,2,America,Los_Angeles,Los_Angeles,,2026-03-08T03:00:00-07:00,2026-11-01T01:00:00-08:00,2026-03-08T02:00:00-08:00,2026-11-01T02:00:00-08:00
+150,0,America/Louisville,TRUE,"	EST","	EDT",-5,-4,1,2,America,Louisville,Louisville,,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+151,0,America/Lower_Princes,FALSE,"	AST",,-4,,,2,America,Lower_Princes,Lower_Princes,,,,,
+152,0,America/Maceio,FALSE,"	BRT / -03",,-3,,,2,America,Maceio,Maceio,,,,,
+153,0,America/Managua,FALSE,"	CST",,-6,,,2,America,Managua,Managua,,,,,
+154,0,America/Manaus,FALSE,"	AMT / -04",,-4,,,2,America,Manaus,Manaus,,,,,
+155,0,America/Marigot,FALSE,"	AST",,-4,,,2,America,Marigot,Marigot,,,,,
+156,0,America/Martinique,FALSE,"	AST",,-4,,,2,America,Martinique,Martinique,,,,,
+157,0,America/Matamoros,TRUE,"	CST","	CDT",-6,-5,1,2,America,Matamoros,Matamoros,,2026-03-08T03:00:00-05:00,2026-11-01T01:00:00-06:00,2026-03-08T02:00:00-06:00,2026-11-01T02:00:00-06:00
+158,0,America/Mazatlan,FALSE,"	MST",,-7,,,2,America,Mazatlan,Mazatlan,,,,,
+159,0,America/Mendoza,FALSE,"	-03",,-3,,,2,America,Mendoza,Mendoza,,,,,
+160,0,America/Menominee,TRUE,"	CST","	CDT",-6,-5,1,2,America,Menominee,Menominee,,2026-03-08T03:00:00-05:00,2026-11-01T01:00:00-06:00,2026-03-08T02:00:00-06:00,2026-11-01T02:00:00-06:00
+161,0,America/Merida,FALSE,"	CST",,-6,,,2,America,Merida,Merida,,,,,
+162,0,America/Metlakatla,TRUE,"	AKST","	AKDT",-9,-8,1,2,America,Metlakatla,Metlakatla,,2026-03-08T03:00:00-08:00,2026-11-01T01:00:00-09:00,2026-03-08T02:00:00-09:00,2026-11-01T02:00:00-09:00
+163,0,America/Mexico_City,FALSE,"	CST",,-6,,,2,America,Mexico_City,Mexico_City,,,,,
+164,0,America/Miquelon,TRUE,"	PMDT / -03","	PMDT / -02",-3,-2,1,2,America,Miquelon,Miquelon,,2026-03-08T03:00:00-02:00,2026-11-01T01:00:00-03:00,2026-03-08T02:00:00-03:00,2026-11-01T02:00:00-03:00
+165,0,America/Moncton,TRUE,"	AST","	ADT",-4,-3,1,2,America,Moncton,Moncton,,2026-03-08T03:00:00-03:00,2026-11-01T01:00:00-04:00,2026-03-08T02:00:00-04:00,2026-11-01T02:00:00-04:00
+166,0,America/Monterrey,FALSE,"	CST",,-6,,,2,America,Monterrey,Monterrey,,,,,
+167,0,America/Montevideo,FALSE,"	UYT / -03",,-3,,,2,America,Montevideo,Montevideo,,,,,
+168,0,America/Montreal,TRUE,"	EST","	EDT",-5,-4,1,2,America,Montreal,Montreal,,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+169,0,America/Montserrat,FALSE,"	AST",,-4,,,2,America,Montserrat,Montserrat,,,,,
+170,0,America/Nassau,TRUE,"	EST","	EDT",-5,-4,1,2,America,Nassau,Nassau,,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+171,0,America/New_York,TRUE,"	EST","	EDT",-5,-4,1,2,America,New_York,New_York,,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+172,0,America/Nipigon,TRUE,"	EST","	EDT",-5,-4,1,2,America,Nipigon,Nipigon,,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+173,0,America/Nome,TRUE,"	AKST","	AKDT",-9,-8,1,2,America,Nome,Nome,,2026-03-08T03:00:00-08:00,2026-11-01T01:00:00-09:00,2026-03-08T02:00:00-09:00,2026-11-01T02:00:00-09:00
+174,0,America/Noronha,FALSE,"	FNT / -02",,-2,,,2,America,Noronha,Noronha,,,,,
+175,0,America/North_Dakota/Beulah,TRUE,"	CST","	CDT",-6,-5,1,3,America,North_Dakota/Beulah,North_Dakota,Beulah,2026-03-08T03:00:00-05:00,2026-11-01T01:00:00-06:00,2026-03-08T02:00:00-06:00,2026-11-01T02:00:00-06:00
+176,0,America/North_Dakota/Center,TRUE,"	CST","	CDT",-6,-5,1,3,America,North_Dakota/Center,North_Dakota,Center,2026-03-08T03:00:00-05:00,2026-11-01T01:00:00-06:00,2026-03-08T02:00:00-06:00,2026-11-01T02:00:00-06:00
+177,0,America/North_Dakota/New_Salem,TRUE,"	CST","	CDT",-6,-5,1,3,America,North_Dakota/New_Salem,North_Dakota,New_Salem,2026-03-08T03:00:00-05:00,2026-11-01T01:00:00-06:00,2026-03-08T02:00:00-06:00,2026-11-01T02:00:00-06:00
+178,0,America/Nuuk,TRUE,"	WGST / -02","	WGST / -01",-2,-1,1,2,America,Nuuk,Nuuk,,2026-03-29T00:00:00-01:00,2026-10-24T23:00:00-02:00,2026-03-28T23:00:00-02:00,2026-10-25T00:00:00-02:00
+179,0,America/Ojinaga,TRUE,"	CST","	CDT",-6,-5,1,2,America,Ojinaga,Ojinaga,,2026-03-08T03:00:00-05:00,2026-11-01T01:00:00-06:00,2026-03-08T02:00:00-06:00,2026-11-01T02:00:00-06:00
+180,0,America/Panama,FALSE,"	EST",,-5,,,2,America,Panama,Panama,,,,,
+181,0,America/Pangnirtung,TRUE,"	EST","	EDT",-5,-4,1,2,America,Pangnirtung,Pangnirtung,,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+182,0,America/Paramaribo,FALSE,"	SRT / -03",,-3,,,2,America,Paramaribo,Paramaribo,,,,,
+183,0,America/Phoenix,FALSE,"	MST",,-7,,,2,America,Phoenix,Phoenix,,,,,
+184,0,America/Port-au-Prince,TRUE,"	EST","	EDT",-5,-4,1,2,America,Port-au-Prince,Port-au-Prince,,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+185,0,America/Port_of_Spain,FALSE,"	AST",,-4,,,2,America,Port_of_Spain,Port_of_Spain,,,,,
+186,0,America/Porto_Acre,FALSE,"	-05",,-5,,,2,America,Porto_Acre,Porto_Acre,,,,,
+187,0,America/Porto_Velho,FALSE,"	AMT / -04",,-4,,,2,America,Porto_Velho,Porto_Velho,,,,,
+188,0,America/Puerto_Rico,FALSE,"	AST",,-4,,,2,America,Puerto_Rico,Puerto_Rico,,,,,
+189,0,America/Punta_Arenas,FALSE,"	CLT / -03",,-3,,,2,America,Punta_Arenas,Punta_Arenas,,,,,
+190,0,America/Rainy_River,TRUE,"	CST","	CDT",-6,-5,1,2,America,Rainy_River,Rainy_River,,2026-03-08T03:00:00-05:00,2026-11-01T01:00:00-06:00,2026-03-08T02:00:00-06:00,2026-11-01T02:00:00-06:00
+191,0,America/Rankin_Inlet,TRUE,"	CST","	CDT",-6,-5,1,2,America,Rankin_Inlet,Rankin_Inlet,,2026-03-08T03:00:00-05:00,2026-11-01T01:00:00-06:00,2026-03-08T02:00:00-06:00,2026-11-01T02:00:00-06:00
+192,0,America/Recife,FALSE,"	BRT / -03",,-3,,,2,America,Recife,Recife,,,,,
+193,0,America/Regina,FALSE,"	CST",,-6,,,2,America,Regina,Regina,,,,,
+194,0,America/Resolute,TRUE,"	CST","	CDT",-6,-5,1,2,America,Resolute,Resolute,,2026-03-08T03:00:00-05:00,2026-11-01T01:00:00-06:00,2026-03-08T02:00:00-06:00,2026-11-01T02:00:00-06:00
+195,0,America/Rio_Branco,FALSE,"	ACT / -05",,-5,,,2,America,Rio_Branco,Rio_Branco,,,,,
+196,0,America/Rosario,FALSE,"	-03",,-3,,,2,America,Rosario,Rosario,,,,,
+197,0,America/Santa_Isabel,TRUE,"	PST","	PDT",-8,-7,1,2,America,Santa_Isabel,Santa_Isabel,,2026-03-08T03:00:00-07:00,2026-11-01T01:00:00-08:00,2026-03-08T02:00:00-08:00,2026-11-01T02:00:00-08:00
+198,0,America/Santarem,FALSE,"	BRT / -03",,-3,,,2,America,Santarem,Santarem,,,,,
+199,0,America/Santiago,TRUE,"	CLT / -04","	CLT / -03",-4,-3,1,2,America,Santiago,Santiago,,2026-09-06T01:00:00-03:00,2026-04-04T23:00:00-04:00,2026-09-06T00:00:00-04:00,2026-04-05T00:00:00-04:00
+200,0,America/Santo_Domingo,FALSE,"	AST",,-4,,,2,America,Santo_Domingo,Santo_Domingo,,,,,
+201,0,America/Sao_Paulo,FALSE,"	BRT / -03",,-3,,,2,America,Sao_Paulo,Sao_Paulo,,,,,
+202,0,America/Scoresbysund,TRUE,"	EGT / -02","	EGT / -01",-2,-1,1,2,America,Scoresbysund,Scoresbysund,,2026-03-29T00:00:00-01:00,2026-10-24T23:00:00-02:00,2026-03-28T23:00:00-02:00,2026-10-25T00:00:00-02:00
+203,0,America/Shiprock,TRUE,"	MST","	MDT",-7,-6,1,2,America,Shiprock,Shiprock,,2026-03-08T03:00:00-06:00,2026-11-01T01:00:00-07:00,2026-03-08T02:00:00-07:00,2026-11-01T02:00:00-07:00
+204,0,America/Sitka,TRUE,"	AKST","	AKDT",-9,-8,1,2,America,Sitka,Sitka,,2026-03-08T03:00:00-08:00,2026-11-01T01:00:00-09:00,2026-03-08T02:00:00-09:00,2026-11-01T02:00:00-09:00
+205,0,America/St_Barthelemy,FALSE,"	AST",,-4,,,2,America,St_Barthelemy,St_Barthelemy,,,,,
+206,0,America/St_Johns,TRUE,"	NST","	NDT",-3.5,-2.5,1,2,America,St_Johns,St_Johns,,2026-03-08T03:00:00-02:30,2026-11-01T01:00:00-03:30,2026-03-08T02:00:00-03:30,2026-11-01T02:00:00-03:30
+207,0,America/St_Kitts,FALSE,"	AST",,-4,,,2,America,St_Kitts,St_Kitts,,,,,
+208,0,America/St_Lucia,FALSE,"	AST",,-4,,,2,America,St_Lucia,St_Lucia,,,,,
+209,0,America/St_Thomas,FALSE,"	AST",,-4,,,2,America,St_Thomas,St_Thomas,,,,,
+210,0,America/St_Vincent,FALSE,"	AST",,-4,,,2,America,St_Vincent,St_Vincent,,,,,
+211,0,America/Swift_Current,FALSE,"	CST",,-6,,,2,America,Swift_Current,Swift_Current,,,,,
+212,0,America/Tegucigalpa,FALSE,"	CST",,-6,,,2,America,Tegucigalpa,Tegucigalpa,,,,,
+213,0,America/Thule,TRUE,"	AST","	ADT",-4,-3,1,2,America,Thule,Thule,,2026-03-08T03:00:00-03:00,2026-11-01T01:00:00-04:00,2026-03-08T02:00:00-04:00,2026-11-01T02:00:00-04:00
+214,0,America/Thunder_Bay,TRUE,"	EST","	EDT",-5,-4,1,2,America,Thunder_Bay,Thunder_Bay,,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+215,0,America/Tijuana,TRUE,"	PST","	PDT",-8,-7,1,2,America,Tijuana,Tijuana,,2026-03-08T03:00:00-07:00,2026-11-01T01:00:00-08:00,2026-03-08T02:00:00-08:00,2026-11-01T02:00:00-08:00
+216,0,America/Toronto,TRUE,"	EST","	EDT",-5,-4,1,2,America,Toronto,Toronto,,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+217,0,America/Tortola,FALSE,"	AST",,-4,,,2,America,Tortola,Tortola,,,,,
+218,0,America/Vancouver,TRUE,"	PST","	PDT",-8,-7,1,2,America,Vancouver,Vancouver,,2026-03-08T03:00:00-07:00,2026-11-01T02:00:00-07:00,2026-03-08T02:00:00-08:00,2026-11-01T03:00:00-07:00
+219,0,America/Virgin,FALSE,"	AST",,-4,,,2,America,Virgin,Virgin,,,,,
+220,0,America/Whitehorse,FALSE,"	MST",,-7,,,2,America,Whitehorse,Whitehorse,,,,,
+221,0,America/Winnipeg,TRUE,"	CST","	CDT",-6,-5,1,2,America,Winnipeg,Winnipeg,,2026-03-08T03:00:00-05:00,2026-11-01T01:00:00-06:00,2026-03-08T02:00:00-06:00,2026-11-01T02:00:00-06:00
+222,0,America/Yakutat,TRUE,"	AKST","	AKDT",-9,-8,1,2,America,Yakutat,Yakutat,,2026-03-08T03:00:00-08:00,2026-11-01T01:00:00-09:00,2026-03-08T02:00:00-09:00,2026-11-01T02:00:00-09:00
+223,0,America/Yellowknife,TRUE,"	MST","	MDT",-7,-6,1,2,America,Yellowknife,Yellowknife,,2026-03-08T03:00:00-06:00,2026-11-01T01:00:00-07:00,2026-03-08T02:00:00-07:00,2026-11-01T02:00:00-07:00
+224,0,Antarctica/Casey,FALSE,"	AWST / +08",,8,,,2,Antarctica,Casey,Casey,,,,,
+225,0,Antarctica/Davis,FALSE,"	DAVT / +07",,7,,,2,Antarctica,Davis,Davis,,,,,
+226,0,Antarctica/DumontDUrville,FALSE,"	DDUT / +10",,10,,,2,Antarctica,DumontDUrville,DumontDUrville,,,,,
+227,0,Antarctica/Macquarie,TRUE,"	AEST","	AEDT",10,11,1,2,Antarctica,Macquarie,Macquarie,,2026-10-04T03:00:00+11:00,2026-04-05T02:00:00+10:00,2026-10-04T02:00:00+10:00,2026-04-05T03:00:00+10:00
+228,0,Antarctica/Mawson,FALSE,"	MAWT / +05",,5,,,2,Antarctica,Mawson,Mawson,,,,,
+229,0,Antarctica/McMurdo,TRUE,"	NZST","	NZDT",12,13,1,2,Antarctica,McMurdo,McMurdo,,2026-09-27T03:00:00+13:00,2026-04-05T02:00:00+12:00,2026-09-27T02:00:00+12:00,2026-04-05T03:00:00+12:00
+230,0,Antarctica/Palmer,FALSE,"	CLT / -03",,-3,,,2,Antarctica,Palmer,Palmer,,,,,
+231,0,Antarctica/Rothera,FALSE,"	ROTT / -03",,-3,,,2,Antarctica,Rothera,Rothera,,,,,
+232,0,Antarctica/South_Pole,TRUE,"	NZST","	NZDT",12,13,1,2,Antarctica,South_Pole,South_Pole,,2026-09-27T03:00:00+13:00,2026-04-05T02:00:00+12:00,2026-09-27T02:00:00+12:00,2026-04-05T03:00:00+12:00
+233,0,Antarctica/Syowa,FALSE,"	SYOT / +03",,3,,,2,Antarctica,Syowa,Syowa,,,,,
+234,0,Antarctica/Troll,TRUE,"	CEST / +00","	CEST / +02",0,2,2,2,Antarctica,Troll,Troll,,2026-03-29T03:00:00+02:00,2026-10-25T01:00:00+00:00,2026-03-29T01:00:00+00:00,2026-10-25T03:00:00+00:00
+235,0,Antarctica/Vostok,FALSE,"	VOST / +05",,5,,,2,Antarctica,Vostok,Vostok,,,,,
+236,0,Arctic/Longyearbyen,TRUE,"	CET","	CEST",1,2,1,2,Arctic,Longyearbyen,Longyearbyen,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+237,0,Asia/Aden,FALSE,"	AST / +03",,3,,,2,Asia,Aden,Aden,,,,,
+238,0,Asia/Almaty,FALSE,"	ALMT / +05",,5,,,2,Asia,Almaty,Almaty,,,,,
+239,0,Asia/Amman,FALSE,"	JST / +03",,3,,,2,Asia,Amman,Amman,,,,,
+240,0,Asia/Anadyr,FALSE,"	ANAT / +12",,12,,,2,Asia,Anadyr,Anadyr,,,,,
+241,0,Asia/Aqtau,FALSE,"	AQTT / +05",,5,,,2,Asia,Aqtau,Aqtau,,,,,
+242,0,Asia/Aqtobe,FALSE,"	AQTT / +05",,5,,,2,Asia,Aqtobe,Aqtobe,,,,,
+243,0,Asia/Ashgabat,FALSE,"	TMT / +05",,5,,,2,Asia,Ashgabat,Ashgabat,,,,,
+244,0,Asia/Ashkhabad,FALSE,"	+05",,5,,,2,Asia,Ashkhabad,Ashkhabad,,,,,
+245,0,Asia/Atyrau,FALSE,"	AQTT / +05",,5,,,2,Asia,Atyrau,Atyrau,,,,,
+246,0,Asia/Baghdad,FALSE,"	AST / +03",,3,,,2,Asia,Baghdad,Baghdad,,,,,
+247,0,Asia/Bahrain,FALSE,"	AST / +03",,3,,,2,Asia,Bahrain,Bahrain,,,,,
+248,0,Asia/Baku,FALSE,"	AZT / +04",,4,,,2,Asia,Baku,Baku,,,,,
+249,0,Asia/Bangkok,FALSE,"	ICT / +07",,7,,,2,Asia,Bangkok,Bangkok,,,,,
+250,0,Asia/Barnaul,FALSE,"	KRAT / +07",,7,,,2,Asia,Barnaul,Barnaul,,,,,
+251,0,Asia/Beirut,TRUE,"	EET","	EEST",2,3,1,2,Asia,Beirut,Beirut,,2026-03-29T01:00:00+03:00,2026-10-24T23:00:00+02:00,2026-03-29T00:00:00+02:00,2026-10-25T00:00:00+02:00
+252,0,Asia/Bishkek,FALSE,"	KGT / +06",,6,,,2,Asia,Bishkek,Bishkek,,,,,
+253,0,Asia/Brunei,FALSE,"	BNT / +08",,8,,,2,Asia,Brunei,Brunei,,,,,
+254,0,Asia/Calcutta,FALSE,"	IST",,5.5,,,2,Asia,Calcutta,Calcutta,,,,,
+255,0,Asia/Chita,FALSE,"	YAKT / +09",,9,,,2,Asia,Chita,Chita,,,,,
+256,0,Asia/Choibalsan,FALSE,"	CHOT / +08",,8,,,2,Asia,Choibalsan,Choibalsan,,,,,
+257,0,Asia/Chongqing,FALSE,"	CST",,8,,,2,Asia,Chongqing,Chongqing,,,,,
+258,0,Asia/Chungking,FALSE,"	CST",,8,,,2,Asia,Chungking,Chungking,,,,,
+259,0,Asia/Colombo,FALSE,"	IST / +0530",,5.5,,,2,Asia,Colombo,Colombo,,,,,
+260,0,Asia/Dacca,FALSE,"	BDT / +06",,6,,,2,Asia,Dacca,Dacca,,,,,
+261,0,Asia/Damascus,FALSE,"	EEST / +03",,3,,,2,Asia,Damascus,Damascus,,,,,
+262,0,Asia/Dhaka,FALSE,"	BDT / +06",,6,,,2,Asia,Dhaka,Dhaka,,,,,
+263,0,Asia/Dili,FALSE,"	TLT / +09",,9,,,2,Asia,Dili,Dili,,,,,
+264,0,Asia/Dubai,FALSE,"	GST / +04",,4,,,2,Asia,Dubai,Dubai,,,,,
+265,0,Asia/Dushanbe,FALSE,"	TJT / +05",,5,,,2,Asia,Dushanbe,Dushanbe,,,,,
+266,0,Asia/Famagusta,TRUE,"	EET","	EEST",2,3,1,2,Asia,Famagusta,Famagusta,,2026-03-29T04:00:00+03:00,2026-10-25T03:00:00+02:00,2026-03-29T03:00:00+02:00,2026-10-25T04:00:00+02:00
+267,0,Asia/Gaza,TRUE,"	EET","	EEST",2,3,1,2,Asia,Gaza,Gaza,,2026-03-28T03:00:00+03:00,2026-10-24T01:00:00+02:00,2026-03-28T02:00:00+02:00,2026-10-24T02:00:00+02:00
+268,0,Asia/Harbin,FALSE,"	CST",,8,,,2,Asia,Harbin,Harbin,,,,,
+269,0,Asia/Hebron,TRUE,"	EET","	EEST",2,3,1,2,Asia,Hebron,Hebron,,2026-03-28T03:00:00+03:00,2026-10-24T01:00:00+02:00,2026-03-28T02:00:00+02:00,2026-10-24T02:00:00+02:00
+270,0,Asia/Ho_Chi_Minh,FALSE,"	ICT / +07",,7,,,2,Asia,Ho_Chi_Minh,Ho_Chi_Minh,,,,,
+271,0,Asia/Hong_Kong,FALSE,"	HKT",,8,,,2,Asia,Hong_Kong,Hong_Kong,,,,,
+272,0,Asia/Hovd,FALSE,"	HOVT / +07",,7,,,2,Asia,Hovd,Hovd,,,,,
+273,0,Asia/Irkutsk,FALSE,"	IRKT / +08",,8,,,2,Asia,Irkutsk,Irkutsk,,,,,
+274,0,Asia/Istanbul,FALSE,"	TRT / +03",,3,,,2,Asia,Istanbul,Istanbul,,,,,
+275,0,Asia/Jakarta,FALSE,"	WIB",,7,,,2,Asia,Jakarta,Jakarta,,,,,
+276,0,Asia/Jayapura,FALSE,"	WIT",,9,,,2,Asia,Jayapura,Jayapura,,,,,
+277,0,Asia/Jerusalem,TRUE,"	IST","	IDT",2,3,1,2,Asia,Jerusalem,Jerusalem,,2026-03-27T03:00:00+03:00,2026-10-25T01:00:00+02:00,2026-03-27T02:00:00+02:00,2026-10-25T02:00:00+02:00
+278,0,Asia/Kabul,FALSE,"	AFT / +0430",,4.5,,,2,Asia,Kabul,Kabul,,,,,
+279,0,Asia/Kamchatka,FALSE,"	PETT / +12",,12,,,2,Asia,Kamchatka,Kamchatka,,,,,
+280,0,Asia/Karachi,FALSE,"	PKT",,5,,,2,Asia,Karachi,Karachi,,,,,
+281,0,Asia/Kashgar,FALSE,"	+06",,6,,,2,Asia,Kashgar,Kashgar,,,,,
+282,0,Asia/Kathmandu,FALSE,"	NPT / +0545",,5.75,,,2,Asia,Kathmandu,Kathmandu,,,,,
+283,0,Asia/Katmandu,FALSE,"	+0545",,5.75,,,2,Asia,Katmandu,Katmandu,,,,,
+284,0,Asia/Khandyga,FALSE,"	YAKT / +09",,9,,,2,Asia,Khandyga,Khandyga,,,,,
+285,0,Asia/Kolkata,FALSE,"	IST",,5.5,,,2,Asia,Kolkata,Kolkata,,,,,
+286,0,Asia/Krasnoyarsk,FALSE,"	KRAT / +07",,7,,,2,Asia,Krasnoyarsk,Krasnoyarsk,,,,,
+287,0,Asia/Kuala_Lumpur,FALSE,"	MYT / +08",,8,,,2,Asia,Kuala_Lumpur,Kuala_Lumpur,,,,,
+288,0,Asia/Kuching,FALSE,"	MYT / +08",,8,,,2,Asia,Kuching,Kuching,,,,,
+289,0,Asia/Kuwait,FALSE,"	AST / +03",,3,,,2,Asia,Kuwait,Kuwait,,,,,
+290,0,Asia/Macao,FALSE,"	CST",,8,,,2,Asia,Macao,Macao,,,,,
+291,0,Asia/Macau,FALSE,"	CST",,8,,,2,Asia,Macau,Macau,,,,,
+292,0,Asia/Magadan,FALSE,"	MAGT / +11",,11,,,2,Asia,Magadan,Magadan,,,,,
+293,0,Asia/Makassar,FALSE,"	WITA",,8,,,2,Asia,Makassar,Makassar,,,,,
+294,0,Asia/Manila,FALSE,"	PST",,8,,,2,Asia,Manila,Manila,,,,,
+295,0,Asia/Muscat,FALSE,"	GST / +04",,4,,,2,Asia,Muscat,Muscat,,,,,
+296,0,Asia/Nicosia,TRUE,"	EET","	EEST",2,3,1,2,Asia,Nicosia,Nicosia,,2026-03-29T04:00:00+03:00,2026-10-25T03:00:00+02:00,2026-03-29T03:00:00+02:00,2026-10-25T04:00:00+02:00
+297,0,Asia/Novokuznetsk,FALSE,"	KRAT / +07",,7,,,2,Asia,Novokuznetsk,Novokuznetsk,,,,,
+298,0,Asia/Novosibirsk,FALSE,"	NOVT / +07",,7,,,2,Asia,Novosibirsk,Novosibirsk,,,,,
+299,0,Asia/Omsk,FALSE,"	OMST / +06",,6,,,2,Asia,Omsk,Omsk,,,,,
+300,0,Asia/Oral,FALSE,"	ORAT / +05",,5,,,2,Asia,Oral,Oral,,,,,
+301,0,Asia/Phnom_Penh,FALSE,"	ICT / +07",,7,,,2,Asia,Phnom_Penh,Phnom_Penh,,,,,
+302,0,Asia/Pontianak,FALSE,"	WIB",,7,,,2,Asia,Pontianak,Pontianak,,,,,
+303,0,Asia/Pyongyang,FALSE,"	KST",,9,,,2,Asia,Pyongyang,Pyongyang,,,,,
+304,0,Asia/Qatar,FALSE,"	AST / +03",,3,,,2,Asia,Qatar,Qatar,,,,,
+305,0,Asia/Qostanay,FALSE,"	QYZT / +05",,5,,,2,Asia,Qostanay,Qostanay,,,,,
+306,0,Asia/Qyzylorda,FALSE,"	QYZT / +05",,5,,,2,Asia,Qyzylorda,Qyzylorda,,,,,
+307,0,Asia/Rangoon,FALSE,"	MMT / +0630",,6.5,,,2,Asia,Rangoon,Rangoon,,,,,
+308,0,Asia/Riyadh,FALSE,"	AST / +03",,3,,,2,Asia,Riyadh,Riyadh,,,,,
+309,0,Asia/Saigon,FALSE,"	ICT / +07",,7,,,2,Asia,Saigon,Saigon,,,,,
+310,0,Asia/Sakhalin,FALSE,"	SAKT / +11",,11,,,2,Asia,Sakhalin,Sakhalin,,,,,
+311,0,Asia/Samarkand,FALSE,"	UZT / +05",,5,,,2,Asia,Samarkand,Samarkand,,,,,
+312,0,Asia/Seoul,FALSE,"	KST",,9,,,2,Asia,Seoul,Seoul,,,,,
+313,0,Asia/Shanghai,FALSE,"	CST",,8,,,2,Asia,Shanghai,Shanghai,,,,,
+314,0,Asia/Singapore,FALSE,"	SGT / +08",,8,,,2,Asia,Singapore,Singapore,,,,,
+315,0,Asia/Srednekolymsk,FALSE,"	SRET / +11",,11,,,2,Asia,Srednekolymsk,Srednekolymsk,,,,,
+316,0,Asia/Taipei,FALSE,"	CST",,8,,,2,Asia,Taipei,Taipei,,,,,
+317,0,Asia/Tashkent,FALSE,"	UZT / +05",,5,,,2,Asia,Tashkent,Tashkent,,,,,
+318,0,Asia/Tbilisi,FALSE,"	GET / +04",,4,,,2,Asia,Tbilisi,Tbilisi,,,,,
+319,0,Asia/Tehran,FALSE,"	IRST / +0330",,3.5,,,2,Asia,Tehran,Tehran,,,,,
+320,0,Asia/Tel_Aviv,TRUE,"	IST","	IDT",2,3,1,2,Asia,Tel_Aviv,Tel_Aviv,,2026-03-27T03:00:00+03:00,2026-10-25T01:00:00+02:00,2026-03-27T02:00:00+02:00,2026-10-25T02:00:00+02:00
+321,0,Asia/Thimbu,FALSE,"	+06",,6,,,2,Asia,Thimbu,Thimbu,,,,,
+322,0,Asia/Thimphu,FALSE,"	BTT / +06",,6,,,2,Asia,Thimphu,Thimphu,,,,,
+323,0,Asia/Tokyo,FALSE,"	JST",,9,,,2,Asia,Tokyo,Tokyo,,,,,
+324,0,Asia/Tomsk,FALSE,"	TOMT / +07",,7,,,2,Asia,Tomsk,Tomsk,,,,,
+325,0,Asia/Ujung_Pandang,FALSE,"	WITA",,8,,,2,Asia,Ujung_Pandang,Ujung_Pandang,,,,,
+326,0,Asia/Ulaanbaatar,FALSE,"	ULAT / +08",,8,,,2,Asia,Ulaanbaatar,Ulaanbaatar,,,,,
+327,0,Asia/Ulan_Bator,FALSE,"	+08",,8,,,2,Asia,Ulan_Bator,Ulan_Bator,,,,,
+328,0,Asia/Urumqi,FALSE,"	XJT / +06",,6,,,2,Asia,Urumqi,Urumqi,,,,,
+329,0,Asia/Ust-Nera,FALSE,"	VLAT / +10",,10,,,2,Asia,Ust-Nera,Ust-Nera,,,,,
+330,0,Asia/Vientiane,FALSE,"	ICT / +07",,7,,,2,Asia,Vientiane,Vientiane,,,,,
+331,0,Asia/Vladivostok,FALSE,"	VLAT / +10",,10,,,2,Asia,Vladivostok,Vladivostok,,,,,
+332,0,Asia/Yakutsk,FALSE,"	YAKT / +09",,9,,,2,Asia,Yakutsk,Yakutsk,,,,,
+333,0,Asia/Yangon,FALSE,"	MMT / +0630",,6.5,,,2,Asia,Yangon,Yangon,,,,,
+334,0,Asia/Yekaterinburg,FALSE,"	YEKT / +05",,5,,,2,Asia,Yekaterinburg,Yekaterinburg,,,,,
+335,0,Asia/Yerevan,FALSE,"	AMT / +04",,4,,,2,Asia,Yerevan,Yerevan,,,,,
+336,0,Atlantic/Azores,TRUE,"	AZOT / -01","	AZOT / +00",-1,0,1,2,Atlantic,Azores,Azores,,2026-03-29T01:00:00+00:00,2026-10-25T00:00:00-01:00,2026-03-29T00:00:00-01:00,2026-10-25T01:00:00-01:00
+337,0,Atlantic/Bermuda,TRUE,"	AST","	ADT",-4,-3,1,2,Atlantic,Bermuda,Bermuda,,2026-03-08T03:00:00-03:00,2026-11-01T01:00:00-04:00,2026-03-08T02:00:00-04:00,2026-11-01T02:00:00-04:00
+338,0,Atlantic/Canary,TRUE,"	WET","	WEST",0,1,1,2,Atlantic,Canary,Canary,,2026-03-29T02:00:00+01:00,2026-10-25T01:00:00+00:00,2026-03-29T01:00:00+00:00,2026-10-25T02:00:00+00:00
+339,0,Atlantic/Cape_Verde,FALSE,"	CVT / -01",,-1,,,2,Atlantic,Cape_Verde,Cape_Verde,,,,,
+340,0,Atlantic/Faeroe,TRUE,"	WET","	WEST",0,1,1,2,Atlantic,Faeroe,Faeroe,,2026-03-29T02:00:00+01:00,2026-10-25T01:00:00+00:00,2026-03-29T01:00:00+00:00,2026-10-25T02:00:00+00:00
+341,0,Atlantic/Faroe,TRUE,"	WET","	WEST",0,1,1,2,Atlantic,Faroe,Faroe,,2026-03-29T02:00:00+01:00,2026-10-25T01:00:00+00:00,2026-03-29T01:00:00+00:00,2026-10-25T02:00:00+00:00
+342,0,Atlantic/Jan_Mayen,TRUE,"	CET","	CEST",1,2,1,2,Atlantic,Jan_Mayen,Jan_Mayen,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+343,0,Atlantic/Madeira,TRUE,"	WET","	WEST",0,1,1,2,Atlantic,Madeira,Madeira,,2026-03-29T02:00:00+01:00,2026-10-25T01:00:00+00:00,2026-03-29T01:00:00+00:00,2026-10-25T02:00:00+00:00
+344,0,Atlantic/Reykjavik,FALSE,"	GMT",,0,,,2,Atlantic,Reykjavik,Reykjavik,,,,,
+345,0,Atlantic/South_Georgia,FALSE,"	GST / -02",,-2,,,2,Atlantic,South_Georgia,South_Georgia,,,,,
+346,0,Atlantic/St_Helena,FALSE,"	GMT",,0,,,2,Atlantic,St_Helena,St_Helena,,,,,
+347,0,Atlantic/Stanley,FALSE,"	FKST / -03",,-3,,,2,Atlantic,Stanley,Stanley,,,,,
+348,0,Australia/ACT,TRUE,"	AEST","	AEDT",10,11,1,2,Australia,ACT,ACT,,2026-10-04T03:00:00+11:00,2026-04-05T02:00:00+10:00,2026-10-04T02:00:00+10:00,2026-04-05T03:00:00+10:00
+349,0,Australia/Adelaide,TRUE,"	ACST","	ACDT",9.5,10.5,1,2,Australia,Adelaide,Adelaide,,2026-10-04T03:00:00+10:30,2026-04-05T02:00:00+09:30,2026-10-04T02:00:00+09:30,2026-04-05T03:00:00+09:30
+350,0,Australia/Brisbane,FALSE,"	AEST",,10,,,2,Australia,Brisbane,Brisbane,,,,,
+351,0,Australia/Broken_Hill,TRUE,"	ACST","	ACDT",9.5,10.5,1,2,Australia,Broken_Hill,Broken_Hill,,2026-10-04T03:00:00+10:30,2026-04-05T02:00:00+09:30,2026-10-04T02:00:00+09:30,2026-04-05T03:00:00+09:30
+352,0,Australia/Canberra,TRUE,"	AEST","	AEDT",10,11,1,2,Australia,Canberra,Canberra,,2026-10-04T03:00:00+11:00,2026-04-05T02:00:00+10:00,2026-10-04T02:00:00+10:00,2026-04-05T03:00:00+10:00
+353,0,Australia/Currie,TRUE,"	AEST","	AEDT",10,11,1,2,Australia,Currie,Currie,,2026-10-04T03:00:00+11:00,2026-04-05T02:00:00+10:00,2026-10-04T02:00:00+10:00,2026-04-05T03:00:00+10:00
+354,0,Australia/Darwin,FALSE,"	ACST",,9.5,,,2,Australia,Darwin,Darwin,,,,,
+355,0,Australia/Eucla,FALSE,"	ACWST / +0845",,8.75,,,2,Australia,Eucla,Eucla,,,,,
+356,0,Australia/Hobart,TRUE,"	AEST","	AEDT",10,11,1,2,Australia,Hobart,Hobart,,2026-10-04T03:00:00+11:00,2026-04-05T02:00:00+10:00,2026-10-04T02:00:00+10:00,2026-04-05T03:00:00+10:00
+357,0,Australia/LHI,TRUE,"	+1030","	+11",10.5,11,0.5,2,Australia,LHI,LHI,,2026-10-04T02:30:00+11:00,2026-04-05T01:30:00+10:30,2026-10-04T02:00:00+10:30,2026-04-05T02:00:00+10:30
+358,0,Australia/Lindeman,FALSE,"	AEST",,10,,,2,Australia,Lindeman,Lindeman,,,,,
+359,0,Australia/Lord_Howe,TRUE,"	LHST / +1030","	LHST / +11",10.5,11,0.5,2,Australia,Lord_Howe,Lord_Howe,,2026-10-04T02:30:00+11:00,2026-04-05T01:30:00+10:30,2026-10-04T02:00:00+10:30,2026-04-05T02:00:00+10:30
+360,0,Australia/Melbourne,TRUE,"	AEST","	AEDT",10,11,1,2,Australia,Melbourne,Melbourne,,2026-10-04T03:00:00+11:00,2026-04-05T02:00:00+10:00,2026-10-04T02:00:00+10:00,2026-04-05T03:00:00+10:00
+361,0,Australia/NSW,TRUE,"	AEST","	AEDT",10,11,1,2,Australia,NSW,NSW,,2026-10-04T03:00:00+11:00,2026-04-05T02:00:00+10:00,2026-10-04T02:00:00+10:00,2026-04-05T03:00:00+10:00
+362,0,Australia/North,FALSE,"	ACST",,9.5,,,2,Australia,North,North,,,,,
+363,0,Australia/Perth,FALSE,"	AWST",,8,,,2,Australia,Perth,Perth,,,,,
+364,0,Australia/Queensland,FALSE,"	AEST",,10,,,2,Australia,Queensland,Queensland,,,,,
+365,0,Australia/South,TRUE,"	ACST","	ACDT",9.5,10.5,1,2,Australia,South,South,,2026-10-04T03:00:00+10:30,2026-04-05T02:00:00+09:30,2026-10-04T02:00:00+09:30,2026-04-05T03:00:00+09:30
+366,0,Australia/Sydney,TRUE,"	AEST","	AEDT",10,11,1,2,Australia,Sydney,Sydney,,2026-10-04T03:00:00+11:00,2026-04-05T02:00:00+10:00,2026-10-04T02:00:00+10:00,2026-04-05T03:00:00+10:00
+367,0,Australia/Tasmania,TRUE,"	AEST","	AEDT",10,11,1,2,Australia,Tasmania,Tasmania,,2026-10-04T03:00:00+11:00,2026-04-05T02:00:00+10:00,2026-10-04T02:00:00+10:00,2026-04-05T03:00:00+10:00
+368,0,Australia/Victoria,TRUE,"	AEST","	AEDT",10,11,1,2,Australia,Victoria,Victoria,,2026-10-04T03:00:00+11:00,2026-04-05T02:00:00+10:00,2026-10-04T02:00:00+10:00,2026-04-05T03:00:00+10:00
+369,0,Australia/West,FALSE,"	AWST",,8,,,2,Australia,West,West,,,,,
+370,0,Australia/Yancowinna,TRUE,"	ACST","	ACDT",9.5,10.5,1,2,Australia,Yancowinna,Yancowinna,,2026-10-04T03:00:00+10:30,2026-04-05T02:00:00+09:30,2026-10-04T02:00:00+09:30,2026-04-05T03:00:00+09:30
+371,1,Brazil/Acre,FALSE,"	-05",,-5,,,2,Brazil,Acre,Acre,,,,,
+372,1,Brazil/DeNoronha,FALSE,"	-02",,-2,,,2,Brazil,DeNoronha,DeNoronha,,,,,
+373,1,Brazil/East,FALSE,"	-03",,-3,,,2,Brazil,East,East,,,,,
+374,1,Brazil/West,FALSE,"	-04",,-4,,,2,Brazil,West,West,,,,,
+375,1,CET,TRUE,"	CET","	CEST",1,2,1,1,CET,,,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+376,1,CST6CDT,TRUE,"	CST","	CDT",-6,-5,1,1,CST6CDT,,,,2026-03-08T03:00:00-05:00,2026-11-01T01:00:00-06:00,2026-03-08T02:00:00-06:00,2026-11-01T02:00:00-06:00
+377,1,Canada/Atlantic,TRUE,"	AST","	ADT",-4,-3,1,2,Canada,Atlantic,Atlantic,,2026-03-08T03:00:00-03:00,2026-11-01T01:00:00-04:00,2026-03-08T02:00:00-04:00,2026-11-01T02:00:00-04:00
+378,1,Canada/Central,TRUE,"	CST","	CDT",-6,-5,1,2,Canada,Central,Central,,2026-03-08T03:00:00-05:00,2026-11-01T01:00:00-06:00,2026-03-08T02:00:00-06:00,2026-11-01T02:00:00-06:00
+379,1,Canada/Eastern,TRUE,"	EST","	EDT",-5,-4,1,2,Canada,Eastern,Eastern,,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+380,1,Canada/Mountain,TRUE,"	MST","	MDT",-7,-6,1,2,Canada,Mountain,Mountain,,2026-03-08T03:00:00-06:00,2026-11-01T01:00:00-07:00,2026-03-08T02:00:00-07:00,2026-11-01T02:00:00-07:00
+381,1,Canada/Newfoundland,TRUE,"	NST","	NDT",-3.5,-2.5,1,2,Canada,Newfoundland,Newfoundland,,2026-03-08T03:00:00-02:30,2026-11-01T01:00:00-03:30,2026-03-08T02:00:00-03:30,2026-11-01T02:00:00-03:30
+382,1,Canada/Pacific,TRUE,"	PST","	PDT",-8,-7,1,2,Canada,Pacific,Pacific,,2026-03-08T03:00:00-07:00,2026-11-01T02:00:00-07:00,2026-03-08T02:00:00-08:00,2026-11-01T03:00:00-07:00
+383,1,Canada/Saskatchewan,FALSE,"	CST",,-6,,,2,Canada,Saskatchewan,Saskatchewan,,,,,
+384,1,Canada/Yukon,FALSE,"	MST",,-7,,,2,Canada,Yukon,Yukon,,,,,
+385,1,Chile/Continental,TRUE,"	-04","	-03",-4,-3,1,2,Chile,Continental,Continental,,2026-09-06T01:00:00-03:00,2026-04-04T23:00:00-04:00,2026-09-06T00:00:00-04:00,2026-04-05T00:00:00-04:00
+386,1,Chile/EasterIsland,TRUE,"	-06","	-05",-6,-5,1,2,Chile,EasterIsland,EasterIsland,,2026-09-05T23:00:00-05:00,2026-04-04T21:00:00-06:00,2026-09-05T22:00:00-06:00,2026-04-04T22:00:00-06:00
+387,1,Cuba,TRUE,"	CST","	CDT",-5,-4,1,1,Cuba,,,,2026-03-08T01:00:00-04:00,2026-11-01T00:00:00-05:00,2026-03-08T00:00:00-05:00,2026-11-01T01:00:00-05:00
+388,1,EET,TRUE,"	EET","	EEST",2,3,1,1,EET,,,,2026-03-29T04:00:00+03:00,2026-10-25T03:00:00+02:00,2026-03-29T03:00:00+02:00,2026-10-25T04:00:00+02:00
+389,1,EST,FALSE,"	EST",,-5,,,1,EST,,,,,,,
+390,1,EST5EDT,TRUE,"	EST","	EDT",-5,-4,1,1,EST5EDT,,,,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+391,1,Egypt,TRUE,"	EET","	EEST",2,3,1,1,Egypt,,,,2026-04-24T01:00:00+03:00,2026-10-29T23:00:00+02:00,2026-04-24T00:00:00+02:00,2026-10-30T00:00:00+02:00
+392,1,Eire,TRUE,"	GMT","	IST",0,1,1,1,Eire,,,,2026-03-29T02:00:00+01:00,2026-10-25T01:00:00+00:00,2026-03-29T01:00:00+00:00,2026-10-25T02:00:00+00:00
+393,1,Etc/GMT,FALSE,"	GMT",,0,,,2,Etc,GMT,GMT,,,,,
+394,1,Etc/GMT+0,FALSE,"	GMT",,0,,,2,Etc,GMT+0,GMT+0,,,,,
+395,1,Etc/GMT+1,FALSE,"	-01",,-1,,,2,Etc,GMT+1,GMT+1,,,,,
+396,1,Etc/GMT+10,FALSE,"	-10",,-10,,,2,Etc,GMT+10,GMT+10,,,,,
+397,1,Etc/GMT+11,FALSE,"	-11",,-11,,,2,Etc,GMT+11,GMT+11,,,,,
+398,1,Etc/GMT+12,FALSE,"	-12",,-12,,,2,Etc,GMT+12,GMT+12,,,,,
+399,1,Etc/GMT+2,FALSE,"	-02",,-2,,,2,Etc,GMT+2,GMT+2,,,,,
+400,1,Etc/GMT+3,FALSE,"	-03",,-3,,,2,Etc,GMT+3,GMT+3,,,,,
+401,1,Etc/GMT+4,FALSE,"	-04",,-4,,,2,Etc,GMT+4,GMT+4,,,,,
+402,1,Etc/GMT+5,FALSE,"	-05",,-5,,,2,Etc,GMT+5,GMT+5,,,,,
+403,1,Etc/GMT+6,FALSE,"	-06",,-6,,,2,Etc,GMT+6,GMT+6,,,,,
+404,1,Etc/GMT+7,FALSE,"	-07",,-7,,,2,Etc,GMT+7,GMT+7,,,,,
+405,1,Etc/GMT+8,FALSE,"	-08",,-8,,,2,Etc,GMT+8,GMT+8,,,,,
+406,1,Etc/GMT+9,FALSE,"	-09",,-9,,,2,Etc,GMT+9,GMT+9,,,,,
+407,1,Etc/GMT-0,FALSE,"	GMT",,0,,,2,Etc,GMT-0,GMT-0,,,,,
+408,1,Etc/GMT-1,FALSE,"	+01",,1,,,2,Etc,GMT-1,GMT-1,,,,,
+409,1,Etc/GMT-10,FALSE,"	+10",,10,,,2,Etc,GMT-10,GMT-10,,,,,
+410,1,Etc/GMT-11,FALSE,"	+11",,11,,,2,Etc,GMT-11,GMT-11,,,,,
+411,1,Etc/GMT-12,FALSE,"	+12",,12,,,2,Etc,GMT-12,GMT-12,,,,,
+412,1,Etc/GMT-13,FALSE,"	+13",,13,,,2,Etc,GMT-13,GMT-13,,,,,
+413,1,Etc/GMT-14,FALSE,"	+14",,14,,,2,Etc,GMT-14,GMT-14,,,,,
+414,1,Etc/GMT-2,FALSE,"	+02",,2,,,2,Etc,GMT-2,GMT-2,,,,,
+415,1,Etc/GMT-3,FALSE,"	+03",,3,,,2,Etc,GMT-3,GMT-3,,,,,
+416,1,Etc/GMT-4,FALSE,"	+04",,4,,,2,Etc,GMT-4,GMT-4,,,,,
+417,1,Etc/GMT-5,FALSE,"	+05",,5,,,2,Etc,GMT-5,GMT-5,,,,,
+418,1,Etc/GMT-6,FALSE,"	+06",,6,,,2,Etc,GMT-6,GMT-6,,,,,
+419,1,Etc/GMT-7,FALSE,"	+07",,7,,,2,Etc,GMT-7,GMT-7,,,,,
+420,1,Etc/GMT-8,FALSE,"	+08",,8,,,2,Etc,GMT-8,GMT-8,,,,,
+421,1,Etc/GMT-9,FALSE,"	+09",,9,,,2,Etc,GMT-9,GMT-9,,,,,
+422,1,Etc/GMT0,FALSE,"	GMT",,0,,,2,Etc,GMT0,GMT0,,,,,
+423,1,Etc/Greenwich,FALSE,"	GMT",,0,,,2,Etc,Greenwich,Greenwich,,,,,
+424,1,Etc/UCT,FALSE,"	UTC",,0,,,2,Etc,UCT,UCT,,,,,
+425,1,Etc/UTC,FALSE,"	UTC",,0,,,2,Etc,UTC,UTC,,,,,
+426,1,Etc/Universal,FALSE,"	UTC",,0,,,2,Etc,Universal,Universal,,,,,
+427,1,Etc/Zulu,FALSE,"	UTC",,0,,,2,Etc,Zulu,Zulu,,,,,
+428,0,Europe/Amsterdam,TRUE,"	CET","	CEST",1,2,1,2,Europe,Amsterdam,Amsterdam,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+429,0,Europe/Andorra,TRUE,"	CET","	CEST",1,2,1,2,Europe,Andorra,Andorra,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+430,0,Europe/Astrakhan,FALSE,"	AST / +04",,4,,,2,Europe,Astrakhan,Astrakhan,,,,,
+431,0,Europe/Athens,TRUE,"	EET","	EEST",2,3,1,2,Europe,Athens,Athens,,2026-03-29T04:00:00+03:00,2026-10-25T03:00:00+02:00,2026-03-29T03:00:00+02:00,2026-10-25T04:00:00+02:00
+432,0,Europe/Belfast,TRUE,"	GMT","	BST",0,1,1,2,Europe,Belfast,Belfast,,2026-03-29T02:00:00+01:00,2026-10-25T01:00:00+00:00,2026-03-29T01:00:00+00:00,2026-10-25T02:00:00+00:00
+433,0,Europe/Belgrade,TRUE,"	CET","	CEST",1,2,1,2,Europe,Belgrade,Belgrade,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+434,0,Europe/Berlin,TRUE,"	CET","	CEST",1,2,1,2,Europe,Berlin,Berlin,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+435,0,Europe/Bratislava,TRUE,"	CET","	CEST",1,2,1,2,Europe,Bratislava,Bratislava,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+436,0,Europe/Brussels,TRUE,"	CET","	CEST",1,2,1,2,Europe,Brussels,Brussels,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+437,0,Europe/Bucharest,TRUE,"	EET","	EEST",2,3,1,2,Europe,Bucharest,Bucharest,,2026-03-29T04:00:00+03:00,2026-10-25T03:00:00+02:00,2026-03-29T03:00:00+02:00,2026-10-25T04:00:00+02:00
+438,0,Europe/Budapest,TRUE,"	CET","	CEST",1,2,1,2,Europe,Budapest,Budapest,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+439,0,Europe/Busingen,TRUE,"	CET","	CEST",1,2,1,2,Europe,Busingen,Busingen,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+440,0,Europe/Chisinau,TRUE,"	EET","	EEST",2,3,1,2,Europe,Chisinau,Chisinau,,2026-03-29T04:00:00+03:00,2026-10-25T03:00:00+02:00,2026-03-29T03:00:00+02:00,2026-10-25T04:00:00+02:00
+441,0,Europe/Copenhagen,TRUE,"	CET","	CEST",1,2,1,2,Europe,Copenhagen,Copenhagen,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+442,0,Europe/Dublin,TRUE,"	GMT","	IST",0,1,1,2,Europe,Dublin,Dublin,,2026-03-29T02:00:00+01:00,2026-10-25T01:00:00+00:00,2026-03-29T01:00:00+00:00,2026-10-25T02:00:00+00:00
+443,0,Europe/Gibraltar,TRUE,"	CET","	CEST",1,2,1,2,Europe,Gibraltar,Gibraltar,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+444,0,Europe/Guernsey,TRUE,"	GMT","	BST",0,1,1,2,Europe,Guernsey,Guernsey,,2026-03-29T02:00:00+01:00,2026-10-25T01:00:00+00:00,2026-03-29T01:00:00+00:00,2026-10-25T02:00:00+00:00
+445,0,Europe/Helsinki,TRUE,"	EET","	EEST",2,3,1,2,Europe,Helsinki,Helsinki,,2026-03-29T04:00:00+03:00,2026-10-25T03:00:00+02:00,2026-03-29T03:00:00+02:00,2026-10-25T04:00:00+02:00
+446,0,Europe/Isle_of_Man,TRUE,"	GMT","	BST",0,1,1,2,Europe,Isle_of_Man,Isle_of_Man,,2026-03-29T02:00:00+01:00,2026-10-25T01:00:00+00:00,2026-03-29T01:00:00+00:00,2026-10-25T02:00:00+00:00
+447,0,Europe/Istanbul,FALSE,"	TRT / +03",,3,,,2,Europe,Istanbul,Istanbul,,,,,
+448,0,Europe/Jersey,TRUE,"	GMT","	BST",0,1,1,2,Europe,Jersey,Jersey,,2026-03-29T02:00:00+01:00,2026-10-25T01:00:00+00:00,2026-03-29T01:00:00+00:00,2026-10-25T02:00:00+00:00
+449,0,Europe/Kaliningrad,FALSE,"	EET",,2,,,2,Europe,Kaliningrad,Kaliningrad,,,,,
+450,0,Europe/Kiev,TRUE,"	EET","	EEST",2,3,1,2,Europe,Kiev,Kiev,,2026-03-29T04:00:00+03:00,2026-10-25T03:00:00+02:00,2026-03-29T03:00:00+02:00,2026-10-25T04:00:00+02:00
+451,0,Europe/Kirov,FALSE,"	MSK",,3,,,2,Europe,Kirov,Kirov,,,,,
+452,0,Europe/Kyiv,TRUE,"	EET","	EEST",2,3,1,2,Europe,Kyiv,Kyiv,,2026-03-29T04:00:00+03:00,2026-10-25T03:00:00+02:00,2026-03-29T03:00:00+02:00,2026-10-25T04:00:00+02:00
+453,0,Europe/Lisbon,TRUE,"	WET","	WEST",0,1,1,2,Europe,Lisbon,Lisbon,,2026-03-29T02:00:00+01:00,2026-10-25T01:00:00+00:00,2026-03-29T01:00:00+00:00,2026-10-25T02:00:00+00:00
+454,0,Europe/Ljubljana,TRUE,"	CET","	CEST",1,2,1,2,Europe,Ljubljana,Ljubljana,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+455,0,Europe/London,TRUE,"	GMT","	BST",0,1,1,2,Europe,London,London,,2026-03-29T02:00:00+01:00,2026-10-25T01:00:00+00:00,2026-03-29T01:00:00+00:00,2026-10-25T02:00:00+00:00
+456,0,Europe/Luxembourg,TRUE,"	CET","	CEST",1,2,1,2,Europe,Luxembourg,Luxembourg,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+457,0,Europe/Madrid,TRUE,"	CET","	CEST",1,2,1,2,Europe,Madrid,Madrid,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+458,0,Europe/Malta,TRUE,"	CET","	CEST",1,2,1,2,Europe,Malta,Malta,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+459,0,Europe/Mariehamn,TRUE,"	EET","	EEST",2,3,1,2,Europe,Mariehamn,Mariehamn,,2026-03-29T04:00:00+03:00,2026-10-25T03:00:00+02:00,2026-03-29T03:00:00+02:00,2026-10-25T04:00:00+02:00
+460,0,Europe/Minsk,FALSE,"	MSK / +03",,3,,,2,Europe,Minsk,Minsk,,,,,
+461,0,Europe/Monaco,TRUE,"	CET","	CEST",1,2,1,2,Europe,Monaco,Monaco,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+462,0,Europe/Moscow,FALSE,"	MSK",,3,,,2,Europe,Moscow,Moscow,,,,,
+463,0,Europe/Nicosia,TRUE,"	EET","	EEST",2,3,1,2,Europe,Nicosia,Nicosia,,2026-03-29T04:00:00+03:00,2026-10-25T03:00:00+02:00,2026-03-29T03:00:00+02:00,2026-10-25T04:00:00+02:00
+464,0,Europe/Oslo,TRUE,"	CET","	CEST",1,2,1,2,Europe,Oslo,Oslo,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+465,0,Europe/Paris,TRUE,"	CET","	CEST",1,2,1,2,Europe,Paris,Paris,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+466,0,Europe/Podgorica,TRUE,"	CET","	CEST",1,2,1,2,Europe,Podgorica,Podgorica,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+467,0,Europe/Prague,TRUE,"	CET","	CEST",1,2,1,2,Europe,Prague,Prague,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+468,0,Europe/Riga,TRUE,"	EET","	EEST",2,3,1,2,Europe,Riga,Riga,,2026-03-29T04:00:00+03:00,2026-10-25T03:00:00+02:00,2026-03-29T03:00:00+02:00,2026-10-25T04:00:00+02:00
+469,0,Europe/Rome,TRUE,"	CET","	CEST",1,2,1,2,Europe,Rome,Rome,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+470,0,Europe/Samara,FALSE,"	SAMT / +04",,4,,,2,Europe,Samara,Samara,,,,,
+471,0,Europe/San_Marino,TRUE,"	CET","	CEST",1,2,1,2,Europe,San_Marino,San_Marino,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+472,0,Europe/Sarajevo,TRUE,"	CET","	CEST",1,2,1,2,Europe,Sarajevo,Sarajevo,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+473,0,Europe/Saratov,FALSE,"	SART / +04",,4,,,2,Europe,Saratov,Saratov,,,,,
+474,0,Europe/Simferopol,FALSE,"	MSK",,3,,,2,Europe,Simferopol,Simferopol,,,,,
+475,0,Europe/Skopje,TRUE,"	CET","	CEST",1,2,1,2,Europe,Skopje,Skopje,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+476,0,Europe/Sofia,TRUE,"	EET","	EEST",2,3,1,2,Europe,Sofia,Sofia,,2026-03-29T04:00:00+03:00,2026-10-25T03:00:00+02:00,2026-03-29T03:00:00+02:00,2026-10-25T04:00:00+02:00
+477,0,Europe/Stockholm,TRUE,"	CET","	CEST",1,2,1,2,Europe,Stockholm,Stockholm,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+478,0,Europe/Tallinn,TRUE,"	EET","	EEST",2,3,1,2,Europe,Tallinn,Tallinn,,2026-03-29T04:00:00+03:00,2026-10-25T03:00:00+02:00,2026-03-29T03:00:00+02:00,2026-10-25T04:00:00+02:00
+479,0,Europe/Tirane,TRUE,"	CET","	CEST",1,2,1,2,Europe,Tirane,Tirane,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+480,0,Europe/Tiraspol,TRUE,"	EET","	EEST",2,3,1,2,Europe,Tiraspol,Tiraspol,,2026-03-29T04:00:00+03:00,2026-10-25T03:00:00+02:00,2026-03-29T03:00:00+02:00,2026-10-25T04:00:00+02:00
+481,0,Europe/Ulyanovsk,FALSE,"	ULAT / +04",,4,,,2,Europe,Ulyanovsk,Ulyanovsk,,,,,
+482,0,Europe/Uzhgorod,TRUE,"	EET","	EEST",2,3,1,2,Europe,Uzhgorod,Uzhgorod,,2026-03-29T04:00:00+03:00,2026-10-25T03:00:00+02:00,2026-03-29T03:00:00+02:00,2026-10-25T04:00:00+02:00
+483,0,Europe/Vaduz,TRUE,"	CET","	CEST",1,2,1,2,Europe,Vaduz,Vaduz,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+484,0,Europe/Vatican,TRUE,"	CET","	CEST",1,2,1,2,Europe,Vatican,Vatican,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+485,0,Europe/Vienna,TRUE,"	CET","	CEST",1,2,1,2,Europe,Vienna,Vienna,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+486,0,Europe/Vilnius,TRUE,"	EET","	EEST",2,3,1,2,Europe,Vilnius,Vilnius,,2026-03-29T04:00:00+03:00,2026-10-25T03:00:00+02:00,2026-03-29T03:00:00+02:00,2026-10-25T04:00:00+02:00
+487,0,Europe/Volgograd,FALSE,"	MSK",,3,,,2,Europe,Volgograd,Volgograd,,,,,
+488,0,Europe/Warsaw,TRUE,"	CET","	CEST",1,2,1,2,Europe,Warsaw,Warsaw,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+489,0,Europe/Zagreb,TRUE,"	CET","	CEST",1,2,1,2,Europe,Zagreb,Zagreb,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+490,0,Europe/Zaporozhye,TRUE,"	EET","	EEST",2,3,1,2,Europe,Zaporozhye,Zaporozhye,,2026-03-29T04:00:00+03:00,2026-10-25T03:00:00+02:00,2026-03-29T03:00:00+02:00,2026-10-25T04:00:00+02:00
+491,0,Europe/Zurich,TRUE,"	CET","	CEST",1,2,1,2,Europe,Zurich,Zurich,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+492,1,Factory,FALSE,"	-00",,0,,,1,Factory,,,,,,,
+493,1,GB,TRUE,"	GMT","	BST",0,1,1,1,GB,,,,2026-03-29T02:00:00+01:00,2026-10-25T01:00:00+00:00,2026-03-29T01:00:00+00:00,2026-10-25T02:00:00+00:00
+494,1,GB-Eire,TRUE,"	GMT","	BST",0,1,1,1,GB-Eire,,,,2026-03-29T02:00:00+01:00,2026-10-25T01:00:00+00:00,2026-03-29T01:00:00+00:00,2026-10-25T02:00:00+00:00
+495,1,GMT,FALSE,"	GMT",,0,,,1,GMT,,,,,,,
+496,1,GMT+0,FALSE,"	GMT",,0,,,1,GMT+0,,,,,,,
+497,1,GMT-0,FALSE,"	GMT",,0,,,1,GMT-0,,,,,,,
+498,1,GMT0,FALSE,"	GMT",,0,,,1,GMT0,,,,,,,
+499,1,Greenwich,FALSE,"	GMT",,0,,,1,Greenwich,,,,,,,
+500,1,HST,FALSE,"	HST",,-10,,,1,HST,,,,,,,
+501,1,Hongkong,FALSE,"	HKT",,8,,,1,Hongkong,,,,,,,
+502,1,Iceland,FALSE,"	GMT",,0,,,1,Iceland,,,,,,,
+503,0,Indian/Antananarivo,FALSE,"	EAT",,3,,,2,Indian,Antananarivo,Antananarivo,,,,,
+504,0,Indian/Chagos,FALSE,"	IOT / +06",,6,,,2,Indian,Chagos,Chagos,,,,,
+505,0,Indian/Christmas,FALSE,"	CXT / +07",,7,,,2,Indian,Christmas,Christmas,,,,,
+506,0,Indian/Cocos,FALSE,"	CCT / +0630",,6.5,,,2,Indian,Cocos,Cocos,,,,,
+507,0,Indian/Comoro,FALSE,"	EAT",,3,,,2,Indian,Comoro,Comoro,,,,,
+508,0,Indian/Kerguelen,FALSE,"	TFT / +05",,5,,,2,Indian,Kerguelen,Kerguelen,,,,,
+509,0,Indian/Mahe,FALSE,"	SCT / +04",,4,,,2,Indian,Mahe,Mahe,,,,,
+510,0,Indian/Maldives,FALSE,"	MVT / +05",,5,,,2,Indian,Maldives,Maldives,,,,,
+511,0,Indian/Mauritius,FALSE,"	MUT / +04",,4,,,2,Indian,Mauritius,Mauritius,,,,,
+512,0,Indian/Mayotte,FALSE,"	EAT",,3,,,2,Indian,Mayotte,Mayotte,,,,,
+513,0,Indian/Reunion,FALSE,"	RET / +04",,4,,,2,Indian,Reunion,Reunion,,,,,
+514,1,Iran,FALSE,"	+0330",,3.5,,,1,Iran,,,,,,,
+515,1,Israel,TRUE,"	IST","	IDT",2,3,1,1,Israel,,,,2026-03-27T03:00:00+03:00,2026-10-25T01:00:00+02:00,2026-03-27T02:00:00+02:00,2026-10-25T02:00:00+02:00
+516,1,Jamaica,FALSE,"	EST",,-5,,,1,Jamaica,,,,,,,
+517,1,Japan,FALSE,"	JST",,9,,,1,Japan,,,,,,,
+518,1,Kwajalein,FALSE,"	+12",,12,,,1,Kwajalein,,,,,,,
+519,1,Libya,FALSE,"	EET",,2,,,1,Libya,,,,,,,
+520,1,MET,TRUE,"	CET","	CEST",1,2,1,1,MET,,,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+521,1,MST,FALSE,"	MST",,-7,,,1,MST,,,,,,,
+522,1,MST7MDT,TRUE,"	MST","	MDT",-7,-6,1,1,MST7MDT,,,,2026-03-08T03:00:00-06:00,2026-11-01T01:00:00-07:00,2026-03-08T02:00:00-07:00,2026-11-01T02:00:00-07:00
+523,1,Mexico/BajaNorte,TRUE,"	PST","	PDT",-8,-7,1,2,Mexico,BajaNorte,BajaNorte,,2026-03-08T03:00:00-07:00,2026-11-01T01:00:00-08:00,2026-03-08T02:00:00-08:00,2026-11-01T02:00:00-08:00
+524,1,Mexico/BajaSur,FALSE,"	MST",,-7,,,2,Mexico,BajaSur,BajaSur,,,,,
+525,1,Mexico/General,FALSE,"	CST",,-6,,,2,Mexico,General,General,,,,,
+526,1,NZ,TRUE,"	NZST","	NZDT",12,13,1,1,NZ,,,,2026-09-27T03:00:00+13:00,2026-04-05T02:00:00+12:00,2026-09-27T02:00:00+12:00,2026-04-05T03:00:00+12:00
+527,1,NZ-CHAT,TRUE,"	+1245","	+1345",12.75,13.75,1,1,NZ-CHAT,,,,2026-09-27T03:45:00+13:45,2026-04-05T02:45:00+12:45,2026-09-27T02:45:00+12:45,2026-04-05T03:45:00+12:45
+528,1,Navajo,TRUE,"	MST","	MDT",-7,-6,1,1,Navajo,,,,2026-03-08T03:00:00-06:00,2026-11-01T01:00:00-07:00,2026-03-08T02:00:00-07:00,2026-11-01T02:00:00-07:00
+529,1,PRC,FALSE,"	CST",,8,,,1,PRC,,,,,,,
+530,1,PST8PDT,TRUE,"	PST","	PDT",-8,-7,1,1,PST8PDT,,,,2026-03-08T03:00:00-07:00,2026-11-01T01:00:00-08:00,2026-03-08T02:00:00-08:00,2026-11-01T02:00:00-08:00
+531,0,Pacific/Apia,FALSE,"	WST / +13",,13,,,2,Pacific,Apia,Apia,,,,,
+532,0,Pacific/Auckland,TRUE,"	NZST","	NZDT",12,13,1,2,Pacific,Auckland,Auckland,,2026-09-27T03:00:00+13:00,2026-04-05T02:00:00+12:00,2026-09-27T02:00:00+12:00,2026-04-05T03:00:00+12:00
+533,0,Pacific/Bougainville,FALSE,"	BST / +11",,11,,,2,Pacific,Bougainville,Bougainville,,,,,
+534,0,Pacific/Chatham,TRUE,"	CHAST / +1245","	CHAST / +1345",12.75,13.75,1,2,Pacific,Chatham,Chatham,,2026-09-27T03:45:00+13:45,2026-04-05T02:45:00+12:45,2026-09-27T02:45:00+12:45,2026-04-05T03:45:00+12:45
+535,0,Pacific/Chuuk,FALSE,"	CHUT / +10",,10,,,2,Pacific,Chuuk,Chuuk,,,,,
+536,0,Pacific/Easter,TRUE,"	EAST / -06","	EAST / -05",-6,-5,1,2,Pacific,Easter,Easter,,2026-09-05T23:00:00-05:00,2026-04-04T21:00:00-06:00,2026-09-05T22:00:00-06:00,2026-04-04T22:00:00-06:00
+537,0,Pacific/Efate,FALSE,"	VUT / +11",,11,,,2,Pacific,Efate,Efate,,,,,
+538,0,Pacific/Enderbury,FALSE,"	+13",,13,,,2,Pacific,Enderbury,Enderbury,,,,,
+539,0,Pacific/Fakaofo,FALSE,"	TKT / +13",,13,,,2,Pacific,Fakaofo,Fakaofo,,,,,
+540,0,Pacific/Fiji,FALSE,"	FJT / +12",,12,,,2,Pacific,Fiji,Fiji,,,,,
+541,0,Pacific/Funafuti,FALSE,"	TVT / +12",,12,,,2,Pacific,Funafuti,Funafuti,,,,,
+542,0,Pacific/Galapagos,FALSE,"	GALT / -06",,-6,,,2,Pacific,Galapagos,Galapagos,,,,,
+543,0,Pacific/Gambier,FALSE,"	GAMT / -09",,-9,,,2,Pacific,Gambier,Gambier,,,,,
+544,0,Pacific/Guadalcanal,FALSE,"	SBT / +11",,11,,,2,Pacific,Guadalcanal,Guadalcanal,,,,,
+545,0,Pacific/Guam,FALSE,"	ChST",,10,,,2,Pacific,Guam,Guam,,,,,
+546,0,Pacific/Honolulu,FALSE,"	HST",,-10,,,2,Pacific,Honolulu,Honolulu,,,,,
+547,0,Pacific/Johnston,FALSE,"	HST",,-10,,,2,Pacific,Johnston,Johnston,,,,,
+548,0,Pacific/Kanton,FALSE,"	+13",,13,,,2,Pacific,Kanton,Kanton,,,,,
+549,0,Pacific/Kiritimati,FALSE,"	LINT / +14",,14,,,2,Pacific,Kiritimati,Kiritimati,,,,,
+550,0,Pacific/Kosrae,FALSE,"	KOST / +11",,11,,,2,Pacific,Kosrae,Kosrae,,,,,
+551,0,Pacific/Kwajalein,FALSE,"	MHT / +12",,12,,,2,Pacific,Kwajalein,Kwajalein,,,,,
+552,0,Pacific/Majuro,FALSE,"	MHT / +12",,12,,,2,Pacific,Majuro,Majuro,,,,,
+553,0,Pacific/Marquesas,FALSE,"	MART / -0930",,-9.5,,,2,Pacific,Marquesas,Marquesas,,,,,
+554,0,Pacific/Midway,FALSE,"	SST",,-11,,,2,Pacific,Midway,Midway,,,,,
+555,0,Pacific/Nauru,FALSE,"	NRT / +12",,12,,,2,Pacific,Nauru,Nauru,,,,,
+556,0,Pacific/Niue,FALSE,"	NUT / -11",,-11,,,2,Pacific,Niue,Niue,,,,,
+557,0,Pacific/Norfolk,TRUE,"	NFT / +11","	NFT / +12",11,12,1,2,Pacific,Norfolk,Norfolk,,2026-10-04T03:00:00+12:00,2026-04-05T02:00:00+11:00,2026-10-04T02:00:00+11:00,2026-04-05T03:00:00+11:00
+558,0,Pacific/Noumea,FALSE,"	NCT / +11",,11,,,2,Pacific,Noumea,Noumea,,,,,
+559,0,Pacific/Pago_Pago,FALSE,"	SST",,-11,,,2,Pacific,Pago_Pago,Pago_Pago,,,,,
+560,0,Pacific/Palau,FALSE,"	PWT / +09",,9,,,2,Pacific,Palau,Palau,,,,,
+561,0,Pacific/Pitcairn,FALSE,"	PST / -08",,-8,,,2,Pacific,Pitcairn,Pitcairn,,,,,
+562,0,Pacific/Pohnpei,FALSE,"	PONT / +11",,11,,,2,Pacific,Pohnpei,Pohnpei,,,,,
+563,0,Pacific/Ponape,FALSE,"	+11",,11,,,2,Pacific,Ponape,Ponape,,,,,
+564,0,Pacific/Port_Moresby,FALSE,"	PGT / +10",,10,,,2,Pacific,Port_Moresby,Port_Moresby,,,,,
+565,0,Pacific/Rarotonga,FALSE,"	CKT / -10",,-10,,,2,Pacific,Rarotonga,Rarotonga,,,,,
+566,0,Pacific/Saipan,FALSE,"	ChST",,10,,,2,Pacific,Saipan,Saipan,,,,,
+567,0,Pacific/Samoa,FALSE,"	SST",,-11,,,2,Pacific,Samoa,Samoa,,,,,
+568,0,Pacific/Tahiti,FALSE,"	TAHT / -10",,-10,,,2,Pacific,Tahiti,Tahiti,,,,,
+569,0,Pacific/Tarawa,FALSE,"	GILT / +12",,12,,,2,Pacific,Tarawa,Tarawa,,,,,
+570,0,Pacific/Tongatapu,FALSE,"	TOT / +13",,13,,,2,Pacific,Tongatapu,Tongatapu,,,,,
+571,0,Pacific/Truk,FALSE,"	+10",,10,,,2,Pacific,Truk,Truk,,,,,
+572,0,Pacific/Wake,FALSE,"	WAKT / +12",,12,,,2,Pacific,Wake,Wake,,,,,
+573,0,Pacific/Wallis,FALSE,"	WFT / +12",,12,,,2,Pacific,Wallis,Wallis,,,,,
+574,0,Pacific/Yap,FALSE,"	+10",,10,,,2,Pacific,Yap,Yap,,,,,
+575,1,Poland,TRUE,"	CET","	CEST",1,2,1,1,Poland,,,,2026-03-29T03:00:00+02:00,2026-10-25T02:00:00+01:00,2026-03-29T02:00:00+01:00,2026-10-25T03:00:00+01:00
+576,1,Portugal,TRUE,"	WET","	WEST",0,1,1,1,Portugal,,,,2026-03-29T02:00:00+01:00,2026-10-25T01:00:00+00:00,2026-03-29T01:00:00+00:00,2026-10-25T02:00:00+00:00
+577,1,ROC,FALSE,"	CST",,8,,,1,ROC,,,,,,,
+578,1,ROK,FALSE,"	KST",,9,,,1,ROK,,,,,,,
+579,1,Singapore,FALSE,"	+08",,8,,,1,Singapore,,,,,,,
+580,1,Turkey,FALSE,"	+03",,3,,,1,Turkey,,,,,,,
+581,1,UCT,FALSE,"	UTC",,0,,,1,UCT,,,,,,,
+582,1,US/Alaska,TRUE,"	AKST","	AKDT",-9,-8,1,2,US,Alaska,Alaska,,2026-03-08T03:00:00-08:00,2026-11-01T01:00:00-09:00,2026-03-08T02:00:00-09:00,2026-11-01T02:00:00-09:00
+583,1,US/Aleutian,TRUE,"	HST","	HDT",-10,-9,1,2,US,Aleutian,Aleutian,,2026-03-08T03:00:00-09:00,2026-11-01T01:00:00-10:00,2026-03-08T02:00:00-10:00,2026-11-01T02:00:00-10:00
+584,1,US/Arizona,FALSE,"	MST",,-7,,,2,US,Arizona,Arizona,,,,,
+585,1,US/Central,TRUE,"	CST","	CDT",-6,-5,1,2,US,Central,Central,,2026-03-08T03:00:00-05:00,2026-11-01T01:00:00-06:00,2026-03-08T02:00:00-06:00,2026-11-01T02:00:00-06:00
+586,1,US/East-Indiana,TRUE,"	EST","	EDT",-5,-4,1,2,US,East-Indiana,East-Indiana,,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+587,1,US/Eastern,TRUE,"	EST","	EDT",-5,-4,1,2,US,Eastern,Eastern,,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+588,1,US/Hawaii,FALSE,"	HST",,-10,,,2,US,Hawaii,Hawaii,,,,,
+589,1,US/Indiana-Starke,TRUE,"	CST","	CDT",-6,-5,1,2,US,Indiana-Starke,Indiana-Starke,,2026-03-08T03:00:00-05:00,2026-11-01T01:00:00-06:00,2026-03-08T02:00:00-06:00,2026-11-01T02:00:00-06:00
+590,1,US/Michigan,TRUE,"	EST","	EDT",-5,-4,1,2,US,Michigan,Michigan,,2026-03-08T03:00:00-04:00,2026-11-01T01:00:00-05:00,2026-03-08T02:00:00-05:00,2026-11-01T02:00:00-05:00
+591,1,US/Mountain,TRUE,"	MST","	MDT",-7,-6,1,2,US,Mountain,Mountain,,2026-03-08T03:00:00-06:00,2026-11-01T01:00:00-07:00,2026-03-08T02:00:00-07:00,2026-11-01T02:00:00-07:00
+592,1,US/Pacific,TRUE,"	PST","	PDT",-8,-7,1,2,US,Pacific,Pacific,,2026-03-08T03:00:00-07:00,2026-11-01T01:00:00-08:00,2026-03-08T02:00:00-08:00,2026-11-01T02:00:00-08:00
+593,1,US/Samoa,FALSE,"	SST",,-11,,,2,US,Samoa,Samoa,,,,,
+594,1,UTC,FALSE,"	UTC",,0,,,1,UTC,,,,,,,
+595,1,Universal,FALSE,"	UTC",,0,,,1,Universal,,,,,,,
+596,1,W-SU,FALSE,"	MSK",,3,,,1,W-SU,,,,,,,
+597,1,WET,TRUE,"	WET","	WEST",0,1,1,1,WET,,,,2026-03-29T02:00:00+01:00,2026-10-25T01:00:00+00:00,2026-03-29T01:00:00+00:00,2026-10-25T02:00:00+00:00
+598,1,Zulu,FALSE,"	UTC",,0,,,1,Zulu,,,,,,,

@@ -11,6 +11,23 @@ class TzDetail:
     including DST transitions and offsets.
     """
 
+    # Class-level tznn helper to avoid re-instantiation
+    _tznn_helper = tznn()
+
+    # List of regions considered non-legacy
+    NON_LEGACY_REGIONS = [
+        "Africa",
+        "America",
+        "Antarctica",
+        "Arctic",
+        "Asia",
+        "Atlantic",
+        "Australia",
+        "Europe",
+        "Indian",
+        "Pacific",
+    ]
+
     def __init__(self, tz_name: str, year: int) -> None:
         """
         Initializes the TzDetail object by calculating timezone information for the given year.
@@ -31,6 +48,11 @@ class TzDetail:
         self.dst_start: Optional[datetime] = None
         self.dst_end: Optional[datetime] = None
 
+        # New attributes
+        self.offset_delta: Optional[float] = None
+        self.adjusted_dst_start: Optional[datetime] = None
+        self.adjusted_dst_end: Optional[datetime] = None
+
         # Additional attributes
         parts = tz_name.split("/")
         self.parts_cnt = len(parts)
@@ -38,8 +60,8 @@ class TzDetail:
         self.remaining_parts_str = "/".join(parts[1:])
         self.remaining_parts = parts[1:]
 
-        # Initialize tznn helper
-        self._tznn_helper = tznn()
+        # Determine if it is a legacy timezone
+        self.is_legacy: int = 1 if self.part_1 not in self.NON_LEGACY_REGIONS else 0
 
         # Perform analysis
         self._calculate_info()
@@ -66,15 +88,18 @@ class TzDetail:
         :param end_utc: End of the range in UTC.
         :return: The datetime of the transition in local time.
         """
-        before_offset = start_utc.astimezone(self.tz).utcoffset()
+        before_tz_info = start_utc.astimezone(self.tz)
+        before_offset = before_tz_info.utcoffset()
+        before_dst = before_tz_info.dst()
 
         low = start_utc
         high = end_utc
 
         while (high - low) > timedelta(seconds=1):
             mid = low + (high - low) / 2
+            mid_tz_info = mid.astimezone(self.tz)
 
-            if mid.astimezone(self.tz).utcoffset() == before_offset:
+            if mid_tz_info.utcoffset() == before_offset and mid_tz_info.dst() == before_dst:
                 low = mid
             else:
                 high = mid
@@ -114,25 +139,30 @@ class TzDetail:
         previous_utc = start_utc
         previous_local = previous_utc.astimezone(self.tz)
         previous_offset = previous_local.utcoffset()
+        previous_dst = previous_local.dst()
 
         current_utc = start_utc + step
 
         while current_utc <= end_utc:
             current_local = current_utc.astimezone(self.tz)
             current_offset = current_local.utcoffset()
+            current_dst = current_local.dst()
 
-            # If offset changed, narrow down the exact transition time
-            if current_offset != previous_offset:
+            # If offset or DST changed, narrow down the exact transition time
+            if current_offset != previous_offset or current_dst != previous_dst:
                 transition_local = self._find_transition(previous_utc, current_utc)
 
                 transitions.append({
                     "datetime": transition_local,
                     "offset_before": previous_offset,
                     "offset_after": current_offset,
+                    "dst_before": previous_dst,
+                    "dst_after": current_local.dst(), # Will be re-evaluated at transition in _process_transitions
                 })
 
             previous_utc = current_utc
             previous_offset = current_offset
+            previous_dst = current_dst
             current_utc += step
         
         return transitions
@@ -174,13 +204,15 @@ class TzDetail:
             return None
 
         # Check if the abbreviation represents a numeric offset (starts with + or -)
-        is_offset = abbreviation.startswith("+") or abbreviation.startswith("-")
-
-        if is_offset:
+        if abbreviation.startswith("+") or abbreviation.startswith("-"):
             # Try to get a friendly name from tznn
-            friendly_abbr = self._tznn_helper.get_abbr(self.name)
-            if friendly_abbr:
-                return f"{friendly_abbr} / {abbreviation}"
+            try:
+                friendly_abbr = self._tznn_helper.get_abbr(self.name)
+                abbreviation = f"{friendly_abbr} / {abbreviation}"
+            except ValueError as e:
+                error_msg = str(e)
+                if not (error_msg.startswith("Invalid time zone name: ") and self.name in error_msg):
+                    raise e
 
         return abbreviation
 
@@ -190,25 +222,57 @@ class TzDetail:
 
         :param samples: List of sample dictionaries.
         """
-        standard_sample: Optional[Dict[str, Any]] = None
-        daylight_sample: Optional[Dict[str, Any]] = None
+        standard_samples: List[Dict[str, Any]] = []
+        daylight_samples: List[Dict[str, Any]] = []
 
         for sample in samples:
             # dst() returns timedelta(0) for standard time
             if sample["dst"] == timedelta(0):
-                standard_sample = sample
+                standard_samples.append(sample)
             elif sample["dst"] and sample["dst"] != timedelta(0):
-                daylight_sample = sample
+                daylight_samples.append(sample)
 
-        self.observes_dst = daylight_sample is not None
+        self.observes_dst = len(daylight_samples) > 0
 
-        if standard_sample:
-            self.standard_abbreviation = self._format_abbreviation(standard_sample["abbreviation"])
-            self.standard_utc_offset_hours = self.offset_hours(standard_sample["datetime"])
+        if not self.observes_dst:
+            if standard_samples:
+                # If no DST, just take the first standard sample
+                self._apply_standard_sample(standard_samples[0])
+            return
 
-        if daylight_sample:
-            self.dst_abbreviation = self._format_abbreviation(daylight_sample["abbreviation"])
-            self.dst_utc_offset_hours = self.offset_hours(daylight_sample["datetime"])
+        # If DST is observed, we need to be careful about mid-year standard offset changes.
+        # We'll try to find a pair of standard and daylight samples that have a typical offset difference.
+        # Most common DST offset is 1 hour.
+        
+        best_standard = standard_samples[0] if standard_samples else None
+        best_daylight = daylight_samples[0] if daylight_samples else None
+        
+        # If we have multiple standard offsets, try to find one that is NOT the same as daylight
+        if len(standard_samples) > 1 and best_daylight:
+            daylight_offset = self.offset_hours(best_daylight["datetime"])
+            for s in standard_samples:
+                if self.offset_hours(s["datetime"]) != daylight_offset:
+                    best_standard = s
+                    break
+                    
+        if best_standard:
+            self._apply_standard_sample(best_standard)
+        if best_daylight:
+            self._apply_daylight_sample(best_daylight)
+
+        # Calculate offset delta if DST is observed
+        if self.observes_dst and self.standard_utc_offset_hours is not None and self.dst_utc_offset_hours is not None:
+            self.offset_delta = abs(self.dst_utc_offset_hours - self.standard_utc_offset_hours)
+
+    def _apply_standard_sample(self, sample: Dict[str, Any]) -> None:
+        """Applies a standard time sample to attributes."""
+        self.standard_abbreviation = self._format_abbreviation(sample["abbreviation"])
+        self.standard_utc_offset_hours = self.offset_hours(sample["datetime"])
+
+    def _apply_daylight_sample(self, sample: Dict[str, Any]) -> None:
+        """Applies a daylight time sample to attributes."""
+        self.dst_abbreviation = self._format_abbreviation(sample["abbreviation"])
+        self.dst_utc_offset_hours = self.offset_hours(sample["datetime"])
 
     def _process_transitions(self, transitions: List[Dict[str, Any]]) -> None:
         """
@@ -236,21 +300,36 @@ class TzDetail:
                 # Transition out of DST - if multiple, we take the last one as end
                 self.dst_end = dt
 
-    def to_dict(self) -> Dict[str, Any]:
+        # Calculate adjusted DST start and end
+        if self.observes_dst and self.offset_delta is not None:
+            delta = timedelta(hours=self.offset_delta)
+            if self.dst_start:
+                self.adjusted_dst_start = self.dst_start - delta
+            if self.dst_end:
+                self.adjusted_dst_end = self.dst_end + delta
+
+    def to_dict(self, nbr: Optional[int] = None) -> Dict[str, Any]:
         """
         Returns the timezone information as a dictionary matching the previous implementation.
+
+        :param nbr: Optional sequence number.
         """
         return {
+            "nbr": nbr,
+            "is_legacy": self.is_legacy,
             "name": self.name,
             "observes_dst": self.observes_dst,
             "standard_abbreviation": self.standard_abbreviation,
-            "standard_utc_offset_hours": self.standard_utc_offset_hours,
             "dst_abbreviation": self.dst_abbreviation,
+            "standard_utc_offset_hours": self.standard_utc_offset_hours,
             "dst_utc_offset_hours": self.dst_utc_offset_hours,
+            "offset_delta": self.offset_delta,
             "dst_start": self.dst_start,
             "dst_end": self.dst_end,
+            "adjusted_dst_start": self.adjusted_dst_start,
+            "adjusted_dst_end": self.adjusted_dst_end,
             "div_len": self.parts_cnt,
-            "region": self.name,
+            "region": self.part_1,
             "loc_subloc": self.remaining_parts_str,
             "loc": self.remaining_parts[0] if len(self.remaining_parts) > 0 else None,
             "subloc": self.remaining_parts[1] if len(self.remaining_parts) > 1 else None,
@@ -262,43 +341,55 @@ class TzDetail:
         Returns the list of header names for CSV export.
         """
         return [
+            "Nbr",
+            "Legacy",
             "Name",
             "Observes DST",
             "STD Abbr",
-            "STD UTC Offset",
             "DST Abbr",
+            "STD UTC Offset",
             "DST UTC Offset",
-            "DST Start",
-            "DST End",
+            "Offset Delta",
             "Division Length",
             "Region",
             "Location / Sub-Location",
             "Location",
             "Sub-Location",
+            "DST Start",
+            "DST End",
+            "Adjusted DST Start",
+            "Adjusted DST End",
         ]
 
-    def to_list(self) -> List[Any]:
+    def to_list(self, nbr: int) -> List[Any]:
         """
         Returns the timezone information as a list of values for CSV export.
+
+        :param nbr: The sequence number for this record.
         """
         # Calculate location and sublocation
         loc = self.remaining_parts[0] if len(self.remaining_parts) > 0 else None
         subloc = self.remaining_parts[1] if len(self.remaining_parts) > 1 else None
 
         return [
+            nbr,
+            self.is_legacy,
             self.name,
             self.observes_dst,
             f"\t{self.standard_abbreviation}" if self.standard_abbreviation else None,
-            self.standard_utc_offset_hours,
             f"\t{self.dst_abbreviation}" if self.dst_abbreviation else None,
+            self.standard_utc_offset_hours,
             self.dst_utc_offset_hours,
-            self.dst_start.isoformat() if self.dst_start else None,
-            self.dst_end.isoformat() if self.dst_end else None,
+            self.offset_delta,
             self.parts_cnt,
-            self.name,  # Region
+            self.part_1,  # Region
             self.remaining_parts_str,  # Location / Sub-Location
             loc,
             subloc,
+            self.dst_start.isoformat() if self.dst_start else None,
+            self.dst_end.isoformat() if self.dst_end else None,
+            self.adjusted_dst_start.isoformat() if self.adjusted_dst_start else None,
+            self.adjusted_dst_end.isoformat() if self.adjusted_dst_end else None,
         ]
 
 
@@ -319,18 +410,15 @@ def main() -> None:
             writer.writerow(TzDetail.get_csv_headers())
 
             # Write data for each timezone
-            for name in sorted(available_timezones()):
-                try:
-                    tz_detail = TzDetail(name, year)
-                    writer.writerow(tz_detail.to_list())
-                except Exception as e:
-                    print(f"Skipping {name} due to error: {e}")
+            for i, name in enumerate(sorted(available_timezones()), start=1):
+                tz_detail = TzDetail(name, year)
+                writer.writerow(tz_detail.to_list(i))
         
         print(f"Successfully saved timezone details to {output_file}")
     except Exception as e:
         print(f"An error occurred while writing to CSV: {e}")
 
 
-
+# user local date + user local availability time + user timezone
 if __name__ == "__main__":
     main()

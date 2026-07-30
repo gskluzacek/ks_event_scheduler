@@ -134,6 +134,7 @@ async def get_accounts() -> list[dict[str, Any]]:
             left join accounts t2 on t1.create_account_id = t2.account_id
             left join accounts t3 on t1.update_account_id = t3.account_id
             left join player_counts as t4 on t1.account_id = t4.account_id
+            ORDER BY lower(t1.account_name)
             """
         ) as cursor:
             rows = await cursor.fetchall()
@@ -280,7 +281,7 @@ async def get_players_for_account(account_id: int) -> list[dict[str, Any]]:
             FROM players T1
             JOIN accounts T2 ON T1.account_id = T2.account_id
             {where}
-            ORDER BY T2.account_name, T1.kingshot_name
+            ORDER BY lower(T2.account_name), lower(T1.kingshot_name)
             """,
             (account_id,),
         ) as cursor:

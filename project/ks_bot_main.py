@@ -2,6 +2,7 @@ import logging
 
 import read_env
 import shared_state
+from cg_avail import Avail
 from ks_event_scheduler_bot import KsEventSchedulerBot
 
 from cg_admin import Admin
@@ -30,6 +31,7 @@ def main():
     ks_event_scheduler_bot.tree.add_command(Admin())
     ks_event_scheduler_bot.tree.add_command(Account())
     ks_event_scheduler_bot.tree.add_command(Player())
+    ks_event_scheduler_bot.tree.add_command(Avail())
     ks_event_scheduler_bot.run(config.TOKEN)
 
 

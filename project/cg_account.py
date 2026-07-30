@@ -307,6 +307,7 @@ class Account(app_commands.Group):
             session.set(ctx.discord_id_final, "account_name", ctx.account_name_final)
             session.set(ctx.discord_id_final, "account_tz", ctx.account_tz)
             session.set(ctx.discord_id_final, "active_account_id", ctx.account_id)
+            session.set(ctx.discord_id_final, "active_event_id", 1)
 
     # --------------------------------------------------
     # slash commands
@@ -426,7 +427,7 @@ update_account_id: {ctx.update_account_id}
         if account_id is None:
             account_id = session.get(interaction.user.id, "active_account_id")
             if account_id is None:
-                await interaction.response.send_message("❌ You did not select an account and there is no active account set.", ephemeral=True)
+                await interaction.response.send_message("❌ You did not select an account and there is no active account set. Cannot show account details.", ephemeral=True)
                 return
 
         account = await get_account_by_id(account_id)
@@ -455,6 +456,7 @@ update_account_id: {ctx.update_account_id}
             interaction: discord.Interaction,
             account_id: int | None = None
     ):
+
         curr_bot_mode = BotMode.curr_bot_mode()
 
         # do not allow command execution if the bot is down
@@ -478,13 +480,13 @@ update_account_id: {ctx.update_account_id}
         if account_id is None:
             active_account_id = session.get(interaction.user.id, "active_account_id")
             if active_account_id is None:
-                await interaction.response.send_message("❌No active account set.", ephemeral=True)
+                await interaction.response.send_message("✅ No active account has been set.", ephemeral=True)
                 return
             account = await get_acct_from_id(active_account_id)
             if account is None:
                 await interaction.response.send_message(f"❌Active Account set to an invalid ID {active_account_id}", ephemeral=True)
                 return
-            await interaction.response.send_message(f"❌Active Account Name: {account['account_name']}, ID: {active_account_id}", ephemeral=True)
+            await interaction.response.send_message(f"✅ Active Account Name: {account['account_name']}, ID: {active_account_id}", ephemeral=True)
 
         # If account_id is provided, then we want to set that account as the active account for the user.
         else:
@@ -493,4 +495,5 @@ update_account_id: {ctx.update_account_id}
                 await interaction.response.send_message(f"❌Account with ID: {account_id} not found.", ephemeral=True)
                 return
             session.set(interaction.user.id, "active_account_id", account_id)
-            await interaction.response.send_message(f"✅ Activated Account Name: {account['account_name']}, ID: {account_id}", ephemeral=True)
+            session.set(interaction.user.id, "active_player_id", account_id)
+            await interaction.response.send_message(f"✅ Activated Account Name: {account['account_name']}, ID: {account_id}. Your active player has been reset, make sure to set your active player.", ephemeral=True)

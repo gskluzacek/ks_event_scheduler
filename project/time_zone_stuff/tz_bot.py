@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from discord import app_commands
 from discord.ext import commands
 
-from database import initialize_database
+from database import initialize_database, save_player, get_player, delete_player, get_all_players
 from ks_player import KsPlayer
 
 load_dotenv()
@@ -698,17 +698,20 @@ class Player(app_commands.Group):
             discord_name = interaction.user.name
             discord_id = interaction.user.id
 
-        registered_players[discord_id] = {
-            "discord_id": discord_id,
-            "discord_name": discord_name,
-            "discord_nick": discord_nick,
-            "kingshot_name": kingshot_name,
+        player_data = {
             "kingshot_id": kingshot_id,
+            "kingshot_name": kingshot_name,
             "power": float(power) * 1_000_000,
             "town_center_level": town_center_level,
             "kingdom": kingdom,
             "alliance": alliance,
+            "discord_id": discord_id,
+            "discord_name": discord_name,
+            "discord_nick": discord_nick,
+            "create_user_id": interaction.user.id,
+            "update_user_id": interaction.user.id,
         }
+        await save_player(player_data)
 
         await interaction.response.send_message(
             f"Registered {kingshot_name} for {discord_name}.",
@@ -741,7 +744,8 @@ class Player(app_commands.Group):
         else:
             discord_id = interaction.user.id
 
-        data = registered_players.get(discord_id)
+        # TODO: !! gee how do get player_id smart guy? !!
+        data = await get_player(player_id)
 
         if not data:
             return await interaction.response.send_message(
@@ -771,14 +775,21 @@ class Player(app_commands.Group):
         target = user or interaction.user
 
         if target.id in registered_players:
-            del registered_players[target.id]
+            # data = get_player(target.id)
+            # TODO: !! gee how do get player_id smart guy? !!
+            data = await get_player(player_id)
+            if data:
+                # await delete_player(target.id)
+                # TODO: !! gee how do get player_id smart guy? !!
+                await delete_player(player_id)
             await interaction.response.send_message("Player removed.", ephemeral=True)
         else:
             await interaction.response.send_message("Player not found.", ephemeral=True)
 
     @app_commands.command(name="browse", description="Browse registered players")
     async def browse(self, interaction: discord.Interaction):
-        players_list = list(registered_players.items())
+        players = await get_all_players()
+        players_list = [(p["discord_id"], p) for p in players]
         view = PlayerPagerView(players_list)
 
         await interaction.response.send_message(
@@ -870,15 +881,6 @@ class Timezone(app_commands.Group):
     def __init__(self):
         super().__init__(name="timezone", description="Timezone tools")
 
-    # /timezone browse
-    @app_commands.command(name="browse", description="Browse available timezones by region")
-    async def browse(self, interaction: discord.Interaction):
-        await interaction.response.send_message(
-            "Select a region to browse:",
-            view=RegionSelectView(),
-            ephemeral=True,
-        )
-
     # /timezone set
     @app_commands.command(name="set", description="Set your timezone")
     @app_commands.choices(region=REGION_CHOICES)
@@ -895,6 +897,15 @@ class Timezone(app_commands.Group):
 
         await interaction.response.send_message(
             f"✅ Set timezone to `{region}/{location}`",
+            ephemeral=True,
+        )
+
+    # /timezone browse
+    @app_commands.command(name="browse", description="Browse available timezones by region")
+    async def browse(self, interaction: discord.Interaction):
+        await interaction.response.send_message(
+            "Select a region to browse:",
+            view=RegionSelectView(),
             ephemeral=True,
         )
 
@@ -929,7 +940,7 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 @bot.event
 async def on_ready():
-    initialize_database()
+    await initialize_database()
     print(f"Logged in as {bot.user}")
     await sync_commands()
 

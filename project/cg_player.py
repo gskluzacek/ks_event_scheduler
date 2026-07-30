@@ -81,18 +81,19 @@ class Player(app_commands.Group):
                 )
                 return
 
-        # 1. if account_id is provided, then someone other than the interaction.user is adding a player
-        #    to the account_id corresponding to the specified account_id.
-        if account_id is not None:
-            account_id_final = account_id
-            create_account_id = interaction_account_id
-            update_account_id = interaction_account_id
+        # 1. if account_id is provided, then an admin is adding a player to another user's account.
+        #       In this case, we will use the provided account_id to create the player.
+        # 2. else use active_account_id of the interaction.user which could be either a normal user
+        #       or an admin user (only admin users can change their active_account_id).
+        account_id_final = account_id or session.get(interaction.user.id, "active_account_id")
+        if account_id_final is None:
+            await interaction.response.send_message(
+                "❌ An unexpected error occured - final account id is None. Cannot add the account", ephemeral=True
+            )
+            return
 
-        # 2. the interaction.user is adding a player to their own account
-        else:
-            account_id_final = interaction_account_id
-            create_account_id = interaction_account_id
-            update_account_id = interaction_account_id
+        create_account_id = interaction_account_id
+        update_account_id = interaction_account_id
 
         config = read_env.get_config()
         kingdom = kingdom or config.DEFAULT_KINGDOM
@@ -139,6 +140,10 @@ class Player(app_commands.Group):
         session = shared_state.get_session()
         session.set(interaction.user.id, "active_player_id", player_id)
 
+        # TODO: when adding a player, we should show the account name tha playwer was added to. And we should also
+        #  show the account name of the user that created the player. I don't think we need to show the
+        #  updating account id / name as we just created the plaer.
+
         await interaction.response.send_message(
                 f"""✅ created player as:
 ```text
@@ -156,6 +161,14 @@ update_account_id: {update_account_id}
             ephemeral=True,
         )
 
+    # TODO: we might want to rethink how we are doing the /player list commnad
+    #       instead of allowing the user to specify an account_id, we should restrict them
+    #       to only being able to list players for their active account.
+    #       admins can set theier active account to any account they want, but normal users cannot.
+
+    # TODO: we could add a set of query commands to allow normal users to list/show accounts and players
+    #       for any account.
+
     # /player list
     @app_commands.command(name="list", description="List Kingshot Players")
     @app_commands.autocomplete(account_id=account_id_autocomplete_wall)
@@ -168,7 +181,12 @@ update_account_id: {update_account_id}
             return
 
         session = shared_state.get_session()
-        account_id_final = account_id if account_id is not None else session.get(interaction.user.id, "account_id")
+        account_id_final = account_id if account_id is not None else session.get(interaction.user.id, "active_account_id")
+        if account_id_final is None:
+            await interaction.response.send_message(
+                "❌ An unexpected error occured - final account id is None. Cannot list the players for the account", ephemeral=True
+            )
+            return
 
         players = await get_players_for_account(account_id_final)
         if not players:
@@ -204,6 +222,12 @@ update_account_id: {update_account_id}
 
         await interaction.response.send_message(f"Registered Players{header_detail}\n```text\n{player_list_str}```", ephemeral=True)
 
+    # todo: we might want to rethink how we are doing the /player show commnad
+    #       instead of using the player_id_autocomplete, we should use the
+    #       player_id_for_active_account_autocomplete, so that the user can only show
+    #       players for their active account.
+    #       admins can set their active account to any account they want, but normal users cannot.
+
     # /player show
     @app_commands.command(name="show", description="Show Kingshot Player Details")
     @app_commands.autocomplete(player_id=player_id_autocomplete)
@@ -220,7 +244,7 @@ update_account_id: {update_account_id}
         if player_id is None:
             player_id = session.get(interaction.user.id, "active_player_id")
             if player_id is None:
-                await interaction.response.send_message("❌ You did not select a player and there is no active player set.", ephemeral=True)
+                await interaction.response.send_message("❌ You did not select a player and there is no active player set. Cannot show player details.", ephemeral=True)
                 return
 
         player = await get_player(player_id)
@@ -258,13 +282,13 @@ update_account_id: {update_account_id}
         if player_id is None:
             active_player_id = session.get(interaction.user.id, "active_player_id")
             if active_player_id is None:
-                await interaction.response.send_message("❌ No active player set.", ephemeral=True)
+                await interaction.response.send_message("✅ No active player has been set.", ephemeral=True)
                 return
             player = await get_player(active_player_id)
             if not player:
                 await interaction.response.send_message(f"❌ Active player with ID {active_player_id} not found.", ephemeral=True)
                 return
-            await interaction.response.send_message(f"Active Player ID: {active_player_id}, Name: {player['kingshot_name']}", ephemeral=True)
+            await interaction.response.send_message(f"✅ Active Player ID: {active_player_id}, Name: {player['kingshot_name']}", ephemeral=True)
 
         # If player_id is provided, then we want to set that player as the active player for the user.
         else:
