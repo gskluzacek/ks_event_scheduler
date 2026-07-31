@@ -82,13 +82,13 @@ CREATE TABLE IF NOT EXISTS events
 );
 
 
-CREATE TABLE IF NOT EXISTS avails
+CREATE TABLE IF NOT EXISTS time_slots
 (
-    avail_id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    tslot_id          INTEGER PRIMARY KEY AUTOINCREMENT,
     event_id          INTEGER                        not null,
     player_id         INTEGER                        not null,
-    avail_type        TEXT                           not null
-        CHECK (avail_type IN ('prefered', 'acceptable', 'avoid')),
+    tslot_type        TEXT                           not null
+        CHECK (tslot_type IN ('prefered', 'acceptable', 'avoid')),
     priority          INTEGER default 0              not null,
     start_time        TEXT                           not null, -- format HH:MM:SS
     end_time          TEXT                           not null, -- format HH:MM:SS
@@ -99,5 +99,5 @@ CREATE TABLE IF NOT EXISTS avails
     update_account_id integer                        not null,
     update_date_time  TEXT                           not null,  -- UTC use datetime('now') to populate
 
-    UNIQUE (event_id, player_id, avail_type, start_time, end_time)
+    UNIQUE (event_id, player_id, tslot_type, start_time, end_time)
 );

@@ -27,4 +27,4 @@ the followint tables exist in the database:
 * accounts - an account has 1 or more players.
 * players - a player belongs to 1 account.
 * events - this table contains the details of each event.
-* avails - this table contains the availability of each player for each event.
+* time_slots - this table contains the time slots of each player for each event.
