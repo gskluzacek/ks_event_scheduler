@@ -181,7 +181,7 @@ update_account_id: {update_account_id}
             return
 
         session = shared_state.get_session()
-        account_id_final = account_id if account_id is not None else session.get(interaction.user.id, "active_account_id")
+        account_id_final = account_id or session.get(interaction.user.id, "active_account_id")
         if account_id_final is None:
             await interaction.response.send_message(
                 "❌ An unexpected error occured - final account id is None. Cannot list the players for the account", ephemeral=True

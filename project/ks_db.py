@@ -104,6 +104,7 @@ async def create_account(
                 raise DupAcctDiscordIdError("The Discord ID already exists")
             raise AcctCreateError("Unexpected database integrity error during account creation") from e
 
+
 async def get_accounts() -> list[dict[str, Any]]:
     async with _connection(db=None) as (conn, _owns_conn):
         async with conn.execute(
@@ -316,7 +317,6 @@ async def get_acct_from_id(
     return cast(dict[str, Any], dict(row)) if row else None
 
 
-
 async def get_player(
         player_id: int,
 ) -> dict[str, Any] | None:
@@ -350,7 +350,7 @@ async def get_player(
             row = await cursor.fetchone()
     return cast(dict[str, Any], dict(row)) if row else None
 
-# TODO look at other autocomplete functions and see if we need to apply lower() to the search term and the column being searched, to make it case-insensitive. For now, we will apply lower() to both the search term and the column being searched for player names.
+
 async def get_players_ac(
         partial_player_name: str,
 ) -> list[tuple[str, int]]:
@@ -368,6 +368,7 @@ async def get_players_ac(
             rows = await cursor.fetchall()
         players = [(row["kingshot_name"], row["player_id"]) for row in rows]
         return players
+
 
 async def get_players_for_account_ac(
         account_id: int,
@@ -388,3 +389,23 @@ async def get_players_for_account_ac(
             rows = await cursor.fetchall()
         players = [(row["kingshot_name"], row["player_id"]) for row in rows]
         return players
+
+
+async def get_events_ac(
+        partial_event_name: str,
+) -> list[tuple[str, str, int]]:
+    async with _connection(db=None) as (conn, _owns_conn):
+        async with conn.execute(
+            """
+            SELECT event_name, event_desc, event_id
+            FROM events
+            WHERE LOWER(event_name) LIKE ?
+            AND active_ind = 1
+            ORDER BY LOWER(event_name)
+            LIMIT 25
+            """,
+            (f"%{partial_event_name.strip().lower()}%", ),
+        ) as cursor:
+            rows = await cursor.fetchall()
+        events = [(row["event_name"], row["event_desc"], row["event_id"]) for row in rows]
+        return events
