@@ -2,7 +2,13 @@ import discord
 from discord import app_commands
 
 import shared_state
-from ks_db import get_accounts_ac, get_players_ac, get_players_for_account_ac, get_events_ac
+from ks_db import (
+    get_accounts_ac,
+    get_players_ac,
+    get_players_for_account_ac,
+    get_events_ac,
+    get_time_slots_ac,
+)
 
 
 async def account_id_autocomplete(
@@ -104,3 +110,38 @@ async def time_autocomplete(
         for t in TIME_SLOTS
         if t.startswith(current)
     ][:25]
+
+
+async def time_slot_id_autocomplete(
+        interaction: discord.Interaction,
+        _current: str,
+) -> list[app_commands.Choice[int]]:
+    player_id = getattr(interaction.namespace, "player_id", None)
+    event_id = getattr(interaction.namespace, "event_id", None)
+
+    session = shared_state.get_session()
+    active_player_id = session.get(interaction.user.id, "active_player_id")
+    active_event_id = session.get(interaction.user.id, "active_event_id")
+
+    final_player_id = player_id or active_player_id
+    final_event_id = event_id or active_event_id
+
+    if final_player_id is None or final_event_id is None:
+        return []
+
+    time_slots = await get_time_slots_ac(final_event_id, final_player_id)
+    if not time_slots:
+        return [
+            app_commands.Choice[int](
+                name=f"-- No time slots found for Player ID {final_player_id} and Event ID {final_event_id} --",
+                value=0
+            )
+        ]
+    
+    return [
+        app_commands.Choice[int](
+            name=f"{priority} | {start_time} - {end_time} [{tslot_type}] {'✅' if validated else '❌'}",
+            value=tslot_id,
+        )
+        for tslot_id, tslot_type, priority, start_time, end_time, validated in time_slots
+    ]

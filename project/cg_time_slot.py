@@ -4,8 +4,13 @@ import discord
 from discord import app_commands
 
 import shared_state
-from bot_autocomplete import player_id_for_active_account_autocomplete, event_id_autocomplete, time_autocomplete, \
-    TIME_SLOTS_SET
+from bot_autocomplete import (
+    player_id_for_active_account_autocomplete,
+    event_id_autocomplete,
+    time_autocomplete,
+    TIME_SLOTS_SET,
+    time_slot_id_autocomplete,
+)
 
 logger = logging.getLogger("ksbot.timeslot")
 
@@ -149,14 +154,17 @@ class TimeSlot(app_commands.Group):
 
     # /timeslot show: shows a specific record in the time_slots table for the active player and event
     @app_commands.command(name="show", description="Show an available Time Slot for a Kingshot Player")
+    @app_commands.autocomplete(tslot_id=time_slot_id_autocomplete)
+    @app_commands.autocomplete(event_id=event_id_autocomplete)
+    @app_commands.autocomplete(player_id=player_id_for_active_account_autocomplete)
     async def show(
             self,
             interaction: discord.Interaction,
+            tslot_id: int | None,
             player_id: int | None = None,
             event_id: int | None = None,
-            tslot_id: int | None = None,
     ):
         # thinking ...
         # will use the active player and envent by default
         # you can specify a player_id and event_id to show a specific records
-        await interaction.response.send_message("✅ time slot shown", ephemeral=True)
+        await interaction.response.send_message(f"✅ time slot shown for Player ID: {player_id}, Event ID: {event_id} => Time Slot ID: {tslot_id}", ephemeral=True)

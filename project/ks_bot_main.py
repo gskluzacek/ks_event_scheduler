@@ -2,13 +2,14 @@ import logging
 
 import read_env
 import shared_state
-from cg_time_slot import TimeSlot
 from ks_event_scheduler_bot import KsEventSchedulerBot
 
 from cg_admin import Admin
 from cg_bot_check import BotCheck
 from cg_account import Account
 from cg_player import Player
+from cg_event import Event
+from cg_time_slot import TimeSlot
 
 
 logging.basicConfig(
@@ -31,6 +32,7 @@ def main():
     ks_event_scheduler_bot.tree.add_command(Admin())
     ks_event_scheduler_bot.tree.add_command(Account())
     ks_event_scheduler_bot.tree.add_command(Player())
+    ks_event_scheduler_bot.tree.add_command(Event())
     ks_event_scheduler_bot.tree.add_command(TimeSlot())
     ks_event_scheduler_bot.run(config.TOKEN)
 

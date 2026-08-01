@@ -295,7 +295,7 @@ async def get_acct_from_id(
 ) -> dict[str, Any] | None:
     async with _connection(db=None) as (conn, _owns_conn):
         async with conn.execute(
-            f"""
+            """
             SELECT 
                 account_id,
                 account_type,
@@ -409,3 +409,57 @@ async def get_events_ac(
             rows = await cursor.fetchall()
         events = [(row["event_name"], row["event_desc"], row["event_id"]) for row in rows]
         return events
+
+
+async def get_event_by_id(
+        event_id: int
+) -> dict[str, Any] | None:
+    async with _connection(db=None) as (conn, _owns_conn):
+        async with conn.execute(
+            """
+            SELECT 
+                event_id,
+                event_name,
+                event_desc,
+                qty_to_schedule,
+                begin_date,
+                end_date,
+                active_ind,
+                create_account_id,
+                create_date_time,
+                update_account_id,
+                update_date_time
+            FROM events
+            WHERE event_id = ?
+            """,
+            (event_id,),
+        ) as cursor:
+            row = await cursor.fetchone()
+    return cast(dict[str, Any], dict(row)) if row else None
+
+
+async def get_time_slots_ac(
+        event_id: int,
+        player_id: int,
+) -> list[tuple[int, str, int, str, str, int]]:
+    async with _connection(db=None) as (conn, _owns_conn):
+        async with conn.execute(
+            """
+            SELECT
+                tslot_id,
+                tslot_type,
+                priority,
+                start_time,
+                end_time,
+                validated_ind
+            FROM time_slots
+            WHERE event_id = ?
+              AND player_id = ?
+            ORDER BY start_time
+            LIMIT 25
+            """,
+            (event_id, player_id),
+        ) as cursor:
+            rows = await cursor.fetchall()
+        time_slots = [(row["tslot_id"], row["tslot_type"], row["priority"], row["start_time"], row["end_time"], row["validated_ind"]) for row in rows]
+        return time_slots
