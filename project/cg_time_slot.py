@@ -10,7 +10,11 @@ from bot_autocomplete import (
     time_autocomplete,
     TIME_SLOTS_SET,
     time_slot_id_autocomplete,
+    event_id_autocomplete_wdefault,
+    player_id_for_active_account_autocomplete_wdefault,
 )
+from bot_cmd_access import _down_or_maint_check
+from ks_db import get_time_slots_for_event_player
 
 logger = logging.getLogger("ksbot.timeslot")
 
@@ -122,49 +126,110 @@ class TimeSlot(app_commands.Group):
 
     # /timeslot edit: updates a record in the time_slots table.
     @app_commands.command(name="edit", description="Edit an available Time Slot for a Kingshot Player")
+    @app_commands.autocomplete(event_id=event_id_autocomplete_wdefault)
+    @app_commands.autocomplete(player_id=player_id_for_active_account_autocomplete_wdefault)
+    @app_commands.autocomplete(tslot_id=time_slot_id_autocomplete)
     async def edit(
             self,
             interaction: discord.Interaction,
-            player_id: int | None = None,
-            event_id: int | None = None,
-            tslot_id: int | None = None,
+            player_id: int,
+            event_id: int,
+            tslot_id: int,
     ):
-        await interaction.response.send_message("✅ time slot updated", ephemeral=True)
+        await interaction.response.send_message(
+            f"✅ time slot updated for Player ID: {player_id}, Event ID: {event_id} => Time Slot ID: {tslot_id}",
+            ephemeral=True
+        )
 
     # /timeslot remove: delete a record from the time_slots table.
     @app_commands.command(name="remove", description="Removes an available Time Slot for a Kingshot Player")
+    @app_commands.autocomplete(event_id=event_id_autocomplete_wdefault)
+    @app_commands.autocomplete(player_id=player_id_for_active_account_autocomplete_wdefault)
+    @app_commands.autocomplete(tslot_id=time_slot_id_autocomplete)
     async def remove(
             self,
             interaction: discord.Interaction,
-            player_id: int | None = None,
-            event_id: int | None = None,
-            tslot_id: int | None = None,
+            player_id: int,
+            event_id: int,
+            tslot_id: int,
     ):
-        await interaction.response.send_message("✅ time slot deleted", ephemeral=True)
+        await interaction.response.send_message(
+            f"✅ time slot deleted for Player ID: {player_id}, Event ID: {event_id} => Time Slot ID: {tslot_id}",
+            ephemeral=True
+        )
 
     # /timeslot list: lists all records in the time_slots table for the active player and event
     @app_commands.command(name="list", description="List available Time Slots for a Kingshot Player")
+    @app_commands.autocomplete(event_id=event_id_autocomplete_wdefault)
+    @app_commands.autocomplete(player_id=player_id_for_active_account_autocomplete_wdefault)
     async def list(
             self,
             interaction: discord.Interaction,
-            player_id: int | None = None,
-            event_id: int | None = None,
+            player_id: int,
+            event_id: int,
     ):
-        await interaction.response.send_message("✅ time slots listed", ephemeral=True)
+        if await _down_or_maint_check(interaction):
+            return
+
+        time_slots = await get_time_slots_for_event_player(event_id, player_id)
+        if not time_slots:
+            await interaction.response.send_message(
+                f"❌ No time slots found for Player ID {player_id}, Event ID {event_id}",
+                ephemeral=True
+            )
+            return
+        
+        header = f"Time Slots Availablity for Player ID {player_id}, Event ID {event_id}:\n"
+
+        time_slot_list = []
+        for time_slot in time_slots:
+            time_slot_str = (
+                f"{'✅' if time_slot['validated_ind'] == 1 else '❌'} "
+                f"Time Slot ID: {time_slot['tslot_id']} "
+                f"From: {time_slot['start_time']} "
+                f"To: {time_slot['end_time']} - "
+                f"Type: {time_slot['tslot_type']} | "
+                f"Priority: {time_slot['priority']}"
+            )
+            time_slot_list.append(time_slot_str)
+        player_list_str = "\n".join(time_slot_list)
+
+        await interaction.response.send_message(
+            f"{header}```{player_list_str}```",
+            ephemeral=True
+        )
 
     # /timeslot show: shows a specific record in the time_slots table for the active player and event
-    @app_commands.command(name="show", description="Show an available Time Slot for a Kingshot Player")
+    @app_commands.command(name="show-active", description="Show an available Time Slot for a Kingshot Player")
     @app_commands.autocomplete(tslot_id=time_slot_id_autocomplete)
-    @app_commands.autocomplete(event_id=event_id_autocomplete)
-    @app_commands.autocomplete(player_id=player_id_for_active_account_autocomplete)
-    async def show(
-            self,
-            interaction: discord.Interaction,
-            tslot_id: int | None,
-            player_id: int | None = None,
-            event_id: int | None = None,
+    async def show_active(
+        self,
+        interaction: discord.Interaction,
+        tslot_id: int,
     ):
         # thinking ...
         # will use the active player and envent by default
         # you can specify a player_id and event_id to show a specific records
-        await interaction.response.send_message(f"✅ time slot shown for Player ID: {player_id}, Event ID: {event_id} => Time Slot ID: {tslot_id}", ephemeral=True)
+        await interaction.response.send_message(
+            f"✅ time slot shown for Time Slot ID: {tslot_id}",
+            ephemeral=True
+        )
+
+    # /timeslot show: shows a specific record in the time_slots table for the active player and event
+    @app_commands.command(name="show", description="Show an available Time Slot for a Kingshot Player")
+    @app_commands.autocomplete(event_id=event_id_autocomplete_wdefault)
+    @app_commands.autocomplete(player_id=player_id_for_active_account_autocomplete_wdefault)
+    @app_commands.autocomplete(tslot_id=time_slot_id_autocomplete)
+    async def show(
+            self,
+            interaction: discord.Interaction,
+            player_id: int,
+            event_id: int,
+            tslot_id: int,
+    ):
+        # this show command will prompt you for all parameters, however, for player_id and event_id, it
+        # will default to the active player and event in the picker. For tslot_id, there is not default.
+        await interaction.response.send_message(
+            f"✅ time slot shown for Player ID: {player_id}, Event ID: {event_id} => Time Slot ID: {tslot_id}",
+            ephemeral=True
+        )

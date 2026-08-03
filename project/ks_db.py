@@ -463,3 +463,62 @@ async def get_time_slots_ac(
             rows = await cursor.fetchall()
         time_slots = [(row["tslot_id"], row["tslot_type"], row["priority"], row["start_time"], row["end_time"], row["validated_ind"]) for row in rows]
         return time_slots
+
+
+async def get_time_slot_by_id(
+        tslot_id: int
+) -> dict[str, Any] | None:
+    async with _connection(db=None) as (conn, _owns_conn):
+        async with conn.execute(
+            """
+            SELECT 
+                tslot_id,
+                event_id,
+                player_id,
+                tslot_type,
+                priority,
+                start_time,
+                end_time,
+                validated_ind,
+                create_account_id,
+                create_date_time,
+                update_account_id,
+                update_date_time
+            FROM time_slots
+            WHERE tslot_id = ?
+            """,
+            (tslot_id,),
+        ) as cursor:
+            row = await cursor.fetchone()
+    return cast(dict[str, Any], dict(row)) if row else None
+
+
+async def get_time_slots_for_event_player(
+        event_id: int,
+        player_id: int
+) -> list[dict[str, Any]]:
+    async with _connection(db=None) as (conn, _owns_conn):
+        async with conn.execute(
+            """
+            SELECT 
+                tslot_id,
+                event_id,
+                player_id,
+                tslot_type,
+                priority,
+                start_time,
+                end_time,
+                validated_ind,
+                create_account_id,
+                create_date_time,
+                update_account_id,
+                update_date_time
+            FROM time_slots
+            WHERE event_id = ?
+              AND player_id = ?
+            ORDER BY start_time
+            """,
+            (event_id, player_id),
+        ) as cursor:
+            rows = await cursor.fetchall()
+        return [cast(dict[str, Any], dict(row)) for row in rows]

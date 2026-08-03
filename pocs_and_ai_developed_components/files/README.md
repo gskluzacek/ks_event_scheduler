@@ -102,3 +102,22 @@ session.delete_session(user_id)           # whole session
 
 Every `get` and `set` resets the TTL (sliding expiration), so active
 users stay in Redis while idle sessions are evicted automatically.
+
+---
+# Notes
+
+if you move the `files` directory that contains all the files related to the docker redis setup/container, then you 
+will need to execute the following commands to update the paths in your Docker setup:
+
+in this example, the path given below is the new location of the `files` directory and the command should be executed
+after the move has been completed.
+
+```shell
+cd /Volumes/U34-Bolt/Personal/development/github/ks_event_scheduler/pocs_and_ai_developed_components/files
+
+docker compose down --remove-orphans
+
+docker volume rm files_redis_data
+
+docker compose up redis -d
+```

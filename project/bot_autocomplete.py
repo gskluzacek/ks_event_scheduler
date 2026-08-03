@@ -62,6 +62,7 @@ async def player_id_for_active_account_autocomplete(
 ) -> list[app_commands.Choice[int]]:
     session = shared_state.get_session()
     active_account_id = session.get(interaction.user.id, "active_account_id")
+    # TODO is this really needed? I think the above line is enough, but leaving it for now.
     active_account_id = active_account_id or session.get(interaction.user.id, "account_id")
 
     players = await get_players_for_account_ac(active_account_id, current)
@@ -72,6 +73,28 @@ async def player_id_for_active_account_autocomplete(
         )
         for player_name, player_id in players
     ]
+
+
+async def player_id_for_active_account_autocomplete_wdefault(
+        interaction: discord.Interaction,
+        current: str,
+) -> list[app_commands.Choice[int]]:
+    session = shared_state.get_session()
+    active_account_id = session.get(interaction.user.id, "active_account_id")
+    active_player_id = session.get(interaction.user.id, "active_player_id")
+
+    players = await get_players_for_account_ac(active_account_id, current)
+    choices = [
+        app_commands.Choice[int](
+            name=f"{'⭐ ' if player_id == active_player_id else ''}{player_name}",
+            value=player_id,
+        )
+        for player_name, player_id in players
+    ]
+    # bubble the active one to the top
+    if active_player_id is not None:
+        choices.sort(key=lambda c: c.value != active_player_id)
+    return choices
 
 
 async def event_id_autocomplete(
@@ -86,6 +109,27 @@ async def event_id_autocomplete(
         )
         for event_name, event_desc, event_id in events
     ]
+
+
+async def event_id_autocomplete_wdefault(
+        interaction: discord.Interaction,
+        current: str,
+) -> list[app_commands.Choice[int]]:
+    session = shared_state.get_session()
+    active_event_id = session.get(interaction.user.id, "active_event_id")
+
+    events = await get_events_ac(current)
+    choices = [
+        app_commands.Choice[int](
+            name=f"{'⭐ ' if event_id == active_event_id else ''}{event_name} - {event_desc}",
+            value=event_id,
+        )
+        for event_name, event_desc, event_id in events
+    ]
+    # bubble the active one to the top
+    if active_event_id is not None:
+        choices.sort(key=lambda c: c.value != active_event_id)
+    return choices
 
 
 def _generate_time_slots() -> list[str]:
