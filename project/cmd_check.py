@@ -20,7 +20,7 @@ class BotMode(StrEnum):
 
     @staticmethod
     def curr_stmt() -> str:
-        return f"the bot is currently"
+        return "the bot is currently"
 
     @staticmethod
     def req_stmt(sign: bool) -> str:
@@ -61,7 +61,7 @@ class Role(StrEnum):
 
     @staticmethod
     def curr_stmt() -> str:
-        return f"you have role(s) of:"
+        return "you have role(s) of:"
 
     @staticmethod
     def req_stmt(sign: bool) -> str:
