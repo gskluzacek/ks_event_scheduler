@@ -102,6 +102,9 @@ class TimeSlot(app_commands.Group):
             player_id: int | None = None,
             event_id: int | None = None,
     ):
+        if await _down_or_maint_check(interaction):
+            return
+
         session = shared_state.get_session()
         player_id_final = player_id or session.get(interaction.user.id, "active_player_id")
         event_id_final = event_id or session.get(interaction.user.id, "active_event_id")
@@ -136,6 +139,9 @@ class TimeSlot(app_commands.Group):
             event_id: int,
             tslot_id: int,
     ):
+        if await _down_or_maint_check(interaction):
+            return
+
         await interaction.response.send_message(
             f"✅ time slot updated for Player ID: {player_id}, Event ID: {event_id} => Time Slot ID: {tslot_id}",
             ephemeral=True
@@ -146,13 +152,29 @@ class TimeSlot(app_commands.Group):
     @app_commands.autocomplete(event_id=event_id_autocomplete_wdefault)
     @app_commands.autocomplete(player_id=player_id_for_active_account_autocomplete_wdefault)
     @app_commands.autocomplete(tslot_id=time_slot_id_autocomplete)
+    @app_commands.choices(confirma=[
+        app_commands.Choice(name="Yes", value="yes"),
+        app_commands.Choice(name="No", value="no"),
+    ])
     async def remove(
-            self,
-            interaction: discord.Interaction,
-            player_id: int,
-            event_id: int,
-            tslot_id: int,
+        self,
+        interaction: discord.Interaction,
+        player_id: int,
+        event_id: int,
+        tslot_id: int,
+        confirma: str | None = None,
     ):
+        if await _down_or_maint_check(interaction):
+            return
+
+        if confirma != "yes":
+            await interaction.response.send_message(
+                f"❌ Did not delete Time slot for Player ID: {player_id}, Event ID: {event_id}, "
+                f"Time Slot ID: {tslot_id}. You must confirm the deletion by selecting 'Yes' in the confirmation option.",
+                ephemeral=True
+            )
+            return
+
         await interaction.response.send_message(
             f"✅ time slot deleted for Player ID: {player_id}, Event ID: {event_id} => Time Slot ID: {tslot_id}",
             ephemeral=True
@@ -207,6 +229,9 @@ class TimeSlot(app_commands.Group):
         interaction: discord.Interaction,
         tslot_id: int,
     ):
+        if await _down_or_maint_check(interaction):
+            return
+
         # thinking ...
         # will use the active player and envent by default
         # you can specify a player_id and event_id to show a specific records
@@ -227,6 +252,9 @@ class TimeSlot(app_commands.Group):
             event_id: int,
             tslot_id: int,
     ):
+        if await _down_or_maint_check(interaction):
+            return
+
         # this show command will prompt you for all parameters, however, for player_id and event_id, it
         # will default to the active player and event in the picker. For tslot_id, there is not default.
         await interaction.response.send_message(
